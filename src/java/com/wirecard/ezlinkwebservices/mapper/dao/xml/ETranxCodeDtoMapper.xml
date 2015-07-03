@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wirecard.ezlinkwebservices.mapperdao.ETranxCodeDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.wirecard.ezlinkwebservices.dto.ETranxCodeDto" >
+    <id column="TRANXCODE" property="tranxcode" jdbcType="VARCHAR" />
+    <result column="CODE_DESC" property="codeDesc" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    TRANXCODE, CODE_DESC
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from EZLINK.ETRANXCODE
+    where TRANXCODE = #{tranxcode,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from EZLINK.ETRANXCODE
+    where TRANXCODE = #{tranxcode,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxCodeDto" >
+    insert into EZLINK.ETRANXCODE (TRANXCODE, CODE_DESC)
+    values (#{tranxcode,jdbcType=VARCHAR}, #{codeDesc,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxCodeDto" >
+    insert into EZLINK.ETRANXCODE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="tranxcode != null" >
+        TRANXCODE,
+      </if>
+      <if test="codeDesc != null" >
+        CODE_DESC,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="tranxcode != null" >
+        #{tranxcode,jdbcType=VARCHAR},
+      </if>
+      <if test="codeDesc != null" >
+        #{codeDesc,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxCodeDto" >
+    update EZLINK.ETRANXCODE
+    <set >
+      <if test="codeDesc != null" >
+        CODE_DESC = #{codeDesc,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where TRANXCODE = #{tranxcode,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxCodeDto" >
+    update EZLINK.ETRANXCODE
+    set CODE_DESC = #{codeDesc,jdbcType=VARCHAR}
+    where TRANXCODE = #{tranxcode,jdbcType=VARCHAR}
+  </update>
+  
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+  <select id="getTRANXCODEByDesc" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT TRANXCODE,CODE_DESC
+        FROM ETRANXCODE
+         where CODE_DESC = #{codeDesc,jdbcType=VARCHAR}
+    </select>
+</mapper>

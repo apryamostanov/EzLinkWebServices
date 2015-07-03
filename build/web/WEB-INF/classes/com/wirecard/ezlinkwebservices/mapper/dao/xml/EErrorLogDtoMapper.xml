@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wirecard.ezlinkwebservices.mapperdao.EErrorLogDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.wirecard.ezlinkwebservices.dto.EErrorLogDto" >
+    <result column="ERRORLOGID" property="errorlogid" jdbcType="VARCHAR" />
+    <result column="DATETIME" property="datetime" jdbcType="TIMESTAMP" />
+    <result column="MERCHANT_TRANX_DATE" property="merchantTranxDate" jdbcType="TIMESTAMP" />
+    <result column="VERSION" property="version" jdbcType="VARCHAR" />
+    <result column="TRANXCODE" property="tranxcode" jdbcType="VARCHAR" />
+    <result column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
+    <result column="MERCHANT_REFNO" property="merchantRefno" jdbcType="VARCHAR" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="ORDER_INFO" property="orderInfo" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="CURRENCY" property="currency" jdbcType="DECIMAL" />
+    <result column="SECUREHASH_TYPE" property="securehashType" jdbcType="VARCHAR" />
+    <result column="RESPONSE_CODE" property="responseCode" jdbcType="VARCHAR" />
+    <result column="APPROVAL_CODE" property="approvalCode" jdbcType="VARCHAR" />
+    <result column="RRN" property="rrn" jdbcType="VARCHAR" />
+    <result column="CHANNEL" property="channel" jdbcType="VARCHAR" />
+    <result column="MCC" property="mcc" jdbcType="VARCHAR" />
+    <result column="TRANX_STATUS" property="tranxStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.EErrorLogDto" >
+  <selectKey order="BEFORE" keyProperty="errorlogid" resultType="String">
+   select SEQ_ERRORLOGID.nextval from dual
+  </selectKey>
+    insert into EZLINK.EERRORLOG (ERRORLOGID, DATETIME, MERCHANT_TRANX_DATE, 
+      VERSION, TRANXCODE, MERCHANT_NO, 
+      MERCHANT_REFNO, ORDER_NO, ORDER_INFO, 
+      AMOUNT, CURRENCY, SECUREHASH_TYPE, 
+      RESPONSE_CODE, APPROVAL_CODE, RRN, 
+      CHANNEL, MCC, TRANX_STATUS
+      )
+    values (#{errorlogid,jdbcType=VARCHAR}, #{datetime,jdbcType=TIMESTAMP}, #{merchantTranxDate,jdbcType=TIMESTAMP}, 
+      #{version,jdbcType=VARCHAR}, #{tranxcode,jdbcType=VARCHAR}, #{merchantNo,jdbcType=VARCHAR}, 
+      #{merchantRefno,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{orderInfo,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{currency,jdbcType=DECIMAL}, #{securehashType,jdbcType=VARCHAR}, 
+      #{responseCode,jdbcType=VARCHAR}, #{approvalCode,jdbcType=VARCHAR}, #{rrn,jdbcType=VARCHAR}, 
+      #{channel,jdbcType=VARCHAR}, #{mcc,jdbcType=VARCHAR}, #{tranxStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.EErrorLogDto" >
+    insert into EZLINK.EERRORLOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="errorlogid != null" >
+        ERRORLOGID,
+      </if>
+      <if test="datetime != null" >
+        DATETIME,
+      </if>
+      <if test="merchantTranxDate != null" >
+        MERCHANT_TRANX_DATE,
+      </if>
+      <if test="version != null" >
+        VERSION,
+      </if>
+      <if test="tranxcode != null" >
+        TRANXCODE,
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO,
+      </if>
+      <if test="merchantRefno != null" >
+        MERCHANT_REFNO,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="orderInfo != null" >
+        ORDER_INFO,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="currency != null" >
+        CURRENCY,
+      </if>
+      <if test="securehashType != null" >
+        SECUREHASH_TYPE,
+      </if>
+      <if test="responseCode != null" >
+        RESPONSE_CODE,
+      </if>
+      <if test="approvalCode != null" >
+        APPROVAL_CODE,
+      </if>
+      <if test="rrn != null" >
+        RRN,
+      </if>
+      <if test="channel != null" >
+        CHANNEL,
+      </if>
+      <if test="mcc != null" >
+        MCC,
+      </if>
+      <if test="tranxStatus != null" >
+        TRANX_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="errorlogid != null" >
+        #{errorlogid,jdbcType=VARCHAR},
+      </if>
+      <if test="datetime != null" >
+        #{datetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="merchantTranxDate != null" >
+        #{merchantTranxDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=VARCHAR},
+      </if>
+      <if test="tranxcode != null" >
+        #{tranxcode,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantRefno != null" >
+        #{merchantRefno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="orderInfo != null" >
+        #{orderInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="currency != null" >
+        #{currency,jdbcType=DECIMAL},
+      </if>
+      <if test="securehashType != null" >
+        #{securehashType,jdbcType=VARCHAR},
+      </if>
+      <if test="responseCode != null" >
+        #{responseCode,jdbcType=VARCHAR},
+      </if>
+      <if test="approvalCode != null" >
+        #{approvalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rrn != null" >
+        #{rrn,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="mcc != null" >
+        #{mcc,jdbcType=VARCHAR},
+      </if>
+      <if test="tranxStatus != null" >
+        #{tranxStatus,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

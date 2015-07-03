@@ -1,0 +1,60 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package com.wirecard.ezlinkwebservices.RecieptRequest;
+
+import com.ezlinkwebservices.service.reciept.RecieptFault_Exception;
+import com.ezlinkwebservices.service.reciept.response.EZLINGWSRESBODY;
+import com.ezlinkwebservices.service.reciept.response.EZLINGWSRESENV;
+import com.ezlinkwebservices.service.reciept.response.RecieptRes;
+import com.ezlinkwebservices.service.reciept.response.RecieptResError;
+import com.wirecard.ezlinkwebservices.constants.StringConstants;
+import com.wirecard.ezlinkwebservices.services.RecieptService;
+import com.wirecard.ezlinkwebservices.services.impl.RecieptServiceImpl;
+import com.wirecard.ezlinkwebservices.util.HeaderUtil;
+import javax.jws.WebService;
+
+/**
+ *
+ * @author WCCTTI-JANAHAN
+ */
+@WebService(serviceName = "RecieptService", portName = "RecieptSoap", endpointInterface = "com.ezlinkwebservices.service.reciept.RecieptPortType", targetNamespace = "http://ezlinkwebservices.com/service/Reciept", wsdlLocation = "WEB-INF/wsdl/RecieptRequestService/Reciept.wsdl")
+public class RecieptRequestService {
+
+    private static final org.apache.log4j.Logger ezlink = org.apache.log4j.Logger.getLogger(RecieptRequestService.class);
+
+    public com.ezlinkwebservices.service.reciept.response.EZLINGWSRESENV reciept(com.ezlinkwebservices.service.reciept.request.EZLINGWSREQENV parameters) throws RecieptFault_Exception {
+
+        long recieptReqTime = System.currentTimeMillis();
+        System.out.println("+++++++++++Recieving from Mobile Reciept REQUEST time :+++++ " + recieptReqTime);
+        ezlink.info("\n-------RECIEVED RECIEPT REQUEST------TIME----------------   : " + recieptReqTime);
+
+        EZLINGWSRESENV objEZLINGWSRESENV = new EZLINGWSRESENV();
+        EZLINGWSRESBODY objEZLINGWSRESBODY = new EZLINGWSRESBODY();
+         RecieptResError objRecieptResError=new RecieptResError();
+        
+        RecieptService objRecieptService = new RecieptServiceImpl();
+        RecieptRes objRecieptRes = objRecieptService.getReciept(parameters);
+
+        objEZLINGWSRESBODY.setRecieptRes(objRecieptRes);
+        
+        objRecieptResError.setREERRORCODE(StringConstants.ResponseCode.SUCCESS);
+        objRecieptResError.setREERRORDESC(StringConstants.ResponseCode.SUCCESS);
+        objEZLINGWSRESBODY.setRecieptResError(objRecieptResError);
+
+        objEZLINGWSRESENV.setEZLINGWSHEADER(HeaderUtil.RecieptDataResponseHeader(parameters));
+        objEZLINGWSRESENV.setEZLINGWSRESBODY(objEZLINGWSRESBODY);
+
+        long recieptResTime = System.currentTimeMillis();
+        System.out.println("++++++++++Sending to mobile  Reciept REQUEST time :+++++++++++++ " + recieptResTime);
+        long timeTaken = recieptResTime - recieptReqTime;
+        System.out.println("++++++++++Time taken to Serve Reciept REQUEST ++++++++++++ : " + timeTaken);
+        ezlink.info("\n-------SENDING RECIEPT RESPONSE TO MOBILE---TIME------------ : " + recieptResTime);
+        ezlink.info("\n-------TOTAL TIME TAKEN TO SERVE THIS RECIEPT REQUEST------- : " + timeTaken);
+
+        return objEZLINGWSRESENV;
+    }
+
+}

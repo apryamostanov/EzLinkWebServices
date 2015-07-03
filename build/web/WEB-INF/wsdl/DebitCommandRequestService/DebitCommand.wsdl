@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions 
+	name="DebitCommand" 
+	targetNamespace="http://ezlinkwebservices.com/service/DebitCommand"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://ezlinkwebservices.com/service/DebitCommand"
+	xmlns:ns0="http://ezlinkwebservices.com/service/DebitCommand/request"
+	xmlns:ns1="http://ezlinkwebservices.com/service/DebitCommand/response">
+	
+    <wsdl:types>
+        <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ezlinkwebservices.com/service/DebitCommand">
+            <xsd:import namespace = "http://ezlinkwebservices.com/service/DebitCommand/request" schemaLocation = "DebitCommandRequest.xsd"></xsd:import>
+            <xsd:import namespace = "http://ezlinkwebservices.com/service/DebitCommand/response" schemaLocation = "DebitCommandResponse.xsd"></xsd:import>
+			
+			<element name="DebitCommandFault" type="tns:DebitCommandFault" />
+			
+			<complexType name="DebitCommandFault">
+				<sequence>
+					<element name="faultInfo" type="xsd:string" />
+					<element name="message" type="xsd:string" />
+				</sequence>
+			</complexType>
+			
+			
+        </xsd:schema>
+    </wsdl:types>
+	
+    
+	
+	<wsdl:message name="DebitCommandRequest">
+        <wsdl:part name="parameters" element="ns0:EZLING_WS_REQ_ENV"/>
+    </wsdl:message>
+    <wsdl:message name="DebitCommandResponse">
+        <wsdl:part name="parameters" element="ns1:EZLING_WS_RES_ENV"/>
+    </wsdl:message>
+	
+	<message name="DebitCommandFault">
+		<part name="faultInfo" element="tns:DebitCommandFault" />
+	</message>
+	
+	
+    <wsdl:portType name="DebitCommandPortType">
+        
+		
+		 <wsdl:operation name="DebitCommand">
+            <wsdl:input name="DebitCommandRequest" message="tns:DebitCommandRequest"/>
+            <wsdl:output name="DebitCommandResponse" message="tns:DebitCommandResponse"/>
+			<fault message="tns:DebitCommandFault" name="DebitCommandFault"/>
+        </wsdl:operation>
+		
+    </wsdl:portType>
+	
+    <wsdl:binding name="DebitCommandSoap" type="tns:DebitCommandPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        
+			
+			<wsdl:operation name="DebitCommand">
+			<soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+			
+			<fault name="DebitCommandFault">
+				<soap:fault name="DebitCommandFault" use="literal" />
+			</fault>
+			</wsdl:operation>
+	</wsdl:binding>
+	
+		
+    <wsdl:service name="DebitCommandService">
+        <wsdl:port name="DebitCommandSoap" binding="tns:DebitCommandSoap">
+            <soap:address location="http://localhost:8083/ezlinkwebservices/DebitCommand/DebitCommandSoap"/>
+        </wsdl:port>
+    </wsdl:service>
+  
+</wsdl:definitions>

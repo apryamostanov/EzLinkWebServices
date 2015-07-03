@@ -1,0 +1,830 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wirecard.ezlinkwebservices.mapperdao.MerchantDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.wirecard.ezlinkwebservices.dto.MerchantDto" >
+    <id column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
+    <result column="MERCHANT_NAME" property="merchantName" jdbcType="VARCHAR" />
+    <result column="MERCHANT_DESC" property="merchantDesc" jdbcType="VARCHAR" />
+    <result column="PARENT_MERCHANT" property="parentMerchant" jdbcType="VARCHAR" />
+    <result column="BUSS_ADDRESS_1" property="bussAddress1" jdbcType="VARCHAR" />
+    <result column="BUSS_ADDRESS_2" property="bussAddress2" jdbcType="VARCHAR" />
+    <result column="BUSS_COUNTRY" property="bussCountry" jdbcType="VARCHAR" />
+    <result column="BUSS_POSTAL_CODE" property="bussPostalCode" jdbcType="VARCHAR" />
+    <result column="BUSS_WEB_SITE" property="bussWebSite" jdbcType="VARCHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="CONTACT_PHONE" property="contactPhone" jdbcType="VARCHAR" />
+    <result column="CONTACT_FAX" property="contactFax" jdbcType="VARCHAR" />
+    <result column="CONTACT_EMAIL" property="contactEmail" jdbcType="VARCHAR" />
+    <result column="MERCHANT_STATUS" property="merchantStatus" jdbcType="CHAR" />
+    <result column="SETTLEMENT_FREQUENCY" property="settlementFrequency" jdbcType="CHAR" />
+    <result column="SETTLEMENT_EMAIL" property="settlementEmail" jdbcType="VARCHAR" />
+    <result column="PAYMENT_TYPE" property="paymentType" jdbcType="CHAR" />
+    <result column="PAYMENT_OPTION" property="paymentOption" jdbcType="CHAR" />
+    <result column="CREATED_BY" property="createdBy" jdbcType="VARCHAR" />
+    <result column="CREATED_ON" property="createdOn" jdbcType="TIMESTAMP" />
+    <result column="MODIFIED_BY" property="modifiedBy" jdbcType="VARCHAR" />
+    <result column="MODIFIED_ON" property="modifiedOn" jdbcType="TIMESTAMP" />
+    <result column="ACQ_ID" property="acqId" jdbcType="VARCHAR" />
+    <result column="MCC_CODE" property="mccCode" jdbcType="VARCHAR" />
+    <result column="RSK_NOOFTOPUPSALLOWED" property="rskNooftopupsallowed" jdbcType="DECIMAL" />
+    <result column="RSK_MAXTOPUPLIMIT" property="rskMaxtopuplimit" jdbcType="DECIMAL" />
+    <result column="RSK_TRANXTYPEALLOWED" property="rskTranxtypeallowed" jdbcType="CHAR" />
+    <result column="ACC_TOPUPTRANXFEE" property="accTopuptranxfee" jdbcType="DECIMAL" />
+    <result column="ACC_TOPUPFEEPAYABLE" property="accTopupfeepayable" jdbcType="DECIMAL" />
+    <result column="ACC_MERCHANTBANK" property="accMerchantbank" jdbcType="VARCHAR" />
+    <result column="ACC_BANKCODE" property="accBankcode" jdbcType="VARCHAR" />
+    <result column="ACC_BRANCHCODE" property="accBranchcode" jdbcType="VARCHAR" />
+    <result column="ACC_ACCOUNTNO" property="accAccountno" jdbcType="VARCHAR" />
+    <result column="ACC_ACCOUNTNAME" property="accAccountname" jdbcType="VARCHAR" />
+    <result column="ACC_PAYMENTDAYS" property="accPaymentdays" jdbcType="DECIMAL" />
+    <result column="LAST_PAYMENT_DATE" property="lastPaymentDate" jdbcType="TIMESTAMP" />
+    <result column="FORCE_PAYMENT" property="forcePayment" jdbcType="CHAR" />
+    <result column="ACC_FORCEPAYMENTFEE" property="accForcepaymentfee" jdbcType="DECIMAL" />
+    <result column="SETTLEMET_DAYS" property="settlemetDays" jdbcType="DECIMAL" />
+    <result column="LAST_SETTLEMET_DATE" property="lastSettlemetDate" jdbcType="TIMESTAMP" />
+    <result column="ACC_SALEMDR" property="accSalemdr" jdbcType="DECIMAL" />
+    <result column="ACC_ACQBANK" property="accAcqbank" jdbcType="VARCHAR" />
+    <result column="TRP_PAYMENT" property="trpPayment" jdbcType="VARCHAR" />
+    <result column="TRP_TOPUP" property="trpTopup" jdbcType="VARCHAR" />
+    <result column="CONTACT_MOBILE" property="contactMobile" jdbcType="VARCHAR" />
+    <result column="MAIL_ADDRESS_1" property="mailAddress1" jdbcType="VARCHAR" />
+    <result column="MAIL_ADDRESS_2" property="mailAddress2" jdbcType="VARCHAR" />
+    <result column="MAIL_COUNTRY" property="mailCountry" jdbcType="VARCHAR" />
+    <result column="MAIL_POSTAL_CODE" property="mailPostalCode" jdbcType="VARCHAR" />
+    <result column="EZ_AGENT_ID" property="ezAgentId" jdbcType="DECIMAL" />
+    <result column="ACC_SALEMDR_TYPE" property="accSalemdrType" jdbcType="CHAR" />
+    <result column="ACC_TOPUPFEE_TYPE" property="accTopupfeeType" jdbcType="CHAR" />
+    <result column="DISCOUNT_SETTLEMENT" property="discountSettlement" jdbcType="CHAR" />
+    <result column="VACC_BALANCE" property="vaccBalance" jdbcType="DECIMAL" />
+    <result column="VACC_CHECKPOINT" property="vaccCheckpoint" jdbcType="DECIMAL" />
+    <result column="TOPUP_SETTLEMENT" property="topupSettlement" jdbcType="CHAR" />
+    <result column="VACC_LAST_CREDIT" property="vaccLastCredit" jdbcType="TIMESTAMP" />
+    <result column="VACC_LAST_DEBIT" property="vaccLastDebit" jdbcType="TIMESTAMP" />
+    <result column="VACC_TRANSFER_CHARGE" property="vaccTransferCharge" jdbcType="DECIMAL" />
+    <result column="ACC_RETAIL_TOPUPTRANXFEE" property="accRetailTopuptranxfee" jdbcType="DECIMAL" />
+    <result column="ACC_RETAIL_TOPUPFEEPAYABLE" property="accRetailTopupfeepayable" jdbcType="DECIMAL" />
+    <result column="STOREFRONT_NAME" property="storefrontName" jdbcType="VARCHAR" />
+    <result column="NGFS_DEBIT" property="ngfsDebit" jdbcType="CHAR" />
+    <result column="NGFS_DEBIT_DAYS" property="ngfsDebitDays" jdbcType="DECIMAL" />
+    <result column="RUV_CREDIT_DAYS" property="ruvCreditDays" jdbcType="DECIMAL" />
+    <result column="RUV_CREDIT" property="ruvCredit" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    MERCHANT_NO, MERCHANT_NAME, MERCHANT_DESC, PARENT_MERCHANT, BUSS_ADDRESS_1, BUSS_ADDRESS_2, 
+    BUSS_COUNTRY, BUSS_POSTAL_CODE, BUSS_WEB_SITE, CONTACT_NAME, CONTACT_PHONE, CONTACT_FAX, 
+    CONTACT_EMAIL, MERCHANT_STATUS, SETTLEMENT_FREQUENCY, SETTLEMENT_EMAIL, PAYMENT_TYPE, 
+    PAYMENT_OPTION, CREATED_BY, CREATED_ON, MODIFIED_BY, MODIFIED_ON, ACQ_ID, MCC_CODE, 
+    RSK_NOOFTOPUPSALLOWED, RSK_MAXTOPUPLIMIT, RSK_TRANXTYPEALLOWED, ACC_TOPUPTRANXFEE, 
+    ACC_TOPUPFEEPAYABLE, ACC_MERCHANTBANK, ACC_BANKCODE, ACC_BRANCHCODE, ACC_ACCOUNTNO, 
+    ACC_ACCOUNTNAME, ACC_PAYMENTDAYS, LAST_PAYMENT_DATE, FORCE_PAYMENT, ACC_FORCEPAYMENTFEE, 
+    SETTLEMET_DAYS, LAST_SETTLEMET_DATE, ACC_SALEMDR, ACC_ACQBANK, TRP_PAYMENT, TRP_TOPUP, 
+    CONTACT_MOBILE, MAIL_ADDRESS_1, MAIL_ADDRESS_2, MAIL_COUNTRY, MAIL_POSTAL_CODE, EZ_AGENT_ID, 
+    ACC_SALEMDR_TYPE, ACC_TOPUPFEE_TYPE, DISCOUNT_SETTLEMENT, VACC_BALANCE, VACC_CHECKPOINT, 
+    TOPUP_SETTLEMENT, VACC_LAST_CREDIT, VACC_LAST_DEBIT, VACC_TRANSFER_CHARGE, ACC_RETAIL_TOPUPTRANXFEE, 
+    ACC_RETAIL_TOPUPFEEPAYABLE, STOREFRONT_NAME, NGFS_DEBIT, NGFS_DEBIT_DAYS, RUV_CREDIT_DAYS, 
+    RUV_CREDIT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from EZLINK.MERCHANT
+    where MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from EZLINK.MERCHANT
+    where MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.MerchantDto" >
+    insert into EZLINK.MERCHANT (MERCHANT_NO, MERCHANT_NAME, MERCHANT_DESC, 
+      PARENT_MERCHANT, BUSS_ADDRESS_1, BUSS_ADDRESS_2, 
+      BUSS_COUNTRY, BUSS_POSTAL_CODE, BUSS_WEB_SITE, 
+      CONTACT_NAME, CONTACT_PHONE, CONTACT_FAX, 
+      CONTACT_EMAIL, MERCHANT_STATUS, SETTLEMENT_FREQUENCY, 
+      SETTLEMENT_EMAIL, PAYMENT_TYPE, PAYMENT_OPTION, 
+      CREATED_BY, CREATED_ON, MODIFIED_BY, 
+      MODIFIED_ON, ACQ_ID, MCC_CODE, 
+      RSK_NOOFTOPUPSALLOWED, RSK_MAXTOPUPLIMIT, 
+      RSK_TRANXTYPEALLOWED, ACC_TOPUPTRANXFEE, ACC_TOPUPFEEPAYABLE, 
+      ACC_MERCHANTBANK, ACC_BANKCODE, ACC_BRANCHCODE, 
+      ACC_ACCOUNTNO, ACC_ACCOUNTNAME, ACC_PAYMENTDAYS, 
+      LAST_PAYMENT_DATE, FORCE_PAYMENT, ACC_FORCEPAYMENTFEE, 
+      SETTLEMET_DAYS, LAST_SETTLEMET_DATE, ACC_SALEMDR, 
+      ACC_ACQBANK, TRP_PAYMENT, TRP_TOPUP, 
+      CONTACT_MOBILE, MAIL_ADDRESS_1, MAIL_ADDRESS_2, 
+      MAIL_COUNTRY, MAIL_POSTAL_CODE, EZ_AGENT_ID, 
+      ACC_SALEMDR_TYPE, ACC_TOPUPFEE_TYPE, DISCOUNT_SETTLEMENT, 
+      VACC_BALANCE, VACC_CHECKPOINT, TOPUP_SETTLEMENT, 
+      VACC_LAST_CREDIT, VACC_LAST_DEBIT, VACC_TRANSFER_CHARGE, 
+      ACC_RETAIL_TOPUPTRANXFEE, ACC_RETAIL_TOPUPFEEPAYABLE, 
+      STOREFRONT_NAME, NGFS_DEBIT, NGFS_DEBIT_DAYS, 
+      RUV_CREDIT_DAYS, RUV_CREDIT)
+    values (#{merchantNo,jdbcType=VARCHAR}, #{merchantName,jdbcType=VARCHAR}, #{merchantDesc,jdbcType=VARCHAR}, 
+      #{parentMerchant,jdbcType=VARCHAR}, #{bussAddress1,jdbcType=VARCHAR}, #{bussAddress2,jdbcType=VARCHAR}, 
+      #{bussCountry,jdbcType=VARCHAR}, #{bussPostalCode,jdbcType=VARCHAR}, #{bussWebSite,jdbcType=VARCHAR}, 
+      #{contactName,jdbcType=VARCHAR}, #{contactPhone,jdbcType=VARCHAR}, #{contactFax,jdbcType=VARCHAR}, 
+      #{contactEmail,jdbcType=VARCHAR}, #{merchantStatus,jdbcType=CHAR}, #{settlementFrequency,jdbcType=CHAR}, 
+      #{settlementEmail,jdbcType=VARCHAR}, #{paymentType,jdbcType=CHAR}, #{paymentOption,jdbcType=CHAR}, 
+      #{createdBy,jdbcType=VARCHAR}, #{createdOn,jdbcType=TIMESTAMP}, #{modifiedBy,jdbcType=VARCHAR}, 
+      #{modifiedOn,jdbcType=TIMESTAMP}, #{acqId,jdbcType=VARCHAR}, #{mccCode,jdbcType=VARCHAR}, 
+      #{rskNooftopupsallowed,jdbcType=DECIMAL}, #{rskMaxtopuplimit,jdbcType=DECIMAL}, 
+      #{rskTranxtypeallowed,jdbcType=CHAR}, #{accTopuptranxfee,jdbcType=DECIMAL}, #{accTopupfeepayable,jdbcType=DECIMAL}, 
+      #{accMerchantbank,jdbcType=VARCHAR}, #{accBankcode,jdbcType=VARCHAR}, #{accBranchcode,jdbcType=VARCHAR}, 
+      #{accAccountno,jdbcType=VARCHAR}, #{accAccountname,jdbcType=VARCHAR}, #{accPaymentdays,jdbcType=DECIMAL}, 
+      #{lastPaymentDate,jdbcType=TIMESTAMP}, #{forcePayment,jdbcType=CHAR}, #{accForcepaymentfee,jdbcType=DECIMAL}, 
+      #{settlemetDays,jdbcType=DECIMAL}, #{lastSettlemetDate,jdbcType=TIMESTAMP}, #{accSalemdr,jdbcType=DECIMAL}, 
+      #{accAcqbank,jdbcType=VARCHAR}, #{trpPayment,jdbcType=VARCHAR}, #{trpTopup,jdbcType=VARCHAR}, 
+      #{contactMobile,jdbcType=VARCHAR}, #{mailAddress1,jdbcType=VARCHAR}, #{mailAddress2,jdbcType=VARCHAR}, 
+      #{mailCountry,jdbcType=VARCHAR}, #{mailPostalCode,jdbcType=VARCHAR}, #{ezAgentId,jdbcType=DECIMAL}, 
+      #{accSalemdrType,jdbcType=CHAR}, #{accTopupfeeType,jdbcType=CHAR}, #{discountSettlement,jdbcType=CHAR}, 
+      #{vaccBalance,jdbcType=DECIMAL}, #{vaccCheckpoint,jdbcType=DECIMAL}, #{topupSettlement,jdbcType=CHAR}, 
+      #{vaccLastCredit,jdbcType=TIMESTAMP}, #{vaccLastDebit,jdbcType=TIMESTAMP}, #{vaccTransferCharge,jdbcType=DECIMAL}, 
+      #{accRetailTopuptranxfee,jdbcType=DECIMAL}, #{accRetailTopupfeepayable,jdbcType=DECIMAL}, 
+      #{storefrontName,jdbcType=VARCHAR}, #{ngfsDebit,jdbcType=CHAR}, #{ngfsDebitDays,jdbcType=DECIMAL}, 
+      #{ruvCreditDays,jdbcType=DECIMAL}, #{ruvCredit,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.MerchantDto" >
+    insert into EZLINK.MERCHANT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="merchantNo != null" >
+        MERCHANT_NO,
+      </if>
+      <if test="merchantName != null" >
+        MERCHANT_NAME,
+      </if>
+      <if test="merchantDesc != null" >
+        MERCHANT_DESC,
+      </if>
+      <if test="parentMerchant != null" >
+        PARENT_MERCHANT,
+      </if>
+      <if test="bussAddress1 != null" >
+        BUSS_ADDRESS_1,
+      </if>
+      <if test="bussAddress2 != null" >
+        BUSS_ADDRESS_2,
+      </if>
+      <if test="bussCountry != null" >
+        BUSS_COUNTRY,
+      </if>
+      <if test="bussPostalCode != null" >
+        BUSS_POSTAL_CODE,
+      </if>
+      <if test="bussWebSite != null" >
+        BUSS_WEB_SITE,
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME,
+      </if>
+      <if test="contactPhone != null" >
+        CONTACT_PHONE,
+      </if>
+      <if test="contactFax != null" >
+        CONTACT_FAX,
+      </if>
+      <if test="contactEmail != null" >
+        CONTACT_EMAIL,
+      </if>
+      <if test="merchantStatus != null" >
+        MERCHANT_STATUS,
+      </if>
+      <if test="settlementFrequency != null" >
+        SETTLEMENT_FREQUENCY,
+      </if>
+      <if test="settlementEmail != null" >
+        SETTLEMENT_EMAIL,
+      </if>
+      <if test="paymentType != null" >
+        PAYMENT_TYPE,
+      </if>
+      <if test="paymentOption != null" >
+        PAYMENT_OPTION,
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY,
+      </if>
+      <if test="createdOn != null" >
+        CREATED_ON,
+      </if>
+      <if test="modifiedBy != null" >
+        MODIFIED_BY,
+      </if>
+      <if test="modifiedOn != null" >
+        MODIFIED_ON,
+      </if>
+      <if test="acqId != null" >
+        ACQ_ID,
+      </if>
+      <if test="mccCode != null" >
+        MCC_CODE,
+      </if>
+      <if test="rskNooftopupsallowed != null" >
+        RSK_NOOFTOPUPSALLOWED,
+      </if>
+      <if test="rskMaxtopuplimit != null" >
+        RSK_MAXTOPUPLIMIT,
+      </if>
+      <if test="rskTranxtypeallowed != null" >
+        RSK_TRANXTYPEALLOWED,
+      </if>
+      <if test="accTopuptranxfee != null" >
+        ACC_TOPUPTRANXFEE,
+      </if>
+      <if test="accTopupfeepayable != null" >
+        ACC_TOPUPFEEPAYABLE,
+      </if>
+      <if test="accMerchantbank != null" >
+        ACC_MERCHANTBANK,
+      </if>
+      <if test="accBankcode != null" >
+        ACC_BANKCODE,
+      </if>
+      <if test="accBranchcode != null" >
+        ACC_BRANCHCODE,
+      </if>
+      <if test="accAccountno != null" >
+        ACC_ACCOUNTNO,
+      </if>
+      <if test="accAccountname != null" >
+        ACC_ACCOUNTNAME,
+      </if>
+      <if test="accPaymentdays != null" >
+        ACC_PAYMENTDAYS,
+      </if>
+      <if test="lastPaymentDate != null" >
+        LAST_PAYMENT_DATE,
+      </if>
+      <if test="forcePayment != null" >
+        FORCE_PAYMENT,
+      </if>
+      <if test="accForcepaymentfee != null" >
+        ACC_FORCEPAYMENTFEE,
+      </if>
+      <if test="settlemetDays != null" >
+        SETTLEMET_DAYS,
+      </if>
+      <if test="lastSettlemetDate != null" >
+        LAST_SETTLEMET_DATE,
+      </if>
+      <if test="accSalemdr != null" >
+        ACC_SALEMDR,
+      </if>
+      <if test="accAcqbank != null" >
+        ACC_ACQBANK,
+      </if>
+      <if test="trpPayment != null" >
+        TRP_PAYMENT,
+      </if>
+      <if test="trpTopup != null" >
+        TRP_TOPUP,
+      </if>
+      <if test="contactMobile != null" >
+        CONTACT_MOBILE,
+      </if>
+      <if test="mailAddress1 != null" >
+        MAIL_ADDRESS_1,
+      </if>
+      <if test="mailAddress2 != null" >
+        MAIL_ADDRESS_2,
+      </if>
+      <if test="mailCountry != null" >
+        MAIL_COUNTRY,
+      </if>
+      <if test="mailPostalCode != null" >
+        MAIL_POSTAL_CODE,
+      </if>
+      <if test="ezAgentId != null" >
+        EZ_AGENT_ID,
+      </if>
+      <if test="accSalemdrType != null" >
+        ACC_SALEMDR_TYPE,
+      </if>
+      <if test="accTopupfeeType != null" >
+        ACC_TOPUPFEE_TYPE,
+      </if>
+      <if test="discountSettlement != null" >
+        DISCOUNT_SETTLEMENT,
+      </if>
+      <if test="vaccBalance != null" >
+        VACC_BALANCE,
+      </if>
+      <if test="vaccCheckpoint != null" >
+        VACC_CHECKPOINT,
+      </if>
+      <if test="topupSettlement != null" >
+        TOPUP_SETTLEMENT,
+      </if>
+      <if test="vaccLastCredit != null" >
+        VACC_LAST_CREDIT,
+      </if>
+      <if test="vaccLastDebit != null" >
+        VACC_LAST_DEBIT,
+      </if>
+      <if test="vaccTransferCharge != null" >
+        VACC_TRANSFER_CHARGE,
+      </if>
+      <if test="accRetailTopuptranxfee != null" >
+        ACC_RETAIL_TOPUPTRANXFEE,
+      </if>
+      <if test="accRetailTopupfeepayable != null" >
+        ACC_RETAIL_TOPUPFEEPAYABLE,
+      </if>
+      <if test="storefrontName != null" >
+        STOREFRONT_NAME,
+      </if>
+      <if test="ngfsDebit != null" >
+        NGFS_DEBIT,
+      </if>
+      <if test="ngfsDebitDays != null" >
+        NGFS_DEBIT_DAYS,
+      </if>
+      <if test="ruvCreditDays != null" >
+        RUV_CREDIT_DAYS,
+      </if>
+      <if test="ruvCredit != null" >
+        RUV_CREDIT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantName != null" >
+        #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantDesc != null" >
+        #{merchantDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="parentMerchant != null" >
+        #{parentMerchant,jdbcType=VARCHAR},
+      </if>
+      <if test="bussAddress1 != null" >
+        #{bussAddress1,jdbcType=VARCHAR},
+      </if>
+      <if test="bussAddress2 != null" >
+        #{bussAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="bussCountry != null" >
+        #{bussCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="bussPostalCode != null" >
+        #{bussPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bussWebSite != null" >
+        #{bussWebSite,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactFax != null" >
+        #{contactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="contactEmail != null" >
+        #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantStatus != null" >
+        #{merchantStatus,jdbcType=CHAR},
+      </if>
+      <if test="settlementFrequency != null" >
+        #{settlementFrequency,jdbcType=CHAR},
+      </if>
+      <if test="settlementEmail != null" >
+        #{settlementEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentType != null" >
+        #{paymentType,jdbcType=CHAR},
+      </if>
+      <if test="paymentOption != null" >
+        #{paymentOption,jdbcType=CHAR},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdOn != null" >
+        #{createdOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedBy != null" >
+        #{modifiedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifiedOn != null" >
+        #{modifiedOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acqId != null" >
+        #{acqId,jdbcType=VARCHAR},
+      </if>
+      <if test="mccCode != null" >
+        #{mccCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rskNooftopupsallowed != null" >
+        #{rskNooftopupsallowed,jdbcType=DECIMAL},
+      </if>
+      <if test="rskMaxtopuplimit != null" >
+        #{rskMaxtopuplimit,jdbcType=DECIMAL},
+      </if>
+      <if test="rskTranxtypeallowed != null" >
+        #{rskTranxtypeallowed,jdbcType=CHAR},
+      </if>
+      <if test="accTopuptranxfee != null" >
+        #{accTopuptranxfee,jdbcType=DECIMAL},
+      </if>
+      <if test="accTopupfeepayable != null" >
+        #{accTopupfeepayable,jdbcType=DECIMAL},
+      </if>
+      <if test="accMerchantbank != null" >
+        #{accMerchantbank,jdbcType=VARCHAR},
+      </if>
+      <if test="accBankcode != null" >
+        #{accBankcode,jdbcType=VARCHAR},
+      </if>
+      <if test="accBranchcode != null" >
+        #{accBranchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="accAccountno != null" >
+        #{accAccountno,jdbcType=VARCHAR},
+      </if>
+      <if test="accAccountname != null" >
+        #{accAccountname,jdbcType=VARCHAR},
+      </if>
+      <if test="accPaymentdays != null" >
+        #{accPaymentdays,jdbcType=DECIMAL},
+      </if>
+      <if test="lastPaymentDate != null" >
+        #{lastPaymentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forcePayment != null" >
+        #{forcePayment,jdbcType=CHAR},
+      </if>
+      <if test="accForcepaymentfee != null" >
+        #{accForcepaymentfee,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemetDays != null" >
+        #{settlemetDays,jdbcType=DECIMAL},
+      </if>
+      <if test="lastSettlemetDate != null" >
+        #{lastSettlemetDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accSalemdr != null" >
+        #{accSalemdr,jdbcType=DECIMAL},
+      </if>
+      <if test="accAcqbank != null" >
+        #{accAcqbank,jdbcType=VARCHAR},
+      </if>
+      <if test="trpPayment != null" >
+        #{trpPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="trpTopup != null" >
+        #{trpTopup,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null" >
+        #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddress1 != null" >
+        #{mailAddress1,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddress2 != null" >
+        #{mailAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="mailCountry != null" >
+        #{mailCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="mailPostalCode != null" >
+        #{mailPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ezAgentId != null" >
+        #{ezAgentId,jdbcType=DECIMAL},
+      </if>
+      <if test="accSalemdrType != null" >
+        #{accSalemdrType,jdbcType=CHAR},
+      </if>
+      <if test="accTopupfeeType != null" >
+        #{accTopupfeeType,jdbcType=CHAR},
+      </if>
+      <if test="discountSettlement != null" >
+        #{discountSettlement,jdbcType=CHAR},
+      </if>
+      <if test="vaccBalance != null" >
+        #{vaccBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="vaccCheckpoint != null" >
+        #{vaccCheckpoint,jdbcType=DECIMAL},
+      </if>
+      <if test="topupSettlement != null" >
+        #{topupSettlement,jdbcType=CHAR},
+      </if>
+      <if test="vaccLastCredit != null" >
+        #{vaccLastCredit,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vaccLastDebit != null" >
+        #{vaccLastDebit,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vaccTransferCharge != null" >
+        #{vaccTransferCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="accRetailTopuptranxfee != null" >
+        #{accRetailTopuptranxfee,jdbcType=DECIMAL},
+      </if>
+      <if test="accRetailTopupfeepayable != null" >
+        #{accRetailTopupfeepayable,jdbcType=DECIMAL},
+      </if>
+      <if test="storefrontName != null" >
+        #{storefrontName,jdbcType=VARCHAR},
+      </if>
+      <if test="ngfsDebit != null" >
+        #{ngfsDebit,jdbcType=CHAR},
+      </if>
+      <if test="ngfsDebitDays != null" >
+        #{ngfsDebitDays,jdbcType=DECIMAL},
+      </if>
+      <if test="ruvCreditDays != null" >
+        #{ruvCreditDays,jdbcType=DECIMAL},
+      </if>
+      <if test="ruvCredit != null" >
+        #{ruvCredit,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.wirecard.ezlinkwebservices.dto.MerchantDto" >
+    update EZLINK.MERCHANT
+    <set >
+      <if test="merchantName != null" >
+        MERCHANT_NAME = #{merchantName,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantDesc != null" >
+        MERCHANT_DESC = #{merchantDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="parentMerchant != null" >
+        PARENT_MERCHANT = #{parentMerchant,jdbcType=VARCHAR},
+      </if>
+      <if test="bussAddress1 != null" >
+        BUSS_ADDRESS_1 = #{bussAddress1,jdbcType=VARCHAR},
+      </if>
+      <if test="bussAddress2 != null" >
+        BUSS_ADDRESS_2 = #{bussAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="bussCountry != null" >
+        BUSS_COUNTRY = #{bussCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="bussPostalCode != null" >
+        BUSS_POSTAL_CODE = #{bussPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="bussWebSite != null" >
+        BUSS_WEB_SITE = #{bussWebSite,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactPhone != null" >
+        CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="contactFax != null" >
+        CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      </if>
+      <if test="contactEmail != null" >
+        CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantStatus != null" >
+        MERCHANT_STATUS = #{merchantStatus,jdbcType=CHAR},
+      </if>
+      <if test="settlementFrequency != null" >
+        SETTLEMENT_FREQUENCY = #{settlementFrequency,jdbcType=CHAR},
+      </if>
+      <if test="settlementEmail != null" >
+        SETTLEMENT_EMAIL = #{settlementEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentType != null" >
+        PAYMENT_TYPE = #{paymentType,jdbcType=CHAR},
+      </if>
+      <if test="paymentOption != null" >
+        PAYMENT_OPTION = #{paymentOption,jdbcType=CHAR},
+      </if>
+      <if test="createdBy != null" >
+        CREATED_BY = #{createdBy,jdbcType=VARCHAR},
+      </if>
+      <if test="createdOn != null" >
+        CREATED_ON = #{createdOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifiedBy != null" >
+        MODIFIED_BY = #{modifiedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifiedOn != null" >
+        MODIFIED_ON = #{modifiedOn,jdbcType=TIMESTAMP},
+      </if>
+      <if test="acqId != null" >
+        ACQ_ID = #{acqId,jdbcType=VARCHAR},
+      </if>
+      <if test="mccCode != null" >
+        MCC_CODE = #{mccCode,jdbcType=VARCHAR},
+      </if>
+      <if test="rskNooftopupsallowed != null" >
+        RSK_NOOFTOPUPSALLOWED = #{rskNooftopupsallowed,jdbcType=DECIMAL},
+      </if>
+      <if test="rskMaxtopuplimit != null" >
+        RSK_MAXTOPUPLIMIT = #{rskMaxtopuplimit,jdbcType=DECIMAL},
+      </if>
+      <if test="rskTranxtypeallowed != null" >
+        RSK_TRANXTYPEALLOWED = #{rskTranxtypeallowed,jdbcType=CHAR},
+      </if>
+      <if test="accTopuptranxfee != null" >
+        ACC_TOPUPTRANXFEE = #{accTopuptranxfee,jdbcType=DECIMAL},
+      </if>
+      <if test="accTopupfeepayable != null" >
+        ACC_TOPUPFEEPAYABLE = #{accTopupfeepayable,jdbcType=DECIMAL},
+      </if>
+      <if test="accMerchantbank != null" >
+        ACC_MERCHANTBANK = #{accMerchantbank,jdbcType=VARCHAR},
+      </if>
+      <if test="accBankcode != null" >
+        ACC_BANKCODE = #{accBankcode,jdbcType=VARCHAR},
+      </if>
+      <if test="accBranchcode != null" >
+        ACC_BRANCHCODE = #{accBranchcode,jdbcType=VARCHAR},
+      </if>
+      <if test="accAccountno != null" >
+        ACC_ACCOUNTNO = #{accAccountno,jdbcType=VARCHAR},
+      </if>
+      <if test="accAccountname != null" >
+        ACC_ACCOUNTNAME = #{accAccountname,jdbcType=VARCHAR},
+      </if>
+      <if test="accPaymentdays != null" >
+        ACC_PAYMENTDAYS = #{accPaymentdays,jdbcType=DECIMAL},
+      </if>
+      <if test="lastPaymentDate != null" >
+        LAST_PAYMENT_DATE = #{lastPaymentDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="forcePayment != null" >
+        FORCE_PAYMENT = #{forcePayment,jdbcType=CHAR},
+      </if>
+      <if test="accForcepaymentfee != null" >
+        ACC_FORCEPAYMENTFEE = #{accForcepaymentfee,jdbcType=DECIMAL},
+      </if>
+      <if test="settlemetDays != null" >
+        SETTLEMET_DAYS = #{settlemetDays,jdbcType=DECIMAL},
+      </if>
+      <if test="lastSettlemetDate != null" >
+        LAST_SETTLEMET_DATE = #{lastSettlemetDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="accSalemdr != null" >
+        ACC_SALEMDR = #{accSalemdr,jdbcType=DECIMAL},
+      </if>
+      <if test="accAcqbank != null" >
+        ACC_ACQBANK = #{accAcqbank,jdbcType=VARCHAR},
+      </if>
+      <if test="trpPayment != null" >
+        TRP_PAYMENT = #{trpPayment,jdbcType=VARCHAR},
+      </if>
+      <if test="trpTopup != null" >
+        TRP_TOPUP = #{trpTopup,jdbcType=VARCHAR},
+      </if>
+      <if test="contactMobile != null" >
+        CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddress1 != null" >
+        MAIL_ADDRESS_1 = #{mailAddress1,jdbcType=VARCHAR},
+      </if>
+      <if test="mailAddress2 != null" >
+        MAIL_ADDRESS_2 = #{mailAddress2,jdbcType=VARCHAR},
+      </if>
+      <if test="mailCountry != null" >
+        MAIL_COUNTRY = #{mailCountry,jdbcType=VARCHAR},
+      </if>
+      <if test="mailPostalCode != null" >
+        MAIL_POSTAL_CODE = #{mailPostalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ezAgentId != null" >
+        EZ_AGENT_ID = #{ezAgentId,jdbcType=DECIMAL},
+      </if>
+      <if test="accSalemdrType != null" >
+        ACC_SALEMDR_TYPE = #{accSalemdrType,jdbcType=CHAR},
+      </if>
+      <if test="accTopupfeeType != null" >
+        ACC_TOPUPFEE_TYPE = #{accTopupfeeType,jdbcType=CHAR},
+      </if>
+      <if test="discountSettlement != null" >
+        DISCOUNT_SETTLEMENT = #{discountSettlement,jdbcType=CHAR},
+      </if>
+      <if test="vaccBalance != null" >
+        VACC_BALANCE = #{vaccBalance,jdbcType=DECIMAL},
+      </if>
+      <if test="vaccCheckpoint != null" >
+        VACC_CHECKPOINT = #{vaccCheckpoint,jdbcType=DECIMAL},
+      </if>
+      <if test="topupSettlement != null" >
+        TOPUP_SETTLEMENT = #{topupSettlement,jdbcType=CHAR},
+      </if>
+      <if test="vaccLastCredit != null" >
+        VACC_LAST_CREDIT = #{vaccLastCredit,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vaccLastDebit != null" >
+        VACC_LAST_DEBIT = #{vaccLastDebit,jdbcType=TIMESTAMP},
+      </if>
+      <if test="vaccTransferCharge != null" >
+        VACC_TRANSFER_CHARGE = #{vaccTransferCharge,jdbcType=DECIMAL},
+      </if>
+      <if test="accRetailTopuptranxfee != null" >
+        ACC_RETAIL_TOPUPTRANXFEE = #{accRetailTopuptranxfee,jdbcType=DECIMAL},
+      </if>
+      <if test="accRetailTopupfeepayable != null" >
+        ACC_RETAIL_TOPUPFEEPAYABLE = #{accRetailTopupfeepayable,jdbcType=DECIMAL},
+      </if>
+      <if test="storefrontName != null" >
+        STOREFRONT_NAME = #{storefrontName,jdbcType=VARCHAR},
+      </if>
+      <if test="ngfsDebit != null" >
+        NGFS_DEBIT = #{ngfsDebit,jdbcType=CHAR},
+      </if>
+      <if test="ngfsDebitDays != null" >
+        NGFS_DEBIT_DAYS = #{ngfsDebitDays,jdbcType=DECIMAL},
+      </if>
+      <if test="ruvCreditDays != null" >
+        RUV_CREDIT_DAYS = #{ruvCreditDays,jdbcType=DECIMAL},
+      </if>
+      <if test="ruvCredit != null" >
+        RUV_CREDIT = #{ruvCredit,jdbcType=CHAR},
+      </if>
+    </set>
+    where MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wirecard.ezlinkwebservices.dto.MerchantDto" >
+    update EZLINK.MERCHANT
+    set MERCHANT_NAME = #{merchantName,jdbcType=VARCHAR},
+      MERCHANT_DESC = #{merchantDesc,jdbcType=VARCHAR},
+      PARENT_MERCHANT = #{parentMerchant,jdbcType=VARCHAR},
+      BUSS_ADDRESS_1 = #{bussAddress1,jdbcType=VARCHAR},
+      BUSS_ADDRESS_2 = #{bussAddress2,jdbcType=VARCHAR},
+      BUSS_COUNTRY = #{bussCountry,jdbcType=VARCHAR},
+      BUSS_POSTAL_CODE = #{bussPostalCode,jdbcType=VARCHAR},
+      BUSS_WEB_SITE = #{bussWebSite,jdbcType=VARCHAR},
+      CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      CONTACT_PHONE = #{contactPhone,jdbcType=VARCHAR},
+      CONTACT_FAX = #{contactFax,jdbcType=VARCHAR},
+      CONTACT_EMAIL = #{contactEmail,jdbcType=VARCHAR},
+      MERCHANT_STATUS = #{merchantStatus,jdbcType=CHAR},
+      SETTLEMENT_FREQUENCY = #{settlementFrequency,jdbcType=CHAR},
+      SETTLEMENT_EMAIL = #{settlementEmail,jdbcType=VARCHAR},
+      PAYMENT_TYPE = #{paymentType,jdbcType=CHAR},
+      PAYMENT_OPTION = #{paymentOption,jdbcType=CHAR},
+      CREATED_BY = #{createdBy,jdbcType=VARCHAR},
+      CREATED_ON = #{createdOn,jdbcType=TIMESTAMP},
+      MODIFIED_BY = #{modifiedBy,jdbcType=VARCHAR},
+      MODIFIED_ON = #{modifiedOn,jdbcType=TIMESTAMP},
+      ACQ_ID = #{acqId,jdbcType=VARCHAR},
+      MCC_CODE = #{mccCode,jdbcType=VARCHAR},
+      RSK_NOOFTOPUPSALLOWED = #{rskNooftopupsallowed,jdbcType=DECIMAL},
+      RSK_MAXTOPUPLIMIT = #{rskMaxtopuplimit,jdbcType=DECIMAL},
+      RSK_TRANXTYPEALLOWED = #{rskTranxtypeallowed,jdbcType=CHAR},
+      ACC_TOPUPTRANXFEE = #{accTopuptranxfee,jdbcType=DECIMAL},
+      ACC_TOPUPFEEPAYABLE = #{accTopupfeepayable,jdbcType=DECIMAL},
+      ACC_MERCHANTBANK = #{accMerchantbank,jdbcType=VARCHAR},
+      ACC_BANKCODE = #{accBankcode,jdbcType=VARCHAR},
+      ACC_BRANCHCODE = #{accBranchcode,jdbcType=VARCHAR},
+      ACC_ACCOUNTNO = #{accAccountno,jdbcType=VARCHAR},
+      ACC_ACCOUNTNAME = #{accAccountname,jdbcType=VARCHAR},
+      ACC_PAYMENTDAYS = #{accPaymentdays,jdbcType=DECIMAL},
+      LAST_PAYMENT_DATE = #{lastPaymentDate,jdbcType=TIMESTAMP},
+      FORCE_PAYMENT = #{forcePayment,jdbcType=CHAR},
+      ACC_FORCEPAYMENTFEE = #{accForcepaymentfee,jdbcType=DECIMAL},
+      SETTLEMET_DAYS = #{settlemetDays,jdbcType=DECIMAL},
+      LAST_SETTLEMET_DATE = #{lastSettlemetDate,jdbcType=TIMESTAMP},
+      ACC_SALEMDR = #{accSalemdr,jdbcType=DECIMAL},
+      ACC_ACQBANK = #{accAcqbank,jdbcType=VARCHAR},
+      TRP_PAYMENT = #{trpPayment,jdbcType=VARCHAR},
+      TRP_TOPUP = #{trpTopup,jdbcType=VARCHAR},
+      CONTACT_MOBILE = #{contactMobile,jdbcType=VARCHAR},
+      MAIL_ADDRESS_1 = #{mailAddress1,jdbcType=VARCHAR},
+      MAIL_ADDRESS_2 = #{mailAddress2,jdbcType=VARCHAR},
+      MAIL_COUNTRY = #{mailCountry,jdbcType=VARCHAR},
+      MAIL_POSTAL_CODE = #{mailPostalCode,jdbcType=VARCHAR},
+      EZ_AGENT_ID = #{ezAgentId,jdbcType=DECIMAL},
+      ACC_SALEMDR_TYPE = #{accSalemdrType,jdbcType=CHAR},
+      ACC_TOPUPFEE_TYPE = #{accTopupfeeType,jdbcType=CHAR},
+      DISCOUNT_SETTLEMENT = #{discountSettlement,jdbcType=CHAR},
+      VACC_BALANCE = #{vaccBalance,jdbcType=DECIMAL},
+      VACC_CHECKPOINT = #{vaccCheckpoint,jdbcType=DECIMAL},
+      TOPUP_SETTLEMENT = #{topupSettlement,jdbcType=CHAR},
+      VACC_LAST_CREDIT = #{vaccLastCredit,jdbcType=TIMESTAMP},
+      VACC_LAST_DEBIT = #{vaccLastDebit,jdbcType=TIMESTAMP},
+      VACC_TRANSFER_CHARGE = #{vaccTransferCharge,jdbcType=DECIMAL},
+      ACC_RETAIL_TOPUPTRANXFEE = #{accRetailTopuptranxfee,jdbcType=DECIMAL},
+      ACC_RETAIL_TOPUPFEEPAYABLE = #{accRetailTopupfeepayable,jdbcType=DECIMAL},
+      STOREFRONT_NAME = #{storefrontName,jdbcType=VARCHAR},
+      NGFS_DEBIT = #{ngfsDebit,jdbcType=CHAR},
+      NGFS_DEBIT_DAYS = #{ngfsDebitDays,jdbcType=DECIMAL},
+      RUV_CREDIT_DAYS = #{ruvCreditDays,jdbcType=DECIMAL},
+      RUV_CREDIT = #{ruvCredit,jdbcType=CHAR}
+    where MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
+  </update>
+    <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+  <select id="getMCCByMerchantId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT MERCHANT_NO,MERCHANT_NAME,MCC_CODE
+        FROM MERCHANT
+         where MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
+    </select>
+    
+    <select id="getMerchantNameByMerchantId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT MERCHANT_NAME,MERCHANT_NO
+        FROM MERCHANT
+         where MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
+    </select>
+</mapper>

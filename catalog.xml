@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog" prefer="system">
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/EzLinkService/Reciept.wsdl" uri="src/conf/xml-resources/web-services/RecieptRequestService/wsdl/Reciept.wsdl"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/EzLinkService/RecieptRequest.xsd" uri="src/conf/xml-resources/web-services/RecieptRequestService/wsdl/RecieptRequest.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/EzLinkService/RecieptResponse.xsd" uri="src/conf/xml-resources/web-services/RecieptRequestService/wsdl/RecieptResponse.xsd"/>
+    <nextCatalog catalog="nbproject/private/retriever/catalog.xml"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/EzLinkService/DebitCommand.wsdl" uri="src/conf/xml-resources/web-services/DebitCommandRequestService/wsdl/DebitCommand.wsdl"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/EzLinkService/DebitCommandRequest.xsd" uri="src/conf/xml-resources/web-services/DebitCommandRequestService/wsdl/DebitCommandRequest.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/EzLinkService/DebitCommandResponse.xsd" uri="src/conf/xml-resources/web-services/DebitCommandRequestService/wsdl/DebitCommandResponse.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/HelloService.wsdl" uri="src/conf/xml-resources/web-services/HElloService/wsdl/HelloService.wsdl"/>
+    <system systemId="file:/E:/TempratureService.wsdl" uri="src/conf/xml-resources/web-services/TempService/wsdl/TempratureService.wsdl"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/WSDls/TranxHistory.wsdl" uri="src/conf/xml-resources/web-services/TranxHistoryService/wsdl/TranxHistory.wsdl"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/WSDls/TranxHistoryRequest.xsd" uri="src/conf/xml-resources/web-services/TranxHistoryService/wsdl/TranxHistoryRequest.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/WSDls/TranxHistoryResponse.xsd" uri="src/conf/xml-resources/web-services/TranxHistoryService/wsdl/TranxHistoryResponse.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/EzLinkTranxHistoryWSDL/TranxHistory.wsdl" uri="src/conf/xml-resources/web-services/TranxHistoryRequestService/wsdl/TranxHistory.wsdl"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/EzLinkTranxHistoryWSDL/TranxHistoryRequest.xsd" uri="src/conf/xml-resources/web-services/TranxHistoryRequestService/wsdl/TranxHistoryRequest.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/EzLinkTranxHistoryWSDL/TranxHistoryResponse.xsd" uri="src/conf/xml-resources/web-services/TranxHistoryRequestService/wsdl/TranxHistoryResponse.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/NewEzLinkWebServiceWSDL/NewEzLinkWebServiceWSDL/TranxHistory/TranxHistory.wsdl" uri="src/conf/xml-resources/web-services/TranxHistoryRequestService/wsdl/TranxHistory.wsdl"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/NewEzLinkWebServiceWSDL/NewEzLinkWebServiceWSDL/TranxHistory/TranxHistoryRequest.xsd" uri="src/conf/xml-resources/web-services/TranxHistoryRequestService/wsdl/TranxHistoryRequest.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/NewEzLinkWebServiceWSDL/NewEzLinkWebServiceWSDL/TranxHistory/TranxHistoryResponse.xsd" uri="src/conf/xml-resources/web-services/TranxHistoryRequestService/wsdl/TranxHistoryResponse.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/NewEzLinkWebServiceWSDL/NewEzLinkWebServiceWSDL/RecieptRequestService/wsdl/Reciept.wsdl" uri="src/conf/xml-resources/web-services/RecieptRequestService/wsdl/Reciept.wsdl"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/NewEzLinkWebServiceWSDL/NewEzLinkWebServiceWSDL/RecieptRequestService/wsdl/RecieptRequest.xsd" uri="src/conf/xml-resources/web-services/RecieptRequestService/wsdl/RecieptRequest.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/NewEzLinkWebServiceWSDL/NewEzLinkWebServiceWSDL/RecieptRequestService/wsdl/RecieptResponse.xsd" uri="src/conf/xml-resources/web-services/RecieptRequestService/wsdl/RecieptResponse.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/NewEzLinkWebServiceWSDL/NewEzLinkWebServiceWSDL/DebitCommandRequestService/wsdl/DebitCommand.wsdl" uri="src/conf/xml-resources/web-services/DebitCommandRequestService/wsdl/DebitCommand.wsdl"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/NewEzLinkWebServiceWSDL/NewEzLinkWebServiceWSDL/DebitCommandRequestService/wsdl/DebitCommandRequest.xsd" uri="src/conf/xml-resources/web-services/DebitCommandRequestService/wsdl/DebitCommandRequest.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/NewEzLinkWebServiceWSDL/NewEzLinkWebServiceWSDL/DebitCommandRequestService/wsdl/DebitCommandResponse.xsd" uri="src/conf/xml-resources/web-services/DebitCommandRequestService/wsdl/DebitCommandResponse.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/WSDL/TranxDeatils.wsdl" uri="src/conf/xml-resources/web-services/TranxDetailService/wsdl/TranxDeatils.wsdl"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/WSDL/TranxDeatilsRequest.xsd" uri="src/conf/xml-resources/web-services/TranxDetailsService/wsdl/TranxDeatilsRequest.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/WSDL/TranxDeatilsResponse.xsd" uri="src/conf/xml-resources/web-services/TranxDetailsService/wsdl/TranxDeatilsResponse.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/WSDL/TranxDetails.wsdl" uri="src/conf/xml-resources/web-services/TranxDetailsService/wsdl/TranxDetails.wsdl"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/WSDL/TranxDetailsRequest.xsd" uri="src/conf/xml-resources/web-services/TranxDetailsService/wsdl/TranxDetailsRequest.xsd"/>
+    <system systemId="file:/C:/Users/WCCTTI-JANAHAN/Desktop/WSDL/TranxDetailsResponse.xsd" uri="src/conf/xml-resources/web-services/TranxDetailsService/wsdl/TranxDetailsResponse.xsd"/>
+</catalog>

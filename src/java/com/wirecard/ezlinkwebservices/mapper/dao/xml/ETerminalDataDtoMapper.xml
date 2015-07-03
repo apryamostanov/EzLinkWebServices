@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wirecard.ezlinkwebservices.mapperdao.ETerminalDataDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.wirecard.ezlinkwebservices.dto.ETerminalDataDto" >
+    <id column="SNO" property="sno" jdbcType="VARCHAR" />
+    <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
+    <result column="MERCHANT_TRANX_REF_NO" property="merchantTranxRefNo" jdbcType="VARCHAR" />
+    <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
+    <result column="CAN" property="can" jdbcType="VARCHAR" />
+    <result column="TERMINAL_RND_NO" property="terminalRndNo" jdbcType="VARCHAR" />
+    <result column="CARD_RND_NO" property="cardRndNo" jdbcType="VARCHAR" />
+    <result column="DEBIT_CMD" property="debitCmd" jdbcType="VARCHAR" />
+    <result column="TERMINAL_SESSION_KEY" property="terminalSessionKey" jdbcType="VARCHAR" />
+    <result column="RECIEPT_SESSION_KEY" property="recieptSessionKey" jdbcType="VARCHAR" />
+    <result column="TERMINAL_COUNTER" property="terminalCounter" jdbcType="DECIMAL" />
+    <result column="HOST_COUNTER" property="hostCounter" jdbcType="DECIMAL" />
+    <result column="RECIEPT_DATA" property="recieptData" jdbcType="VARCHAR" />
+    <result column="UPDATED_BY" property="updatedBy" jdbcType="VARCHAR" />
+    <result column="UPDATED_DATE" property="updatedDate" jdbcType="TIMESTAMP" />
+    <result column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
+    <result column="HOST_REF_NO" property="hostRefNo" jdbcType="VARCHAR" />
+    <result column="PURSE_DATA" property="purseData" jdbcType="VARCHAR" />
+    <result column="TRANXLOGID" property="tranxlogId" jdbcType="VARCHAR" />
+    <result column="DEBIT_SESSION_KEY" property="debitSessionKey" jdbcType="VARCHAR" />
+    <result column="EZLINK_STRING" property="ezLinkString" jdbcType="VARCHAR" />
+    <result column="DECRYPTED_RECIEPT_DATA" property="decryptedRecieptData" jdbcType="VARCHAR" />
+    <result column="DECRYPT_RECEIPT_STATUS" property="decryptReceiptStatus" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    SNO, ORDER_NO, MERCHANT_TRANX_REF_NO, AMOUNT, CAN, TERMINAL_RND_NO, CARD_RND_NO, 
+    DEBIT_CMD, TERMINAL_SESSION_KEY, RECIEPT_SESSION_KEY, TERMINAL_COUNTER, HOST_COUNTER, 
+    RECIEPT_DATA, UPDATED_BY, UPDATED_DATE, MERCHANT_NO, HOST_REF_NO, PURSE_DATA, TRANXLOGID,
+    DEBIT_SESSION_KEY, EZLINK_STRING, DECRYPTED_RECIEPT_DATA, DECRYPT_RECEIPT_STATUS
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 'false' as QUERYID,
+    <include refid="Base_Column_List" />
+    from EZLINK.ETERMINAL_DATA
+    where SNO = #{sno,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from EZLINK.ETERMINAL_DATA
+    where SNO = #{sno,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.ETerminalDataDto" >
+       <selectKey order="BEFORE" keyProperty="sno" resultType="String">
+   select SEQ_ETERMINAL_DATA.nextval from dual
+  </selectKey>
+    insert into EZLINK.ETERMINAL_DATA (SNO, ORDER_NO, MERCHANT_TRANX_REF_NO, 
+      AMOUNT, CAN, TERMINAL_RND_NO, 
+      CARD_RND_NO, DEBIT_CMD, TERMINAL_SESSION_KEY, 
+      RECIEPT_SESSION_KEY, TERMINAL_COUNTER, HOST_COUNTER, 
+      RECIEPT_DATA, UPDATED_BY, UPDATED_DATE, MERCHANT_NO, HOST_REF_NO, PURSE_DATA, TRANXLOGID, 
+      DEBIT_SESSION_KEY, EZLINK_STRING, DECRYPTED_RECIEPT_DATA, DECRYPT_RECEIPT_STATUS
+      )
+    values (#{sno,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{merchantTranxRefNo,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{can,jdbcType=VARCHAR}, #{terminalRndNo,jdbcType=VARCHAR}, 
+      #{cardRndNo,jdbcType=VARCHAR}, #{debitCmd,jdbcType=VARCHAR}, #{terminalSessionKey,jdbcType=VARCHAR}, 
+      #{recieptSessionKey,jdbcType=VARCHAR}, #{terminalCounter,jdbcType=DECIMAL}, #{hostCounter,jdbcType=DECIMAL}, 
+      #{recieptData,jdbcType=VARCHAR}, #{updatedBy,jdbcType=VARCHAR}, #{updatedDate,jdbcType=TIMESTAMP}, #{merchantNo,jdbcType=VARCHAR},
+      #{hostRefNo,jdbcType=VARCHAR},#{purseData,jdbcType=VARCHAR},#{tranxlogId,jdbcType=VARCHAR}, 
+      #{debitSessionKey,jdbcType=VARCHAR}, #{ezLinkString,jdbcType=VARCHAR}, #{decryptedRecieptData,jdbcType=VARCHAR}, #{decryptReceiptStatus,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.ETerminalDataDto" >
+    insert into EZLINK.ETERMINAL_DATA
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="sno != null" >
+        SNO,
+      </if>
+      <if test="orderNo != null" >
+        ORDER_NO,
+      </if>
+      <if test="merchantTranxRefNo != null" >
+        MERCHANT_TRANX_REF_NO,
+      </if>
+      <if test="amount != null" >
+        AMOUNT,
+      </if>
+      <if test="can != null" >
+        CAN,
+      </if>
+      <if test="terminalRndNo != null" >
+        TERMINAL_RND_NO,
+      </if>
+      <if test="cardRndNo != null" >
+        CARD_RND_NO,
+      </if>
+      <if test="debitCmd != null" >
+        DEBIT_CMD,
+      </if>
+      <if test="terminalSessionKey != null" >
+        TERMINAL_SESSION_KEY,
+      </if>
+      <if test="recieptSessionKey != null" >
+        RECIEPT_SESSION_KEY,
+      </if>
+      <if test="terminalCounter != null" >
+        TERMINAL_COUNTER,
+      </if>
+      <if test="hostCounter != null" >
+        HOST_COUNTER,
+      </if>
+      <if test="recieptData != null" >
+        RECIEPT_DATA,
+      </if>
+      <if test="updatedBy != null" >
+        UPDATED_BY,
+      </if>
+      <if test="updatedDate != null" >
+        UPDATED_DATE,
+      </if>
+      <if test="merchantNo != null" >
+        MERCHANT_NO,
+      </if>
+      <if test="hostRefNo != null" >
+        HOST_REF_NO,
+      </if>
+      <if test="purseData != null" >
+        PURSE_DATA,
+      </if>
+      <if test="tranxlogId != null" >
+        TRANXLOGID,
+      </if>
+      <if test="debitSessionKey != null" >
+        DEBIT_SESSION_KEY,
+      </if>
+      <if test="ezLinkString != null" >
+        EZLINK_STRING,
+      </if>
+      <if test="decryptedRecieptData != null" >
+        DECRYPTED_RECIEPT_DATA,
+      </if>
+      <if test="decryptReceiptStatus != null" >
+        DECRYPT_RECEIPT_STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="sno != null" >
+        #{sno,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantTranxRefNo != null" >
+        #{merchantTranxRefNo,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="can != null" >
+        #{can,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalRndNo != null" >
+        #{terminalRndNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardRndNo != null" >
+        #{cardRndNo,jdbcType=VARCHAR},
+      </if>
+      <if test="debitCmd != null" >
+        #{debitCmd,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalSessionKey != null" >
+        #{terminalSessionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="recieptSessionKey != null" >
+        #{recieptSessionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalCounter != null" >
+        #{terminalCounter,jdbcType=DECIMAL},
+      </if>
+      <if test="hostCounter != null" >
+        #{hostCounter,jdbcType=DECIMAL},
+      </if>
+      <if test="recieptData != null" >
+        #{recieptData,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedDate != null" >
+        #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+       <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="hostRefNo != null" >
+        #{hostRefNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purseData != null" >
+        #{purseData,jdbcType=VARCHAR},
+      </if>
+      <if test="tranxlogId != null" >
+        #{tranxlogId,jdbcType=VARCHAR},
+      </if>
+      <if test="debitSessionKey != null" >
+        #{debitSessionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="ezLinkString != null" >
+        #{ezLinkString,jdbcType=VARCHAR},
+      </if>
+      <if test="decryptedRecieptData != null" >
+        #{decryptedRecieptData,jdbcType=VARCHAR},
+      </if>
+      <if test="decryptReceiptStatus != null" >
+        #{decryptReceiptStatus,jdbcType=VARCHAR},
+      </if>
+      
+    </trim>
+  </insert>
+  <update id="updateETerminalDataBySNo" parameterType="com.wirecard.ezlinkwebservices.dto.ETerminalDataDto" >
+    update EZLINK.ETERMINAL_DATA
+    <set >
+      <if test="orderNo != null" >
+        ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="merchantTranxRefNo != null" >
+        MERCHANT_TRANX_REF_NO = #{merchantTranxRefNo,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        AMOUNT = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="can != null" >
+        CAN = #{can,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalRndNo != null" >
+        TERMINAL_RND_NO = #{terminalRndNo,jdbcType=VARCHAR},
+      </if>
+      <if test="cardRndNo != null" >
+        CARD_RND_NO = #{cardRndNo,jdbcType=VARCHAR},
+      </if>
+      <if test="debitCmd != null" >
+        DEBIT_CMD = #{debitCmd,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalSessionKey != null" >
+        TERMINAL_SESSION_KEY = #{terminalSessionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="recieptSessionKey != null" >
+        RECIEPT_SESSION_KEY = #{recieptSessionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="terminalCounter != null" >
+        TERMINAL_COUNTER = #{terminalCounter,jdbcType=DECIMAL},
+      </if>
+      <if test="hostCounter != null" >
+        HOST_COUNTER = #{hostCounter,jdbcType=DECIMAL},
+      </if>
+      <if test="recieptData != null" >
+        RECIEPT_DATA = #{recieptData,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedDate != null" >
+        UPDATED_DATE = #{updatedDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedDate != null" >
+        MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="hostRefNo != null" >
+        HOST_REF_NO = #{hostRefNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purseData != null" >
+        PURSE_DATA = #{purseData,jdbcType=VARCHAR},
+      </if>
+      <if test="tranxlogId != null" >
+        TRANXLOGID = #{tranxlogId,jdbcType=VARCHAR},
+      </if>
+      <if test="debitSessionKey != null" >
+        DEBIT_SESSION_KEY =  #{debitSessionKey,jdbcType=VARCHAR},
+      </if>
+      <if test="ezLinkString != null" >
+        EZLINK_STRING = #{ezLinkString,jdbcType=VARCHAR},
+      </if>
+      <if test="decryptedRecieptData != null" >
+        DECRYPTED_RECIEPT_DATA = #{decryptedRecieptData,jdbcType=VARCHAR},
+      </if>
+      <if test="decryptReceiptStatus != null" >
+        DECRYPT_RECEIPT_STATUS = #{decryptReceiptStatus,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where SNO = #{sno,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.wirecard.ezlinkwebservices.dto.ETerminalDataDto" >
+    update EZLINK.ETERMINAL_DATA
+    set ORDER_NO = #{orderNo,jdbcType=VARCHAR},
+      MERCHANT_TRANX_REF_NO = #{merchantTranxRefNo,jdbcType=VARCHAR},
+      AMOUNT = #{amount,jdbcType=DECIMAL},
+      CAN = #{can,jdbcType=VARCHAR},
+      TERMINAL_RND_NO = #{terminalRndNo,jdbcType=VARCHAR},
+      CARD_RND_NO = #{cardRndNo,jdbcType=VARCHAR},
+      DEBIT_CMD = #{debitCmd,jdbcType=VARCHAR},
+      TERMINAL_SESSION_KEY = #{terminalSessionKey,jdbcType=VARCHAR},
+      RECIEPT_SESSION_KEY = #{recieptSessionKey,jdbcType=VARCHAR},
+      TERMINAL_COUNTER = #{terminalCounter,jdbcType=DECIMAL},
+      HOST_COUNTER = #{hostCounter,jdbcType=DECIMAL},
+      RECIEPT_DATA = #{recieptData,jdbcType=VARCHAR},
+      UPDATED_BY = #{updatedBy,jdbcType=VARCHAR},
+      UPDATED_DATE = #{updatedDate,jdbcType=TIMESTAMP},
+      MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR},
+      HOST_REF_NO = #{hostRefNo,jdbcType=VARCHAR},
+      PURSE_DATA = #{purseData,jdbcType=VARCHAR},
+      TRANXLOGID = #{tranxlogId,jdbcType=VARCHAR},
+      DEBIT_SESSION_KEY =  #{debitSessionKey,jdbcType=VARCHAR},
+       EZLINK_STRING = #{ezLinkString,jdbcType=VARCHAR},
+      DECRYPTED_RECIEPT_DATA = #{decryptedRecieptData,jdbcType=VARCHAR},
+      DECRYPT_RECEIPT_STATUS = #{decryptReceiptStatus,jdbcType=VARCHAR},
+    where SNO = #{sno,jdbcType=VARCHAR}
+  </update>
+   <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+  <select id="isRecordAvailable"  resultMap="BaseResultMap">
+        SELECT *
+        FROM ETERMINAL_DATA
+         where 
+         MERCHANT_TRANX_REF_NO= #{merchantTranxRefNo,jdbcType=VARCHAR}
+         and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
+         and MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR}
+         
+    </select>
+    
+    <select id="isRepeatedMerchantTranxRefNo"  resultMap="BaseResultMap">
+        SELECT *
+        FROM ETERMINAL_DATA
+         where
+        MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR} 
+         and MERCHANT_TRANX_REF_NO= #{merchantTranxRefNo,jdbcType=VARCHAR}
+         and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
+         
+    </select>
+    
+    
+    <select id="getTranxLogIdByCan"  resultMap="BaseResultMap">
+        SELECT TRANXLOGID
+        FROM ETERMINAL_DATA
+         where
+        CAN= #{can,jdbcType=VARCHAR} 
+         
+         
+    </select>
+</mapper>

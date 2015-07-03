@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions 
+	name="Reciept" 
+	targetNamespace="http://ezlinkwebservices.com/service/Reciept"
+	xmlns="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+	xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns:tns="http://ezlinkwebservices.com/service/Reciept"
+	xmlns:ns0="http://ezlinkwebservices.com/service/Reciept/request"
+	xmlns:ns1="http://ezlinkwebservices.com/service/Reciept/response">
+	
+    <wsdl:types>
+        <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ezlinkwebservices.com/service/Reciept">
+            <xsd:import namespace = "http://ezlinkwebservices.com/service/Reciept/request" schemaLocation = "RecieptRequest.xsd"></xsd:import>
+            <xsd:import namespace = "http://ezlinkwebservices.com/service/Reciept/response" schemaLocation = "RecieptResponse.xsd"></xsd:import>
+			
+			<element name="RecieptFault" type="tns:RecieptFault" />
+			
+			<complexType name="RecieptFault">
+				<sequence>
+					<element name="faultInfo" type="xsd:string" />
+					<element name="message" type="xsd:string" />
+				</sequence>
+			</complexType>
+			
+			
+        </xsd:schema>
+    </wsdl:types>
+	
+    
+	
+	<wsdl:message name="RecieptRequest">
+        <wsdl:part name="parameters" element="ns0:EZLING_WS_REQ_ENV"/>
+    </wsdl:message>
+    <wsdl:message name="RecieptResponse">
+        <wsdl:part name="parameters" element="ns1:EZLING_WS_RES_ENV"/>
+    </wsdl:message>
+	
+	<message name="RecieptFault">
+		<part name="faultInfo" element="tns:RecieptFault" />
+	</message>
+	
+	
+    <wsdl:portType name="RecieptPortType">
+        
+		
+		 <wsdl:operation name="Reciept">
+            <wsdl:input name="RecieptRequest" message="tns:RecieptRequest"/>
+            <wsdl:output name="RecieptResponse" message="tns:RecieptResponse"/>
+			<fault message="tns:RecieptFault" name="RecieptFault"/>
+        </wsdl:operation>
+		
+    </wsdl:portType>
+	
+    <wsdl:binding name="RecieptSoap" type="tns:RecieptPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+        
+			
+			<wsdl:operation name="Reciept">
+			<soap:operation soapAction=""/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+			
+			<fault name="RecieptFault">
+				<soap:fault name="RecieptFault" use="literal" />
+			</fault>
+			</wsdl:operation>
+	</wsdl:binding>
+	
+		
+    <wsdl:service name="RecieptService">
+        <wsdl:port name="RecieptSoap" binding="tns:RecieptSoap">
+            <soap:address location="http://localhost:8083/ezlinkwebservices/Reciept/RecieptSoap"/>
+        </wsdl:port>
+    </wsdl:service>
+  
+</wsdl:definitions>

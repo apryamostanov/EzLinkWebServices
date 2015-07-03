@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!--
+        *** GENERATED FROM jax-ws.xml - DO NOT EDIT !                             ***
+        *** TO MODIFY wsimport options USE Web Service node -> Edit WS Attributes ***
+        *** TO CHANGE TARGETS GENERATED TO jaxws-build.xml COPY THOSE             ***
+        *** TARGETS TO ../build.xml AND MODIFY THAT FILE INSTEAD                  ***
+
+        --><project xmlns:xalan="http://xml.apache.org/xslt" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:jaxws="http://www.netbeans.org/ns/jax-ws/1">
+    <!--
+                ===================
+                JAX-WS WSGEN SECTION
+                ===================
+            -->
+    <!--
+                ===================
+                JAX-WS WSIMPORT SECTION
+                ===================
+            -->
+    <target name="wsimport-init" depends="init">
+        <fail if="${wsimport.bad.version}" message="WsImport ant task defined in the classpath ${j2ee.platform.wsimport.classpath} has a serious bug. See http://wiki.netbeans.org/MetroIssue for details."/>
+        <mkdir dir="${build.generated.sources.dir}/jax-ws"/>
+        <property name="j2ee.platform.wsimport.classpath" value="${libs.jaxws21.classpath}"/>
+        <taskdef name="wsimport" classname="com.sun.tools.ws.ant.WsImport">
+            <classpath path="${java.home}/../lib/tools.jar:${j2ee.platform.wsimport.classpath}:${javac.classpath}"/>
+        </taskdef>
+        <condition property="conf-dir" value="${conf.dir}/" else="">
+            <isset property="conf.dir"/>
+        </condition>
+    </target>
+    <target name="wsimport-service-DebitCommandRequestService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/service/DebitCommandRequestService"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/DebitCommandRequestService" destdir="${build.generated.dir}/jax-wsCache/service/DebitCommandRequestService" wsdl="${basedir}/${conf-dir}xml-resources/web-services/DebitCommandRequestService/wsdl/DebitCommand.wsdl" catalog="catalog.xml" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-services/DebitCommandRequestService/wsdl/DebitCommand.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/service/DebitCommandRequestService"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/service/DebitCommandRequestService">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.web.dir}/WEB-INF/wsdl/DebitCommandRequestService">
+            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/DebitCommandRequestService/wsdl/"/>
+        </copy>
+    </target>
+    <target name="wsimport-service-clean-DebitCommandRequestService" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/com/ezlinkwebservices/service/debitcommand"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/service/DebitCommandRequestService"/>
+    </target>
+    <target name="wsimport-service-RecieptRequestService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/service/RecieptRequestService"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/RecieptRequestService" destdir="${build.generated.dir}/jax-wsCache/service/RecieptRequestService" wsdl="${basedir}/${conf-dir}xml-resources/web-services/RecieptRequestService/wsdl/Reciept.wsdl" catalog="catalog.xml" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-services/RecieptRequestService/wsdl/Reciept.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/service/RecieptRequestService"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/service/RecieptRequestService">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.web.dir}/WEB-INF/wsdl/RecieptRequestService">
+            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/RecieptRequestService/wsdl/"/>
+        </copy>
+    </target>
+    <target name="wsimport-service-clean-RecieptRequestService" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/com/ezlinkwebservices/service/reciept"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/service/RecieptRequestService"/>
+    </target>
+    <target name="wsimport-service-TranxHistoryRequestService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/service/TranxHistoryRequestService"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/TranxHistoryRequestService" destdir="${build.generated.dir}/jax-wsCache/service/TranxHistoryRequestService" wsdl="${basedir}/${conf-dir}xml-resources/web-services/TranxHistoryRequestService/wsdl/TranxHistory.wsdl" catalog="catalog.xml" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-services/TranxHistoryRequestService/wsdl/TranxHistory.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/service/TranxHistoryRequestService"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/service/TranxHistoryRequestService">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.web.dir}/WEB-INF/wsdl/TranxHistoryRequestService">
+            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/TranxHistoryRequestService/wsdl/"/>
+        </copy>
+    </target>
+    <target name="wsimport-service-clean-TranxHistoryRequestService" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/com/ezlinkwebservices/service/tranxhistory"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/service/TranxHistoryRequestService"/>
+    </target>
+    <target name="wsimport-service-TranxDetailsService" depends="wsimport-init">
+        <mkdir dir="${build.generated.dir}/jax-wsCache/service/TranxDetailsService"/>
+        <wsimport sourcedestdir="${build.generated.dir}/jax-wsCache/service/TranxDetailsService" destdir="${build.generated.dir}/jax-wsCache/service/TranxDetailsService" wsdl="${basedir}/${conf-dir}xml-resources/web-services/TranxDetailsService/wsdl/TranxDetails.wsdl" catalog="catalog.xml" extension="true" verbose="true" fork="false" xnocompile="true" xendorsed="true">
+            <depends file="${basedir}/${conf-dir}xml-resources/web-services/TranxDetailsService/wsdl/TranxDetails.wsdl"/>
+            <produces dir="${build.generated.dir}/jax-wsCache/service/TranxDetailsService"/>
+        </wsimport>
+        <copy todir="${build.generated.sources.dir}/jax-ws">
+            <fileset dir="${build.generated.dir}/jax-wsCache/service/TranxDetailsService">
+                <include name="**/*.java"/>
+            </fileset>
+        </copy>
+        <copy todir="${build.web.dir}/WEB-INF/wsdl/TranxDetailsService">
+            <fileset dir="${basedir}/${conf-dir}xml-resources/web-services/TranxDetailsService/wsdl/"/>
+        </copy>
+    </target>
+    <target name="wsimport-service-clean-TranxDetailsService" depends="-init-project">
+        <delete dir="${build.generated.sources.dir}/jax-ws/com/ezlinkwebservices/service/tranxdetails"/>
+        <delete dir="${build.generated.dir}/jax-wsCache/service/TranxDetailsService"/>
+    </target>
+    <target name="wsimport-service-generate" depends="wsimport-service-DebitCommandRequestService, wsimport-service-RecieptRequestService, wsimport-service-TranxHistoryRequestService, wsimport-service-TranxDetailsService"/>
+</project>

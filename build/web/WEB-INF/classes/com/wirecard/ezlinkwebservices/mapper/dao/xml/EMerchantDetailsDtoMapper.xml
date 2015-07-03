@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wirecard.ezlinkwebservices.mapperdao.EMerchantDetailsDtoMapper" >
+  <resultMap id="BaseResultMap" type="com.wirecard.ezlinkwebservices.dto.EMerchantDetailsDto" >
+    <result column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
+    <result column="RETURN_URL" property="returnUrl" jdbcType="VARCHAR" />
+    <result column="IP_ADDRESS" property="ipAddress" jdbcType="VARCHAR" />
+    <result column="IP_ADDRESS_VAL" property="ipAddressVal" jdbcType="VARCHAR" />
+    <result column="BUSINESS_REFNO" property="businessRefno" jdbcType="VARCHAR" />
+    <result column="CHANNEL" property="channel" jdbcType="VARCHAR" />
+    <result column="USER_INFO" property="userInfo" jdbcType="VARCHAR" />
+    <result column="ACCESS_CODE" property="accessCode" jdbcType="VARCHAR" />
+    <result column="HASH_SECREAT_KEY" property="hashSecreatKey" jdbcType="VARCHAR" />
+    <result column="HASH_SECREAT_KEY_VAL" property="hashSecreatKeyVal" jdbcType="VARCHAR" />
+    <result column="ACCESS_CODE_SECREAT_KEY" property="accessCodeSecreatKey" jdbcType="VARCHAR" />
+    <result column="ACCESS_CODE_SECREAT_KEY_VAL" property="accessCodeSecreatKeyVal" jdbcType="VARCHAR" />
+    <result column="ACCESS_CODE_SECRET_SALT" property="accessCodeSecretSalt" jdbcType="VARCHAR" />
+    <result column="SECURITY_LEVEL" property="securityLevel" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.EMerchantDetailsDto" >
+    insert into EZLINK.EMERCHANT_DETAILS (MERCHANT_NO, RETURN_URL, IP_ADDRESS, 
+      IP_ADDRESS_VAL, BUSINESS_REFNO, CHANNEL, 
+      USER_INFO, ACCESS_CODE, HASH_SECREAT_KEY, 
+      HASH_SECREAT_KEY_VAL, ACCESS_CODE_SECREAT_KEY, 
+      ACCESS_CODE_SECREAT_KEY_VAL, ACCESS_CODE_SECRET_SALT,SECURITY_LEVEL
+      )
+    values (#{merchantNo,jdbcType=VARCHAR}, #{returnUrl,jdbcType=VARCHAR}, #{ipAddress,jdbcType=VARCHAR}, 
+      #{ipAddressVal,jdbcType=VARCHAR}, #{businessRefno,jdbcType=VARCHAR}, #{channel,jdbcType=VARCHAR}, 
+      #{userInfo,jdbcType=VARCHAR}, #{accessCode,jdbcType=VARCHAR}, #{hashSecreatKey,jdbcType=VARCHAR}, 
+      #{hashSecreatKeyVal,jdbcType=VARCHAR}, #{accessCodeSecreatKey,jdbcType=VARCHAR}, 
+      #{accessCodeSecreatKeyVal,jdbcType=VARCHAR}, #{accessCodeSecretSalt,jdbcType=VARCHAR}, #{securityLevel,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.EMerchantDetailsDto" >
+    insert into EZLINK.EMERCHANT_DETAILS
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="merchantNo != null" >
+        MERCHANT_NO,
+      </if>
+      <if test="returnUrl != null" >
+        RETURN_URL,
+      </if>
+      <if test="ipAddress != null" >
+        IP_ADDRESS,
+      </if>
+      <if test="ipAddressVal != null" >
+        IP_ADDRESS_VAL,
+      </if>
+      <if test="businessRefno != null" >
+        BUSINESS_REFNO,
+      </if>
+      <if test="channel != null" >
+        CHANNEL,
+      </if>
+      <if test="userInfo != null" >
+        USER_INFO,
+      </if>
+      <if test="accessCode != null" >
+        ACCESS_CODE,
+      </if>
+      <if test="hashSecreatKey != null" >
+        HASH_SECREAT_KEY,
+      </if>
+      <if test="hashSecreatKeyVal != null" >
+        HASH_SECREAT_KEY_VAL,
+      </if>
+      <if test="accessCodeSecreatKey != null" >
+        ACCESS_CODE_SECREAT_KEY,
+      </if>
+      <if test="accessCodeSecreatKeyVal != null" >
+        ACCESS_CODE_SECREAT_KEY_VAL,
+      </if>
+      <if test="accessCodeSecretSalt != null" >
+        ACCESS_CODE_SECRET_SALT,
+      </if>
+      <if test="securityLevel != null" >
+        SECURITY_LEVEL,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="merchantNo != null" >
+        #{merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="returnUrl != null" >
+        #{returnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddress != null" >
+        #{ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="ipAddressVal != null" >
+        #{ipAddressVal,jdbcType=VARCHAR},
+      </if>
+      <if test="businessRefno != null" >
+        #{businessRefno,jdbcType=VARCHAR},
+      </if>
+      <if test="channel != null" >
+        #{channel,jdbcType=VARCHAR},
+      </if>
+      <if test="userInfo != null" >
+        #{userInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="accessCode != null" >
+        #{accessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="hashSecreatKey != null" >
+        #{hashSecreatKey,jdbcType=VARCHAR},
+      </if>
+      <if test="hashSecreatKeyVal != null" >
+        #{hashSecreatKeyVal,jdbcType=VARCHAR},
+      </if>
+      <if test="accessCodeSecreatKey != null" >
+        #{accessCodeSecreatKey,jdbcType=VARCHAR},
+      </if>
+      <if test="accessCodeSecreatKeyVal != null" >
+        #{accessCodeSecreatKeyVal,jdbcType=VARCHAR},
+      </if>
+      <if test="accessCodeSecretSalt != null" >
+        #{accessCodeSecretSalt,jdbcType=VARCHAR},
+      </if>
+      <if test="securityLevel != null" >
+      #{securityLevel,jdbcType=VARCHAR}
+          </if>
+    </trim>
+  </insert>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update EZLINK.EMERCHANT_DETAILS
+    <set >
+      <if test="record.merchantNo != null" >
+        MERCHANT_NO = #{record.merchantNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.returnUrl != null" >
+        RETURN_URL = #{record.returnUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ipAddress != null" >
+        IP_ADDRESS = #{record.ipAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ipAddressVal != null" >
+        IP_ADDRESS_VAL = #{record.ipAddressVal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.businessRefno != null" >
+        BUSINESS_REFNO = #{record.businessRefno,jdbcType=VARCHAR},
+      </if>
+      <if test="record.channel != null" >
+        CHANNEL = #{record.channel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userInfo != null" >
+        USER_INFO = #{record.userInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessCode != null" >
+        ACCESS_CODE = #{record.accessCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hashSecreatKey != null" >
+        HASH_SECREAT_KEY = #{record.hashSecreatKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.hashSecreatKeyVal != null" >
+        HASH_SECREAT_KEY_VAL = #{record.hashSecreatKeyVal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessCodeSecreatKey != null" >
+        ACCESS_CODE_SECREAT_KEY = #{record.accessCodeSecreatKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessCodeSecreatKeyVal != null" >
+        ACCESS_CODE_SECREAT_KEY_VAL = #{record.accessCodeSecreatKeyVal,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accessCodeSecretSalt != null" >
+        ACCESS_CODE_SECRET_SALT = #{record.accessCodeSecretSalt,jdbcType=VARCHAR},
+      </if>
+      <if test="record.securityLevel != null" >
+        SECURITY_LEVEL = #{record.securityLevel,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update EZLINK.EMERCHANT_DETAILS
+    set MERCHANT_NO = #{record.merchantNo,jdbcType=VARCHAR},
+      RETURN_URL = #{record.returnUrl,jdbcType=VARCHAR},
+      IP_ADDRESS = #{record.ipAddress,jdbcType=VARCHAR},
+      IP_ADDRESS_VAL = #{record.ipAddressVal,jdbcType=VARCHAR},
+      BUSINESS_REFNO = #{record.businessRefno,jdbcType=VARCHAR},
+      CHANNEL = #{record.channel,jdbcType=VARCHAR},
+      USER_INFO = #{record.userInfo,jdbcType=VARCHAR},
+      ACCESS_CODE = #{record.accessCode,jdbcType=VARCHAR},
+      HASH_SECREAT_KEY = #{record.hashSecreatKey,jdbcType=VARCHAR},
+      HASH_SECREAT_KEY_VAL = #{record.hashSecreatKeyVal,jdbcType=VARCHAR},
+      ACCESS_CODE_SECREAT_KEY = #{record.accessCodeSecreatKey,jdbcType=VARCHAR},
+      ACCESS_CODE_SECREAT_KEY_VAL = #{record.accessCodeSecreatKeyVal,jdbcType=VARCHAR},
+      ACCESS_CODE_SECRET_SALT = #{record.accessCodeSecretSalt,jdbcType=VARCHAR},
+      SECURITY_LEVEL = #{record.securityLevel,jdbcType=VARCHAR} 
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  
+  <!-- +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++  -->
+  <select id="getMerchantByMerchantId" parameterType="java.lang.String" resultMap="BaseResultMap">
+        SELECT MERCHANT_NO,HASH_SECREAT_KEY,ACCESS_CODE,ACCESS_CODE_SECREAT_KEY,SECURITY_LEVEL,ACCESS_CODE_SECREAT_KEY_VAL,ACCESS_CODE_SECRET_SALT,RETURN_URL
+        FROM EMERCHANT_DETAILS
+         where MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
+    </select>
+</mapper>

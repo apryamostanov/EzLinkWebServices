@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<endpoints version="2.0" xmlns="http://java.sun.com/xml/ns/jax-ws/ri/runtime">
+  <endpoint implementation="com.wirecard.ezlinkwebservices.DebitCommandRequest.DebitCommandRequestService" name="DebitCommandService" url-pattern="/DebitCommandService"/>
+  <endpoint implementation="com.wirecard.ezlinkwebservices.RecieptRequest.RecieptRequestService" name="RecieptService" url-pattern="/RecieptService"/>
+  <endpoint implementation="com.wirecard.ezlinkwebservices.TranxHistoryRequest.TranxHistoryRequestService" name="TranxHistoryService" url-pattern="/TranxHistoryService"/>
+  <endpoint implementation="com.wirecard.ezlinkwebservices.TranxDetailsRequest.TranxDetailsService" name="TranxDetailsService" url-pattern="/TranxDetailsService"/>
+</endpoints>
