@@ -325,6 +325,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         objETerminalDataDto.setCardRndNo(CardRndNo);
         objETerminalDataDto.setPurseData(purseData);
         objETerminalDataDto.setTranxlogId(objETranxLogDto.getTranxlogid());
+        objETerminalDataDto.setDecryptReceiptStatus("N");
         //----------------------------------------------------------------------------------------------------
         /*
          //Updating tranxlog status D

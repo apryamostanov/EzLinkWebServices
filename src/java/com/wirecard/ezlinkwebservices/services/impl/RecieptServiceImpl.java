@@ -53,7 +53,7 @@ public class RecieptServiceImpl implements RecieptService {
 
         String merchantNo, merchantTranxRefNo, orderNo, cardNo, recieptData;
         String recieptReqErrorCode, recieptReqErrorErrorDesc;
-        String decryptedRecieptData = "";
+        String decryptedRecieptData;
 
         ETranxLogDto objETranxLogDto;
         EMerchantDetailsDto objEMerchantDetailsDto;
@@ -378,8 +378,6 @@ public class RecieptServiceImpl implements RecieptService {
         objETerminalDataDto.setUpdatedDate(updatedDate);
         objETerminalDataDto.setSno(objAvailableETerminalDataDto.getSno());
         objETerminalDataDto.setTranxlogId(objETranxLogDto.getTranxlogid());
-        objETerminalDataDto.setDecryptedRecieptData(decryptedRecieptData);
-        objETerminalDataDto.setDecryptReceiptStatus("N");
         try {
             result = objETerminalDataDtoMapper.updateETerminalDataBySNo(objETerminalDataDto);
             System.out.println(" Updation Result : " + result);
