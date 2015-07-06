@@ -45,8 +45,6 @@ public class DebitCommandServiceImpl implements DebitCommandService {
     ETerminalDataDtoMapper objETerminalDataDtoMapper;
     @Autowired
     ETerminalDataDto objETerminalDataDto;
-    
-   
 
     private static final org.apache.log4j.Logger ezlink = org.apache.log4j.Logger.getLogger(DebitCommandServiceImpl.class);
 
@@ -59,17 +57,17 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         String xorAmount;
         double amount;
         int result;
-        boolean debitTraxValidationFlag=false;
+        boolean debitTraxValidationFlag = false;
         ETranxLogDto objETranxLogDto;
         EMerchantDetailsDto objEMerchantDetailsDto;
         int hostRepeatedCounter = 0;
         List<ETerminalDataDto> ETerminalDataDtolist;
         Date updatedDate = new Date();
         ETerminalDataDto objAvailableETerminalDataDto;
-         ETerminalDataDto objTerminalDataFromTerminal;
-         TerminalUtil objTerminalUtil;
+        ETerminalDataDto objTerminalDataFromTerminal;
+        TerminalUtil objTerminalUtil;
         DebitCommandRes objDebitCommandRes = new DebitCommandRes();
-         
+
         //MerchantDtoMapper objMerchantDtoMapper=new MerchantDtoMapper(); 
         try {
             merchantNo = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getMERCHANTNO();
@@ -77,7 +75,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             orderNo = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getORDERNO();
             amount = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getAMOUNT().doubleValue();
             cardNo = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getCAN();
-            termRndNo=parameters.getEZLINGWSREQBODY().getDebitCommandReq().getTERMINALRANDOMNO();
+            termRndNo = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getTERMINALRANDOMNO();
             //termRndNo = "CF549C2B7520389C";
             CardRndNo = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getCARDRANDOMNO();
             purseData = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getPURSEDATA();
@@ -176,12 +174,11 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         }
         try {
             //Check transaction available in ETranxLog 
-            
+
             objETranxLogDto = objETranxLogDtoMapper.validateTransactionLog(merchantNo, merchantTranxRefNo, orderNo, amount);
-            
+
         } catch (Exception ex) {
-            
-            
+
             Logger.getLogger(DebitCommandServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
             ezlink.error(new Object(), ex);
@@ -219,9 +216,9 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             System.out.println("+++++++++++++++Response Code from DB : " + objETranxLogDto.getResponseCode());
             ezlink.info("++Transaction Status in DB ++: " + objETranxLogDto.getTranxStatus());
             ezlink.info("++Response Code in DB ++: " + objETranxLogDto.getResponseCode());
-            
-            debitTraxValidationFlag=TerminalUtil.ValidateDebitTransaction(objETranxLogDto);
-            
+
+            debitTraxValidationFlag = TerminalUtil.ValidateDebitTransaction(objETranxLogDto);
+
             if (!debitTraxValidationFlag) {
                 DebitCommandFault objDebitCommandFault = new DebitCommandFault();
                 objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE);
@@ -235,7 +232,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
 
                 throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
             }
-            
+
         }//Source ID WD
         else {
             //Source ID not 'WD'
@@ -247,47 +244,77 @@ public class DebitCommandServiceImpl implements DebitCommandService {
                 System.out.println("+++++++++++++++Response Code from DB : " + objETranxLogDto.getResponseCode());
                 ezlink.info("++Transaction Status in DB ++: " + objETranxLogDto.getTranxStatus());
                 ezlink.info("++Response Code in DB ++: " + objETranxLogDto.getResponseCode());
-                
-                debitTraxValidationFlag=TerminalUtil.ValidateDebitTransaction(objETranxLogDto);
-            if (!debitTraxValidationFlag) {
-                
-                insertFaiedTranxDetail(objETranxLogDto.getTranxlogid(), StringConstants.ResponseCode.TRANX_COMPLETED_ALREADY,StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE);
-            
-                
-                DebitCommandFault objDebitCommandFault = new DebitCommandFault();
-                objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE);
-                objDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE_INFO);
 
-                ezlink.info("\n-----DC--------EXCEPTION----------------------");
-                ezlink.info("Response sent from getDebitCommand : " + new Date());
-                ezlink.info("Status : " + objDebitCommandFault.getMessage());
-                ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
-                ezlink.info("\n---------DC---------EXCEPTION-----------------");
+                debitTraxValidationFlag = TerminalUtil.ValidateDebitTransaction(objETranxLogDto);
+                if (!debitTraxValidationFlag) {
 
-                throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
-            }
-            }
-            else{
-                //NOT WD but record not available in tranxlog table in our DB
-                objTerminalUtil=new TerminalUtil();
-                objETranxLogDto=objTerminalUtil.insertNonWDTransaction(merchantNo, merchantTranxRefNo, orderNo, amount);
-                if(null==objETranxLogDto){
-                    ezlink.info("\n-----NON WC--------TRANXLOG INSERTION FAILED------------");
-            DebitCommandFault objDebitCommandFault = new DebitCommandFault();
-            objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.DB_INSERTION_FAILED_MESSAGE);
-            objDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.DB_INSERTION_FAILED_MESSAGE_INFO);
+                    insertFaiedTranxDetail(objETranxLogDto.getTranxlogid(), StringConstants.ResponseCode.TRANX_COMPLETED_ALREADY, StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE);
 
-            ezlink.info("\n-------DC-----EXCEPTION-----------------------");
-            ezlink.info("Response sent from getDebitCommand : " + new Date());
-            ezlink.info("Status : " + objDebitCommandFault.getMessage());
-            ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
-            ezlink.info("\n--------DC------EXCEPTION---------------------");
+                    DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+                    objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE);
+                    objDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE_INFO);
 
-            throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
+                    ezlink.info("\n-----DC--------EXCEPTION----------------------");
+                    ezlink.info("Response sent from getDebitCommand : " + new Date());
+                    ezlink.info("Status : " + objDebitCommandFault.getMessage());
+                    ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+                    ezlink.info("\n---------DC---------EXCEPTION-----------------");
+
+                    throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
                 }
-            
+            } else {
+                //NOT WD but record not available in tranxlog table in our DB
+                objTerminalUtil = new TerminalUtil();
+                objETranxLogDto = objTerminalUtil.insertNonWDTransaction(merchantNo, merchantTranxRefNo, orderNo, amount);
+                if (null == objETranxLogDto) {
+                    ezlink.info("\n-----NON WC--------TRANXLOG INSERTION FAILED------------");
+                    DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+                    objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.DB_INSERTION_FAILED_MESSAGE);
+                    objDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.DB_INSERTION_FAILED_MESSAGE_INFO);
+
+                    ezlink.info("\n-------DC-----EXCEPTION-----------------------");
+                    ezlink.info("Response sent from getDebitCommand : " + new Date());
+                    ezlink.info("Status : " + objDebitCommandFault.getMessage());
+                    ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+                    ezlink.info("\n--------DC------EXCEPTION---------------------");
+
+                    throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
+                }
+
             }
         }
+
+        //--------------------------------------------------------------------------------------------------
+        //Checking get debit command time from when generating qrcode
+        try {
+            Date generateQrcode = objETranxLogDto.getDatetime();
+            Date timeout = new Date(generateQrcode.getTime() + 2 * 60 * 1000);
+            if (updatedDate.after(timeout)) {
+                objETranxLogDto.setDatetime(updatedDate);
+                objETranxLogDto.setResponseCode(StringConstants.ResponseCode.TIME_OUT);
+                result = objETranxLogDtoMapper.updateResponseCode(objETranxLogDto);
+                System.out.println(" tranxlog Updation Result : " + result);
+                if (result != 1) {
+                    DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+                    objDebitCommandFault.setMessage(StringConstants.Common.INSERTION_FAILED_MESSAGE);
+                    objDebitCommandFault.setFaultInfo(StringConstants.Common.INSERTION_FAILED_MESSAGE_INFO);
+
+                    ezlink.info("\n------DC------EXCEPTION-----------------------");
+                    ezlink.info("Response sent from getDebitCommand : " + new Date());
+                    ezlink.info("Status : " + objDebitCommandFault.getMessage());
+                    ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+                    ezlink.info("\n---------DC-------EXCEPTION-------------------");
+
+                    throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
+                }
+                return objDebitCommandRes;
+            }
+        } catch (DebitCommandFault_Exception e) {
+            throw e;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         try {
             //Repeated host Count
             objAvailableETerminalDataDto = objETerminalDataDtoMapper.isRepeatedMerchantTranxRefNo(merchantNo, merchantTranxRefNo, orderNo);
@@ -329,45 +356,45 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         //----------------------------------------------------------------------------------------------------
         /*
          //Updating tranxlog status D
-        try {
-            objETranxLogDto.setDatetime(updatedDate);
-            //objETranxLogDto.setResponseCode(StringConstants.ResponseCode.SUCCESS);
-            result = objETranxLogDtoMapper.updateDebitCommandStatus(objETranxLogDto);
-            System.out.println(" tranxlog Updation Result : " + result);
-            if (result == 0) {
-                DebitCommandFault objDebitCommandFault = new DebitCommandFault();
-                objDebitCommandFault.setMessage(StringConstants.Common.INSERTION_FAILED_MESSAGE);
-                objDebitCommandFault.setFaultInfo(StringConstants.Common.INSERTION_FAILED_MESSAGE_INFO);
+         try {
+         objETranxLogDto.setDatetime(updatedDate);
+         //objETranxLogDto.setResponseCode(StringConstants.ResponseCode.SUCCESS);
+         result = objETranxLogDtoMapper.updateDebitCommandStatus(objETranxLogDto);
+         System.out.println(" tranxlog Updation Result : " + result);
+         if (result == 0) {
+         DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+         objDebitCommandFault.setMessage(StringConstants.Common.INSERTION_FAILED_MESSAGE);
+         objDebitCommandFault.setFaultInfo(StringConstants.Common.INSERTION_FAILED_MESSAGE_INFO);
 
-                ezlink.info("\n------DC------EXCEPTION-----------------------");
-                ezlink.info("Response sent from getDebitCommand : " + new Date());
-                ezlink.info("Status : " + objDebitCommandFault.getMessage());
-                ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
-                ezlink.info("\n---------DC-------EXCEPTION-------------------");
+         ezlink.info("\n------DC------EXCEPTION-----------------------");
+         ezlink.info("Response sent from getDebitCommand : " + new Date());
+         ezlink.info("Status : " + objDebitCommandFault.getMessage());
+         ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+         ezlink.info("\n---------DC-------EXCEPTION-------------------");
 
-                throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
-            }
-        } catch (Exception e) {
-            DebitCommandFault objDebitCommandFault = new DebitCommandFault();
-            objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.DB_CONNECTION_ERROR_MESSAGE);
-            objDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.DB_CONNECTION_ERROR_MESSAGE_INFO);
-            e.printStackTrace();
-            ezlink.error(new Object(), e);
+         throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
+         }
+         } catch (Exception e) {
+         DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+         objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.DB_CONNECTION_ERROR_MESSAGE);
+         objDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.DB_CONNECTION_ERROR_MESSAGE_INFO);
+         e.printStackTrace();
+         ezlink.error(new Object(), e);
 
-            ezlink.info("\n-------DC-----EXCEPTION-----------------------");
-            ezlink.info("Response sent from getDebitCommand : " + new Date());
-            ezlink.info("Status : " + objDebitCommandFault.getMessage());
-            ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
-            ezlink.info("\n-------DC-------EXCEPTION---------------------");
+         ezlink.info("\n-------DC-----EXCEPTION-----------------------");
+         ezlink.info("Response sent from getDebitCommand : " + new Date());
+         ezlink.info("Status : " + objDebitCommandFault.getMessage());
+         ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+         ezlink.info("\n-------DC-------EXCEPTION---------------------");
 
-            throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
-        }
-        */
-        
+         throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
+         }
+         */
+
         //----------------------------------------------------------------------------------------------------
         try {
             //objETerminalDataDto = TerminalUtil.getDebitCommandFromTerminal(objETerminalDataDto);
-            
+
             SerialManager objSerialManager = new SerialManager();
             //String xorAmount="FFFFFE";
             BigDecimal beforeAmt = new BigDecimal(parameters.getEZLINGWSREQBODY().getDebitCommandReq().getAMOUNT().doubleValue()).setScale(2, RoundingMode.HALF_DOWN);
@@ -385,22 +412,21 @@ public class DebitCommandServiceImpl implements DebitCommandService {
 
             ezlink.info("\n-----DC----------START of Serial Manager--------------------");
             System.out.println("---------------START of Serial Manager -----------------------------------------------------------");
-            System.out.println("++++++++++TERMINAL RANDOM NO++++++++++++++++++++++++++++ : "+termRndNo);
-            ezlink.info("---------------TERMINAL RANDOM NO -----------: " +termRndNo );
-            long serialReqTime=System.currentTimeMillis();
-        System.out.println("++++++++SerialManager REQUEST time :+++++ "+serialReqTime);
-        synchronized(this){
-            objTerminalDataFromTerminal = objSerialManager.getDebitCmd(CardRndNo, termRndNo, xorAmount, purseData);
-        }
-            long serialResTime=System.currentTimeMillis();
-        System.out.println("+++++++SerialManager Response time :++++++++ "+serialResTime);
-        long timeTaken=serialResTime-serialReqTime;
-        System.out.println("+++++++++Time taken to Serve within SERIALMANAGER +++++++ : "+timeTaken);
-            if (null==objTerminalDataFromTerminal) {
-                
-             insertFaiedTranxDetail(objETranxLogDto.getTranxlogid(), StringConstants.ResponseCode.TERMINAL_CONNECTION_FAILED,StringConstants.ExceptionInfo.TERMINAL_CONNECTION_ERROR_MESSAGE);
+            System.out.println("++++++++++TERMINAL RANDOM NO++++++++++++++++++++++++++++ : " + termRndNo);
+            ezlink.info("---------------TERMINAL RANDOM NO -----------: " + termRndNo);
+            long serialReqTime = System.currentTimeMillis();
+            System.out.println("++++++++SerialManager REQUEST time :+++++ " + serialReqTime);
+            synchronized (this) {
+                objTerminalDataFromTerminal = objSerialManager.getDebitCmd(CardRndNo, termRndNo, xorAmount, purseData);
+            }
+            long serialResTime = System.currentTimeMillis();
+            System.out.println("+++++++SerialManager Response time :++++++++ " + serialResTime);
+            long timeTaken = serialResTime - serialReqTime;
+            System.out.println("+++++++++Time taken to Serve within SERIALMANAGER +++++++ : " + timeTaken);
+            if (null == objTerminalDataFromTerminal) {
 
-                
+                insertFaiedTranxDetail(objETranxLogDto.getTranxlogid(), StringConstants.ResponseCode.TERMINAL_CONNECTION_FAILED, StringConstants.ExceptionInfo.TERMINAL_CONNECTION_ERROR_MESSAGE);
+
                 System.out.println("---------------Not recieving Debit Command from terminal -----------");
                 ezlink.info("---------------Not recieving Debit Command from terminal -----------");
                 DebitCommandFault objDebitCommandFault = new DebitCommandFault();
@@ -426,7 +452,9 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             System.out.println("++++" + objETerminalDataDto.toString());
             ETerminalDataDtolist = objETerminalDataDtoMapper.isRecordAvailable(merchantNo, merchantTranxRefNo, orderNo);
             System.out.println("SIZE : " + ETerminalDataDtolist.size());
+            ezlink.info("\n---------------------------- Receipt_Data of Terminal---------------: " + objETerminalDataDto.getRecieptData());
             if (ETerminalDataDtolist.isEmpty()) {
+                objETerminalDataDto.setRecieptData(null);
                 result = objETerminalDataDtoMapper.insert(objETerminalDataDto);
                 System.out.println(" Insertion Result : " + result);
             } else {
@@ -434,13 +462,11 @@ public class DebitCommandServiceImpl implements DebitCommandService {
                 result = objETerminalDataDtoMapper.updateETerminalDataBySNo(objETerminalDataDto);
                 System.out.println(" Updation Result : " + result);
             }
-            
 
         } catch (Exception e) {
-            
- insertFaiedTranxDetail(objETranxLogDto.getTranxlogid(), StringConstants.ResponseCode.TERMINAL_CONNECTION_FAILED,StringConstants.ExceptionInfo.TERMINAL_CONNECTION_ERROR_MESSAGE);
 
-            
+            insertFaiedTranxDetail(objETranxLogDto.getTranxlogid(), StringConstants.ResponseCode.TERMINAL_CONNECTION_FAILED, StringConstants.ExceptionInfo.TERMINAL_CONNECTION_ERROR_MESSAGE);
+
             DebitCommandFault objDebitCommandFault = new DebitCommandFault();
             objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.TERMINAL_CONNECTION_ERROR_MESSAGE);
             objDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.TERMINAL_CONNECTION_ERROR_MESSAGE_INFO);
@@ -452,119 +478,79 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             ezlink.info("Status : " + objDebitCommandFault.getMessage());
             ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
             ezlink.info("\n-------DC-----EXCEPTION-----------------------");
-            
+
             //---------------------------------------------------------------------------------------------------
-        //Updating Terminal COnnection failed response code
-        try {
-            objETranxLogDto.setDatetime(updatedDate);
-            objETranxLogDto.setResponseCode(StringConstants.ResponseCode.TERMINAL_CONNECTION_FAILED);
-            result = objETranxLogDtoMapper.updateResponseCode(objETranxLogDto);
-            System.out.println(" tranxlog Updation Result : " + result);
-            if (result != 1) {
-                DebitCommandFault objTerminalFailedDebitCommandFault = new DebitCommandFault();
-                objTerminalFailedDebitCommandFault.setMessage(StringConstants.Common.INSERTION_FAILED_MESSAGE);
-                objTerminalFailedDebitCommandFault.setFaultInfo(StringConstants.Common.INSERTION_FAILED_MESSAGE_INFO);
+            //Updating Terminal COnnection failed response code
+            try {
+                objETranxLogDto.setDatetime(updatedDate);
+                objETranxLogDto.setResponseCode(StringConstants.ResponseCode.TERMINAL_CONNECTION_FAILED);
+                result = objETranxLogDtoMapper.updateResponseCode(objETranxLogDto);
+                System.out.println(" tranxlog Updation Result : " + result);
+                if (result != 1) {
+                    DebitCommandFault objTerminalFailedDebitCommandFault = new DebitCommandFault();
+                    objTerminalFailedDebitCommandFault.setMessage(StringConstants.Common.INSERTION_FAILED_MESSAGE);
+                    objTerminalFailedDebitCommandFault.setFaultInfo(StringConstants.Common.INSERTION_FAILED_MESSAGE_INFO);
 
-                ezlink.info("\n------DC------EXCEPTION-----------------------");
+                    ezlink.info("\n------DC------EXCEPTION-----------------------");
+                    ezlink.info("Response sent from getDebitCommand : " + new Date());
+                    ezlink.info("Status : " + objTerminalFailedDebitCommandFault.getMessage());
+                    ezlink.info("Remarks : " + objTerminalFailedDebitCommandFault.getFaultInfo());
+                    ezlink.info("\n---------DC-------EXCEPTION-------------------");
+
+                    throw new DebitCommandFault_Exception(objTerminalFailedDebitCommandFault.getMessage(), objTerminalFailedDebitCommandFault);
+                } else {
+                    objTerminalUtil = new TerminalUtil();
+                    if (result != 1) {
+                        DebitCommandFault objTranxDetailDebitCommandFault = new DebitCommandFault();
+                        objTranxDetailDebitCommandFault.setMessage(StringConstants.Common.INSERTION_FAILED_MESSAGE);
+                        objTranxDetailDebitCommandFault.setFaultInfo(StringConstants.Common.INSERTION_FAILED_MESSAGE_INFO);
+
+                        ezlink.info("\n------DC--TRANX DETAIL----EXCEPTION-----------------------");
+                        ezlink.info("Response sent from getDebitCommand : " + new Date());
+                        ezlink.info("Status : " + objDebitCommandFault.getMessage());
+                        ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+                        ezlink.info("\n---------DC-------EXCEPTION-------------------");
+
+                        throw new DebitCommandFault_Exception(objTranxDetailDebitCommandFault.getMessage(), objTranxDetailDebitCommandFault);
+                    }
+                }
+
+            } catch (DebitCommandFault_Exception ex) {
+                throw ex;
+            } catch (Exception ex) {
+                DebitCommandFault objSQLDebitCommandFault = new DebitCommandFault();
+                objSQLDebitCommandFault.setMessage(StringConstants.ExceptionInfo.DB_CONNECTION_ERROR_MESSAGE);
+                objSQLDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.DB_CONNECTION_ERROR_MESSAGE_INFO);
+                ex.printStackTrace();
+                ezlink.error(new Object(), ex);
+
+                ezlink.info("\n-------DC-----EXCEPTION-----------------------");
                 ezlink.info("Response sent from getDebitCommand : " + new Date());
-                ezlink.info("Status : " + objTerminalFailedDebitCommandFault.getMessage());
-                ezlink.info("Remarks : " + objTerminalFailedDebitCommandFault.getFaultInfo());
-                ezlink.info("\n---------DC-------EXCEPTION-------------------");
+                ezlink.info("Status : " + objSQLDebitCommandFault.getMessage());
+                ezlink.info("Remarks : " + objSQLDebitCommandFault.getFaultInfo());
+                ezlink.info("\n-------DC-------EXCEPTION---------------------");
 
-                throw new DebitCommandFault_Exception(objTerminalFailedDebitCommandFault.getMessage(), objTerminalFailedDebitCommandFault);
+                throw new DebitCommandFault_Exception(objSQLDebitCommandFault.getMessage(), objSQLDebitCommandFault);
             }
-            
-            else{
-            objTerminalUtil=new TerminalUtil();
-            if (result != 1) {
-            DebitCommandFault objTranxDetailDebitCommandFault = new DebitCommandFault();
-                objTranxDetailDebitCommandFault.setMessage(StringConstants.Common.INSERTION_FAILED_MESSAGE);
-                objTranxDetailDebitCommandFault.setFaultInfo(StringConstants.Common.INSERTION_FAILED_MESSAGE_INFO);
-
-                ezlink.info("\n------DC--TRANX DETAIL----EXCEPTION-----------------------");
-                ezlink.info("Response sent from getDebitCommand : " + new Date());
-                ezlink.info("Status : " + objDebitCommandFault.getMessage());
-                ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
-                ezlink.info("\n---------DC-------EXCEPTION-------------------");
-
-                throw new DebitCommandFault_Exception(objTranxDetailDebitCommandFault.getMessage(), objTranxDetailDebitCommandFault);
-            }
-            }
-            
-        }
-        
-        catch(DebitCommandFault_Exception ex) {
-            throw ex;
-        }
-                
-        catch (Exception ex) {
-            DebitCommandFault objSQLDebitCommandFault = new DebitCommandFault();
-            objSQLDebitCommandFault.setMessage(StringConstants.ExceptionInfo.DB_CONNECTION_ERROR_MESSAGE);
-            objSQLDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.DB_CONNECTION_ERROR_MESSAGE_INFO);
-            ex.printStackTrace();
-            ezlink.error(new Object(), ex);
-
-            ezlink.info("\n-------DC-----EXCEPTION-----------------------");
-            ezlink.info("Response sent from getDebitCommand : " + new Date());
-            ezlink.info("Status : " + objSQLDebitCommandFault.getMessage());
-            ezlink.info("Remarks : " + objSQLDebitCommandFault.getFaultInfo());
-            ezlink.info("\n-------DC-------EXCEPTION---------------------");
-
-            throw new DebitCommandFault_Exception(objSQLDebitCommandFault.getMessage(), objSQLDebitCommandFault);
-        }
 
             throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
         }
         //Transaction detail insertion failed
         if (result == 0) {
 
-                DebitCommandFault objDebitCommandFault = new DebitCommandFault();
-                objDebitCommandFault.setMessage(StringConstants.Common.INSERTION_FAILED_MESSAGE);
-                objDebitCommandFault.setFaultInfo(StringConstants.Common.INSERTION_FAILED_MESSAGE_INFO);
+            DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+            objDebitCommandFault.setMessage(StringConstants.Common.INSERTION_FAILED_MESSAGE);
+            objDebitCommandFault.setFaultInfo(StringConstants.Common.INSERTION_FAILED_MESSAGE_INFO);
 
-                ezlink.info("\n-----DC-------EXCEPTION-----------------------");
-                ezlink.info("Response sent from getDebitCommand : " + new Date());
-                ezlink.info("Status : " + objDebitCommandFault.getMessage());
-                ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
-                ezlink.info("\n-----DC--------EXCEPTION----------------------");
+            ezlink.info("\n-----DC-------EXCEPTION-----------------------");
+            ezlink.info("Response sent from getDebitCommand : " + new Date());
+            ezlink.info("Status : " + objDebitCommandFault.getMessage());
+            ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+            ezlink.info("\n-----DC--------EXCEPTION----------------------");
 
-                throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
-            }
-        
-        //--------------------------------------------------------------------------------------------------
-        //Checking get debit command time from when generating qrcode
-        try {
-            Date generateQrcode = objETranxLogDto.getDatetime();
-            Date timeout = new Date(generateQrcode.getTime() + 2*60*1000);
-            if (updatedDate.after(timeout)) {
-                objETranxLogDto.setDatetime(updatedDate);
-                objETranxLogDto.setResponseCode(StringConstants.ResponseCode.TIME_OUT);
-                result = objETranxLogDtoMapper.updateResponseCode(objETranxLogDto);
-                System.out.println(" tranxlog Updation Result : " + result);
-                if (result != 1) {
-                    DebitCommandFault objDebitCommandFault = new DebitCommandFault();
-                    objDebitCommandFault.setMessage(StringConstants.Common.INSERTION_FAILED_MESSAGE);
-                    objDebitCommandFault.setFaultInfo(StringConstants.Common.INSERTION_FAILED_MESSAGE_INFO);
-
-                    ezlink.info("\n------DC------EXCEPTION-----------------------");
-                    ezlink.info("Response sent from getDebitCommand : " + new Date());
-                    ezlink.info("Status : " + objDebitCommandFault.getMessage());
-                    ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
-                    ezlink.info("\n---------DC-------EXCEPTION-------------------");
-
-                    throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
-                }
-                return objDebitCommandRes;
-            }
+            throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
         }
-        
-        catch (DebitCommandFault_Exception e) {
-            throw e;
-        }
-        
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+
         //---------------------------------------------------------------------------------------------------
         //Updating success response code
         try {
@@ -584,9 +570,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
                 ezlink.info("\n---------DC-------EXCEPTION-------------------");
 
                 throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
-            }
-            
-            else {
+            } else {
                 objTerminalUtil = new TerminalUtil();
                 result = objTerminalUtil.insertTransactionDetail(objETranxLogDto.getTranxlogid(), StringConstants.Common.TRANX_TYPE_DEBIT, StringConstants.ResponseCode.SUCCESS, StringConstants.Common.STATUS_SUCCESS);
                 if (result != 1) {
@@ -603,15 +587,11 @@ public class DebitCommandServiceImpl implements DebitCommandService {
                     throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
                 }
             }
-           
-        }
-        
-        catch (DebitCommandFault_Exception e) {
+
+        } catch (DebitCommandFault_Exception e) {
             throw e;
-        }
-                
-        catch (Exception e) {
-            
+        } catch (Exception e) {
+
             DebitCommandFault objDebitCommandFault = new DebitCommandFault();
             objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.DB_CONNECTION_ERROR_MESSAGE);
             objDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.DB_CONNECTION_ERROR_MESSAGE_INFO);
@@ -641,20 +621,18 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         ezlink.info("\n-------DC-------RESPONSE---------------------");
         ezlink.info("\n-------DC-------PURSE DATA---------------" + purseData);
 
-                    result=objTerminalUtil.insertTransactionDetail(objETranxLogDto.getTranxlogid(), StringConstants.Common.TRANX_TYPE_DEBIT, StringConstants.ResponseCode.SUCCESS,StringConstants.Common.STATUS_SUCCESS);
+        result = objTerminalUtil.insertTransactionDetail(objETranxLogDto.getTranxlogid(), StringConstants.Common.TRANX_TYPE_DEBIT, StringConstants.ResponseCode.SUCCESS, StringConstants.Common.STATUS_SUCCESS);
 
-        
         return objDebitCommandRes;
     }
-    
-    
-    public void insertFaiedTranxDetail(String tranxLogId,String responceCode,String detail ){
-         TerminalUtil objTerminalUtil=new TerminalUtil();
-           int result=objTerminalUtil.insertTransactionDetail(tranxLogId, StringConstants.Common.TRANX_TYPE_DEBIT, responceCode,detail);
-           ezlink.info("\n-------DC-------Insert failed Tranx Details---------------------");
+
+    public void insertFaiedTranxDetail(String tranxLogId, String responceCode, String detail) {
+        TerminalUtil objTerminalUtil = new TerminalUtil();
+        int result = objTerminalUtil.insertTransactionDetail(tranxLogId, StringConstants.Common.TRANX_TYPE_DEBIT, responceCode, detail);
+        ezlink.info("\n-------DC-------Insert failed Tranx Details---------------------");
         ezlink.info("Failed Tranx Updated result : " + result);
-         ezlink.info("\n-------DC-------Insert failed Tranx Details---------------------");
-    
+        ezlink.info("\n-------DC-------Insert failed Tranx Details---------------------");
+
     }
 
 }

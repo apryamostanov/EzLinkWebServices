@@ -43,7 +43,7 @@ public class DebitCommandRequestService {
 
         objEZLINGWSRESBODY.setDebitCommandRes(objDebitCommandRes);
         
-        if(objDebitCommandRes.getDEBITCOMMAND().equals("") || objDebitCommandRes.getDEBITCOMMAND() == null) {
+        if(null == objDebitCommandRes.getDEBITCOMMAND() || objDebitCommandRes.getDEBITCOMMAND().equals("")) {
             objDebitCommandResError.setDCERRORCODE(StringConstants.ResponseCode.TIME_OUT);
             objDebitCommandResError.setDCERRORDESC(StringConstants.Common.TIME_OUT);
         } else {
