@@ -621,7 +621,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         ezlink.info("\n-------DC-------RESPONSE---------------------");
         ezlink.info("\n-------DC-------PURSE DATA---------------" + purseData);
 
-        result = objTerminalUtil.insertTransactionDetail(objETranxLogDto.getTranxlogid(), StringConstants.Common.TRANX_TYPE_DEBIT, StringConstants.ResponseCode.SUCCESS, StringConstants.Common.STATUS_SUCCESS);
+//        result = objTerminalUtil.insertTransactionDetail(objETranxLogDto.getTranxlogid(), StringConstants.Common.TRANX_TYPE_DEBIT, StringConstants.ResponseCode.SUCCESS, StringConstants.Common.STATUS_SUCCESS);
 
         return objDebitCommandRes;
     }
