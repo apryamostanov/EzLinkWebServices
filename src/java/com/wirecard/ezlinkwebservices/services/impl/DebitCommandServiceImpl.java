@@ -416,8 +416,14 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             ezlink.info("---------------TERMINAL RANDOM NO -----------: " + termRndNo);
             long serialReqTime = System.currentTimeMillis();
             System.out.println("++++++++SerialManager REQUEST time :+++++ " + serialReqTime);
+            
+            //Check autoload is enable or not and payment amount is greater than card balance
+            boolean autoload = false;
+            if((null != getALStatus(purseData) && getALStatus(purseData).equals("Enabled")) && amount > Double.parseDouble(getPurseBal(purseData)) ) {
+                autoload = true;
+            }
             synchronized (this) {
-                objTerminalDataFromTerminal = objSerialManager.getDebitCmd(CardRndNo, termRndNo, xorAmount, purseData);
+                objTerminalDataFromTerminal = objSerialManager.getDebitCmd(CardRndNo, termRndNo, xorAmount, purseData, autoload);
             }
             long serialResTime = System.currentTimeMillis();
             System.out.println("+++++++SerialManager Response time :++++++++ " + serialResTime);
@@ -443,6 +449,8 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             }
             System.out.println("---------------END of Serial Manager -----------------------------------------------------------");
             ezlink.info("\n-----DC----------END of Serial Manager--------------------");
+            
+            
             System.out.println("+++Debit Command ++++" + objTerminalDataFromTerminal.getDebitCmd());
             objETerminalDataDto.setDebitCmd(objTerminalDataFromTerminal.getDebitCmd());
             objETerminalDataDto.setTerminalSessionKey(objTerminalDataFromTerminal.getTerminalSessionKey());
@@ -635,4 +643,26 @@ public class DebitCommandServiceImpl implements DebitCommandService {
 
     }
 
+    public String getALStatus(String result)
+    {
+        byte byte0 = Byte.parseByte(result.substring(2, 4), 16);
+        if ((byte)(byte0 & 1) == 0)
+        {
+            return "N.A.";
+        }
+        if ((byte)(byte0 & 2) == 0)
+        {
+            return "Not Enabled";
+        } else
+        {
+            return "Enabled";
+        }
+    }
+    
+    public String getPurseBal(String result) {
+		String purseBal = result.substring(4, 10);
+		int balanceStr = Integer.parseInt(purseBal, 16);
+		BigDecimal balance = BigDecimal.valueOf((long) balanceStr, 2);
+		return String.valueOf(balance);
+	}
 }

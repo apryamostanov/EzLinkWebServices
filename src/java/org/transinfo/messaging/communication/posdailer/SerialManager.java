@@ -33,7 +33,7 @@ public class SerialManager {
         try {
 
             serialDemo = new SerialManager();
-            ETerminalDataDto objETerminalDataDto = serialDemo.getDebitCmd("DC7934737E93BE4F", "DC7934737E93BE4F", "FFFFFE", "0203000A820013881000130007177762B20D5307D50E3F3B24D01C4001FD1EFF75004E202556FBDA1E2088881C00A0FFFFFF2570016643544E3536323120550001000400005555000000000000000000000000000000000000000000000000AB273C2F13AFC9FB03F79059E20C3EC73BF7");
+            ETerminalDataDto objETerminalDataDto = serialDemo.getDebitCmd("DC7934737E93BE4F", "DC7934737E93BE4F", "FFFFFE", "0203000A820013881000130007177762B20D5307D50E3F3B24D01C4001FD1EFF75004E202556FBDA1E2088881C00A0FFFFFF2570016643544E3536323120550001000400005555000000000000000000000000000000000000000000000000AB273C2F13AFC9FB03F79059E20C3EC73BF7", false);
 
             //Commet this after testing with main method;
             //serialDemo.initConfig();
@@ -58,7 +58,7 @@ public class SerialManager {
 
     
     //public String getDebitCmd(String stCardRndNo, String stTerRndNo, String stAmt, String stPurse) throws Exception {
-      public ETerminalDataDto getDebitCmd(String stCardRndNo, String stTerRndNo, String stAmt, String stPurse) throws Exception {
+      public ETerminalDataDto getDebitCmd(String stCardRndNo, String stTerRndNo, String stAmt, String stPurse, boolean autoload) throws Exception {
           
           ETerminalDataDto objETerminalDataDto=new ETerminalDataDto();
 
@@ -80,6 +80,9 @@ public class SerialManager {
             //serialDemo.connection.sendMessage(ISOUtil.hex2byte("020079600037000002007024058000C10004164999770007848180000000000000011111011000100309020037003237303031393630313638313638313035323934202020000334343400063031313030320388"));
           
 //Debit command
+            String dbRequest = HeaderUtil.getReqHeader(stCardRndNo, stTerRndNo, stAmt, stPurse);
+            ezlink.info("---------------dbRequest=" + dbRequest+"-------------------");
+            System.out.println("---------------dbRequest=" + dbRequest+"-------------------");
             byte[] debitCommand = connection.sendMessage(ISOUtil.hex2byte(HeaderUtil.getReqHeader(stCardRndNo, stTerRndNo, stAmt, stPurse)));
             System.out.println("Debit Command=" + ISOUtil.hexString(debitCommand));
             ezlink.info("Debit Command= : " + ISOUtil.hexString(debitCommand));
@@ -148,7 +151,11 @@ public class SerialManager {
                 ezlink.info("strEzlinkString : " + strEzlinkString);
                 ezlink.info("\n--------SERIAL MANAGER-------RESPONSE--------------------");
 
-                strDebitCmd = "250315021403" + stTerRndNo + strActDebitCmd + strUserData;
+                if(autoload == true) {
+                    strDebitCmd = "250315011403" + stTerRndNo + strActDebitCmd + strUserData;
+                } else {
+                    strDebitCmd = "250315021403" + stTerRndNo + strActDebitCmd + strUserData;
+                }
                 System.out.println("strDebitCmd= " + strDebitCmd + "  Len  " + strDebitCmd.length());
                 ezlink.info("strDebitCmd= " + strDebitCmd + " Len : " + strDebitCmd.length());
                 
