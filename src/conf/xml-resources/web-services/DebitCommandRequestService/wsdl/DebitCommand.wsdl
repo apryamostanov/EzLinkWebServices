@@ -8,7 +8,7 @@
 	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	xmlns:tns="http://ezlinkwebservices.com/service/DebitCommand"
 	xmlns:ns0="http://ezlinkwebservices.com/service/DebitCommand/request"
-	xmlns:ns1="http://ezlinkwebservices.com/service/DebitCommand/response">
+	xmlns:ns1="http://ezlinkwebservices.com/service/DebitCommand/response" xmlns:wsp="http://www.w3.org/ns/ws-policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:sp="http://docs.oasis-open.org/ws-sx/ws-securitypolicy/200702">
 	
     <wsdl:types>
         <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://ezlinkwebservices.com/service/DebitCommand">
@@ -40,8 +40,6 @@
 	<message name="DebitCommandFault">
 		<part name="faultInfo" element="tns:DebitCommandFault" />
 	</message>
-	
-	
     <wsdl:portType name="DebitCommandPortType">
         
 		
@@ -50,7 +48,6 @@
             <wsdl:output name="DebitCommandResponse" message="tns:DebitCommandResponse"/>
 			<fault message="tns:DebitCommandFault" name="DebitCommandFault"/>
         </wsdl:operation>
-		
     </wsdl:portType>
 	
     <wsdl:binding name="DebitCommandSoap" type="tns:DebitCommandPortType">
@@ -70,7 +67,7 @@
 				<soap:fault name="DebitCommandFault" use="literal" />
 			</fault>
 			</wsdl:operation>
-	</wsdl:binding>
+    </wsdl:binding>
 	
 		
     <wsdl:service name="DebitCommandService">
@@ -78,5 +75,28 @@
             <soap:address location="http://localhost:8083/ezlinkwebservices/DebitCommand/DebitCommandSoap"/>
         </wsdl:port>
     </wsdl:service>
-  
+    <wsp:Policy wsu:Id="DebitCommandSoap_operation_Input_Policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:EncryptedParts>
+                    <sp:Body/>
+                </sp:EncryptedParts>
+                <sp:SignedParts>
+                    <sp:Body/>
+                </sp:SignedParts>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
+    <wsp:Policy wsu:Id="DebitCommandSoap_operation_Output_Policy">
+        <wsp:ExactlyOne>
+            <wsp:All>
+                <sp:EncryptedParts>
+                    <sp:Body/>
+                </sp:EncryptedParts>
+                <sp:SignedParts>
+                    <sp:Body/>
+                </sp:SignedParts>
+            </wsp:All>
+        </wsp:ExactlyOne>
+    </wsp:Policy>
 </wsdl:definitions>

@@ -62,7 +62,11 @@ public interface StringConstants {
         
         public final String XOR_FORMAT = "FFFFFF";
 
-        public final String TIME_OUT = "TIME OUT";
+        public final String TIME_OUT = "TRANSACTION TIME OUT";
+        public final String TIME_OUT_INFO = "TRANSACTION TIME OUT";
+        
+        public final String CARD_BLACK_LIST = "BLACKLISTED CARD";
+        public final String CARD_BLACK_LIST_INFO = "BLACKLISTED CARD";
     }
 
     public interface Header {

@@ -43,13 +43,9 @@ public class DebitCommandRequestService {
 
         objEZLINGWSRESBODY.setDebitCommandRes(objDebitCommandRes);
         
-        if(null == objDebitCommandRes.getDEBITCOMMAND() || objDebitCommandRes.getDEBITCOMMAND().equals("")) {
-            objDebitCommandResError.setDCERRORCODE(StringConstants.ResponseCode.TIME_OUT);
-            objDebitCommandResError.setDCERRORDESC(StringConstants.Common.TIME_OUT);
-        } else {
-            objDebitCommandResError.setDCERRORCODE(StringConstants.ResponseCode.SUCCESS);
-            objDebitCommandResError.setDCERRORDESC(StringConstants.ResponseCode.SUCCESS);
-        }
+        objDebitCommandResError.setDCERRORCODE(StringConstants.ResponseCode.SUCCESS);
+        objDebitCommandResError.setDCERRORDESC(StringConstants.ResponseCode.SUCCESS);
+        
         objEZLINGWSRESBODY.setDebitCommandResError(objDebitCommandResError);
         
         objEZLINGWSRESENV.setEZLINGWSHEADER(HeaderUtil.debitCommandResponseHeader(parameters));

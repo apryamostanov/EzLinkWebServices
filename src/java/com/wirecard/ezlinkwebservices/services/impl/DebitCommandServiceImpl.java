@@ -14,8 +14,10 @@ import com.wirecard.ezlinkwebservices.mapperdao.EMerchantDetailsDtoMapper;
 import com.wirecard.ezlinkwebservices.constants.StringConstants;
 import com.wirecard.ezlinkwebservices.dto.ETerminalDataDto;
 import com.wirecard.ezlinkwebservices.dto.ETranxLogDto;
+import com.wirecard.ezlinkwebservices.dto.ViewEZBlacklistDto;
 import com.wirecard.ezlinkwebservices.mapperdao.ETerminalDataDtoMapper;
 import com.wirecard.ezlinkwebservices.mapperdao.ETranxLogDtoMapper;
+import com.wirecard.ezlinkwebservices.mapperdao.ViewEZBlacklistDtoMapper;
 import com.wirecard.ezlinkwebservices.services.DebitCommandService;
 import com.wirecard.ezlinkwebservices.util.TerminalUtil;
 import java.math.BigDecimal;
@@ -45,6 +47,10 @@ public class DebitCommandServiceImpl implements DebitCommandService {
     ETerminalDataDtoMapper objETerminalDataDtoMapper;
     @Autowired
     ETerminalDataDto objETerminalDataDto;
+    @Autowired
+    ViewEZBlacklistDto objViewEZBlacklistDto;
+    @Autowired
+    ViewEZBlacklistDtoMapper objViewEZBlacklistDtoMapper;
 
     private static final org.apache.log4j.Logger ezlink = org.apache.log4j.Logger.getLogger(DebitCommandServiceImpl.class);
 
@@ -133,6 +139,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
 
             throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
         }
+
         if (objEMerchantDetailsDto == null) {
             DebitCommandFault objDebitCommandFault = new DebitCommandFault();
             objDebitCommandFault.setMessage(StringConstants.Common.NO_MERCHANT_AVAILABLE);
@@ -288,7 +295,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         //Checking get debit command time from when generating qrcode
         try {
             Date generateQrcode = objETranxLogDto.getDatetime();
-            Date timeout = new Date(generateQrcode.getTime() + 2 * 60 * 1000);
+            Date timeout = new Date(generateQrcode.getTime() + 4 * 60 * 1000);
             if (updatedDate.after(timeout)) {
                 objETranxLogDto.setDatetime(updatedDate);
                 objETranxLogDto.setResponseCode(StringConstants.ResponseCode.TIME_OUT);
@@ -307,12 +314,73 @@ public class DebitCommandServiceImpl implements DebitCommandService {
 
                     throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
                 }
-                return objDebitCommandRes;
+
+                DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+                objDebitCommandFault.setMessage(StringConstants.Common.TIME_OUT);
+                objDebitCommandFault.setFaultInfo(StringConstants.Common.TIME_OUT_INFO);
+
+                ezlink.info("\n------DC------EXCEPTION-----------------------");
+                ezlink.info("Response sent from getDebitCommand : " + new Date());
+                ezlink.info("Status : " + objDebitCommandFault.getMessage());
+                ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+                ezlink.info("\n---------DC-------EXCEPTION-------------------");
+
+                throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
             }
         } catch (DebitCommandFault_Exception e) {
             throw e;
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (Exception ex) {
+            Logger.getLogger(DebitCommandServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            ezlink.error(new Object(), ex);
+            DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+            objDebitCommandFault.setMessage(StringConstants.Common.CONNECTION_ISSUE_MESSAGE);
+            objDebitCommandFault.setFaultInfo(StringConstants.Common.CONNECTION_ISSUE_MESSAGE_INFO);
+
+            ezlink.info("\n-------DC-----EXCEPTION-----------------------");
+            ezlink.info("Response sent from getDebitCommand : " + new Date());
+            ezlink.info("Status : " + objDebitCommandFault.getMessage());
+            ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+            ezlink.info("\n--------DC------EXCEPTION---------------------");
+
+            throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
+        }
+
+        // Check black list card
+        try {
+            String bdc = getBDC(purseData);
+            objViewEZBlacklistDto = objViewEZBlacklistDtoMapper.isBlackList(cardNo, bdc);
+            if (objViewEZBlacklistDto != null) {
+                System.out.println("----CARD IS BLACKLIST----");
+                DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+                objDebitCommandFault.setMessage(StringConstants.Common.CARD_BLACK_LIST);
+                objDebitCommandFault.setFaultInfo(StringConstants.Common.CARD_BLACK_LIST);
+
+                ezlink.info("\n-------DC-----EXCEPTION-----------------------");
+                ezlink.info("Response sent from getDebitCommand : " + new Date());
+                ezlink.info("Status : " + objDebitCommandFault.getMessage());
+                ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+                ezlink.info("\n--------DC------EXCEPTION---------------------");
+
+                throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
+            }
+        } catch (DebitCommandFault_Exception e) {
+            throw e;
+        } catch (Exception ex) {
+            Logger.getLogger(DebitCommandServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
+            ezlink.error(new Object(), ex);
+            DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+            objDebitCommandFault.setMessage(StringConstants.Common.CONNECTION_ISSUE_MESSAGE);
+            objDebitCommandFault.setFaultInfo(StringConstants.Common.CONNECTION_ISSUE_MESSAGE_INFO);
+
+            ezlink.info("\n-------DC-----EXCEPTION-----------------------");
+            ezlink.info("Response sent from getDebitCommand : " + new Date());
+            ezlink.info("Status : " + objDebitCommandFault.getMessage());
+            ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+            ezlink.info("\n--------DC------EXCEPTION---------------------");
+
+            throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
         }
 
         try {
@@ -416,10 +484,10 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             ezlink.info("---------------TERMINAL RANDOM NO -----------: " + termRndNo);
             long serialReqTime = System.currentTimeMillis();
             System.out.println("++++++++SerialManager REQUEST time :+++++ " + serialReqTime);
-            
+
             //Check autoload is enable or not and payment amount is greater than card balance
             boolean autoload = false;
-            if((null != getALStatus(purseData) && getALStatus(purseData).equals("Enabled")) && amount > Double.parseDouble(getPurseBal(purseData)) ) {
+            if ((null != getALStatus(purseData) && getALStatus(purseData).equals("Enabled")) && amount > Double.parseDouble(getPurseBal(purseData))) {
                 autoload = true;
             }
             synchronized (this) {
@@ -449,8 +517,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             }
             System.out.println("---------------END of Serial Manager -----------------------------------------------------------");
             ezlink.info("\n-----DC----------END of Serial Manager--------------------");
-            
-            
+
             System.out.println("+++Debit Command ++++" + objTerminalDataFromTerminal.getDebitCmd());
             objETerminalDataDto.setDebitCmd(objTerminalDataFromTerminal.getDebitCmd());
             objETerminalDataDto.setTerminalSessionKey(objTerminalDataFromTerminal.getTerminalSessionKey());
@@ -630,7 +697,6 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         ezlink.info("\n-------DC-------PURSE DATA---------------" + purseData);
 
 //        result = objTerminalUtil.insertTransactionDetail(objETranxLogDto.getTranxlogid(), StringConstants.Common.TRANX_TYPE_DEBIT, StringConstants.ResponseCode.SUCCESS, StringConstants.Common.STATUS_SUCCESS);
-
         return objDebitCommandRes;
     }
 
@@ -643,26 +709,28 @@ public class DebitCommandServiceImpl implements DebitCommandService {
 
     }
 
-    public String getALStatus(String result)
-    {
+    public String getALStatus(String result) {
         byte byte0 = Byte.parseByte(result.substring(2, 4), 16);
-        if ((byte)(byte0 & 1) == 0)
-        {
+        if ((byte) (byte0 & 1) == 0) {
             return "N.A.";
         }
-        if ((byte)(byte0 & 2) == 0)
-        {
+        if ((byte) (byte0 & 2) == 0) {
             return "Not Enabled";
-        } else
-        {
+        } else {
             return "Enabled";
         }
     }
-    
+
     public String getPurseBal(String result) {
-		String purseBal = result.substring(4, 10);
-		int balanceStr = Integer.parseInt(purseBal, 16);
-		BigDecimal balance = BigDecimal.valueOf((long) balanceStr, 2);
-		return String.valueOf(balance);
-	}
+        String purseBal = result.substring(4, 10);
+        int balanceStr = Integer.parseInt(purseBal, 16);
+        BigDecimal balance = BigDecimal.valueOf((long) balanceStr, 2);
+        return String.valueOf(balance);
+    }
+
+    private String getBDC(String purseData) {
+        String reasonCode = purseData.substring(126, 128);
+        int bdc = Integer.parseInt(reasonCode, 16) & 0x03;
+        return String.valueOf(bdc);
+    }
 }
