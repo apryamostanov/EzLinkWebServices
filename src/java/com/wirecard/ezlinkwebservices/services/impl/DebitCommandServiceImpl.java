@@ -51,6 +51,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
     ViewEZBlacklistDto objViewEZBlacklistDto;
     @Autowired
     ViewEZBlacklistDtoMapper objViewEZBlacklistDtoMapper;
+    static String syncObj="synch";
 
     private static final org.apache.log4j.Logger ezlink = org.apache.log4j.Logger.getLogger(DebitCommandServiceImpl.class);
 
@@ -385,7 +386,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
 
         try {
             //Repeated host Count
-            objAvailableETerminalDataDto = objETerminalDataDtoMapper.isRepeatedMerchantTranxRefNo(merchantNo, merchantTranxRefNo, orderNo);
+            objAvailableETerminalDataDto = objETerminalDataDtoMapper.isRepeatedMerchantTranxRefNo(merchantNo, merchantTranxRefNo, orderNo, cardNo);
 
         } catch (Exception ex) {
             Logger.getLogger(DebitCommandServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -408,19 +409,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             hostRepeatedCounter++;
         }
 
-        objETerminalDataDto.setMerchantNo(merchantNo);
-        objETerminalDataDto.setCan(cardNo);
-        objETerminalDataDto.setOrderNo(orderNo);
-        objETerminalDataDto.setMerchantTranxRefNo(merchantTranxRefNo);
-        objETerminalDataDto.setHostCounter(hostRepeatedCounter);
-        objETerminalDataDto.setAmount(amount);
-        objETerminalDataDto.setUpdatedBy(StringConstants.Common.DBT_CMD_USER);
-        objETerminalDataDto.setUpdatedDate(updatedDate);
-        objETerminalDataDto.setTerminalRndNo(termRndNo);
-        objETerminalDataDto.setCardRndNo(CardRndNo);
-        objETerminalDataDto.setPurseData(purseData);
-        objETerminalDataDto.setTranxlogId(objETranxLogDto.getTranxlogid());
-        objETerminalDataDto.setDecryptReceiptStatus("N");
+        
         //----------------------------------------------------------------------------------------------------
         /*
          //Updating tranxlog status D
@@ -463,7 +452,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         try {
             //objETerminalDataDto = TerminalUtil.getDebitCommandFromTerminal(objETerminalDataDto);
 
-            SerialManager objSerialManager = new SerialManager();
+            
             //String xorAmount="FFFFFE";
             BigDecimal beforeAmt = new BigDecimal(parameters.getEZLINGWSREQBODY().getDebitCommandReq().getAMOUNT().doubleValue()).setScale(2, RoundingMode.HALF_DOWN);
             System.out.println("AMOUNT BEFORE : " + beforeAmt);
@@ -490,9 +479,55 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             if ((null != getALStatus(purseData) && getALStatus(purseData).equals("Enabled")) && amount > Double.parseDouble(getPurseBal(purseData))) {
                 autoload = true;
             }
-            synchronized (this) {
+            synchronized (syncObj) {
+                SerialManager objSerialManager = new SerialManager();
+                System.out.println("+++++++ Start In Synchornized");
+                ezlink.info("+++++++ Start In Synchornized");
                 objTerminalDataFromTerminal = objSerialManager.getDebitCmd(CardRndNo, termRndNo, xorAmount, purseData, autoload);
+                Thread.sleep(3000);
+                
+                System.out.println("+++++++ Finish In Synchornized");
+                ezlink.info("+++++++ Finish In Synchornized");
             }
+            
+            try {
+                    objETranxLogDto = objETranxLogDtoMapper.validateTransactionLog(merchantNo, merchantTranxRefNo, orderNo, amount);
+                    debitTraxValidationFlag = TerminalUtil.ValidateDebitTransaction(objETranxLogDto);
+                    if (!debitTraxValidationFlag) {
+                        DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+                        objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE);
+                        objDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE_INFO);
+
+                        ezlink.info("\n-----DC--------EXCEPTION----------------------");
+                        ezlink.info("Response sent from getDebitCommand : " + new Date());
+                        ezlink.info("Status : " + objDebitCommandFault.getMessage());
+                        ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+                        ezlink.info("\n---------DC---------EXCEPTION-----------------");
+
+                        throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
+                    }
+                } catch (DebitCommandFault_Exception e) {
+                    ezlink.info("----------DebitCommandFault_Exception xxxxx -----------");
+                    throw e;
+                     
+                } catch (Exception ex) {
+                    ezlink.info("----------Exception xxxxx111111111111 -----------");
+                    Logger.getLogger(DebitCommandServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
+                    ex.printStackTrace();
+                    ezlink.error(new Object(), ex);
+                    DebitCommandFault objDebitCommandFault = new DebitCommandFault();
+                    objDebitCommandFault.setMessage(StringConstants.Common.CONNECTION_ISSUE_MESSAGE);
+                    objDebitCommandFault.setFaultInfo(StringConstants.Common.CONNECTION_ISSUE_MESSAGE_INFO);
+
+                    ezlink.info("\n-------DC-----EXCEPTION-----------------------");
+                    ezlink.info("Response sent from getDebitCommand : " + new Date());
+                    ezlink.info("Status : " + objDebitCommandFault.getMessage());
+                    ezlink.info("Remarks : " + objDebitCommandFault.getFaultInfo());
+                    ezlink.info("\n--------DC------EXCEPTION---------------------");
+
+                    throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
+                }
+            
             long serialResTime = System.currentTimeMillis();
             System.out.println("+++++++SerialManager Response time :++++++++ " + serialResTime);
             long timeTaken = serialResTime - serialReqTime;
@@ -519,33 +554,63 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             ezlink.info("\n-----DC----------END of Serial Manager--------------------");
 
             System.out.println("+++Debit Command ++++" + objTerminalDataFromTerminal.getDebitCmd());
+            objETerminalDataDto.setMerchantNo(merchantNo);
+            objETerminalDataDto.setCan(cardNo);
+            objETerminalDataDto.setOrderNo(orderNo);
+            objETerminalDataDto.setMerchantTranxRefNo(merchantTranxRefNo);
+            objETerminalDataDto.setHostCounter(hostRepeatedCounter);
+            objETerminalDataDto.setAmount(amount);
+            objETerminalDataDto.setUpdatedBy(StringConstants.Common.DBT_CMD_USER);
+            objETerminalDataDto.setUpdatedDate(updatedDate);
+            objETerminalDataDto.setTerminalRndNo(termRndNo);
+            objETerminalDataDto.setCardRndNo(CardRndNo);
+            objETerminalDataDto.setPurseData(purseData);
+            objETerminalDataDto.setTranxlogId(objETranxLogDto.getTranxlogid());
+            objETerminalDataDto.setDecryptReceiptStatus("N");
             objETerminalDataDto.setDebitCmd(objTerminalDataFromTerminal.getDebitCmd());
             objETerminalDataDto.setTerminalSessionKey(objTerminalDataFromTerminal.getTerminalSessionKey());
             objETerminalDataDto.setDebitSessionKey(objTerminalDataFromTerminal.getDebitSessionKey());
             objETerminalDataDto.setEzLinkString(objTerminalDataFromTerminal.getEzLinkString());
 
             System.out.println("++++" + objETerminalDataDto.toString());
-            ETerminalDataDtolist = objETerminalDataDtoMapper.isRecordAvailable(merchantNo, merchantTranxRefNo, orderNo);
+            ezlink.info("++++" + objETerminalDataDto.toString());
+            ETerminalDataDtolist = objETerminalDataDtoMapper.isRecordAvailable(merchantNo, merchantTranxRefNo, orderNo, cardNo);
+            ezlink.info("\n+++++++++++++ ETerminalDataDtolist( " + ETerminalDataDtolist.isEmpty() +" / " + merchantTranxRefNo + ", " + orderNo + " )+++++++++++");
             System.out.println("SIZE : " + ETerminalDataDtolist.size());
+            ezlink.info("SIZE ETerminalDataDtolist: " + ETerminalDataDtolist.size());
             ezlink.info("\n---------------------------- Receipt_Data of Terminal---------------: " + objETerminalDataDto.getRecieptData());
-            if (ETerminalDataDtolist.isEmpty()) {
-                objETerminalDataDto.setRecieptData(null);
-                result = objETerminalDataDtoMapper.insert(objETerminalDataDto);
-                System.out.println(" Insertion Result : " + result);
-            } else {
+            if (ETerminalDataDtolist!=null && !ETerminalDataDtolist.isEmpty()) {
                 objETerminalDataDto.setSno(ETerminalDataDtolist.get(0).getSno());
+                ezlink.info("updateETerminalDataBySNo with merchantTranxRefNo: " +merchantTranxRefNo);
                 result = objETerminalDataDtoMapper.updateETerminalDataBySNo(objETerminalDataDto);
                 System.out.println(" Updation Result : " + result);
+                ezlink.info(" Updation Result : " + result);
+            } else {
+                objETerminalDataDto.setRecieptData(null);
+                ezlink.info("insertETerminalData with merchantTranxRefNo: " +merchantTranxRefNo);
+                result = objETerminalDataDtoMapper.insert(objETerminalDataDto);
+                System.out.println(" Insertion Result : " + result);
+                ezlink.info(" Insertion Result : " + result);
             }
 
-        } catch (Exception e) {
-
+        } 
+          catch (DebitCommandFault_Exception ex) {
+               ezlink.info("before in Tranx detail table details");
             insertFaiedTranxDetail(objETranxLogDto.getTranxlogid(), StringConstants.ResponseCode.TERMINAL_CONNECTION_FAILED, StringConstants.ExceptionInfo.TERMINAL_CONNECTION_ERROR_MESSAGE);
 
+                throw ex;
+            }
+        
+        catch (Exception e) {
+
+            ezlink.info("Insert  tranx details");
+            insertFaiedTranxDetail(objETranxLogDto.getTranxlogid(), StringConstants.ResponseCode.TERMINAL_CONNECTION_FAILED, StringConstants.ExceptionInfo.TERMINAL_CONNECTION_ERROR_MESSAGE);
+            
             DebitCommandFault objDebitCommandFault = new DebitCommandFault();
             objDebitCommandFault.setMessage(StringConstants.ExceptionInfo.TERMINAL_CONNECTION_ERROR_MESSAGE);
             objDebitCommandFault.setFaultInfo(StringConstants.ExceptionInfo.TERMINAL_CONNECTION_ERROR_MESSAGE_INFO);
-            e.printStackTrace();
+            
+            //e.printStackTrace();
             ezlink.error(new Object(), e);
 
             ezlink.info("\n------DC----EXCEPTION-------------------------");
@@ -609,7 +674,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             }
 
             throw new DebitCommandFault_Exception(objDebitCommandFault.getMessage(), objDebitCommandFault);
-        }
+             }
         //Transaction detail insertion failed
         if (result == 0) {
 
@@ -703,9 +768,9 @@ public class DebitCommandServiceImpl implements DebitCommandService {
     public void insertFaiedTranxDetail(String tranxLogId, String responceCode, String detail) {
         TerminalUtil objTerminalUtil = new TerminalUtil();
         int result = objTerminalUtil.insertTransactionDetail(tranxLogId, StringConstants.Common.TRANX_TYPE_DEBIT, responceCode, detail);
-        ezlink.info("\n-------DC-------Insert failed Tranx Details---------------------");
+        ezlink.info("\n-------DC-------Insert for failed Tranx Details---------------------");
         ezlink.info("Failed Tranx Updated result : " + result);
-        ezlink.info("\n-------DC-------Insert failed Tranx Details---------------------");
+        ezlink.info("\n-------DC-------Insert for failed Tranx Details---------------------");
 
     }
 

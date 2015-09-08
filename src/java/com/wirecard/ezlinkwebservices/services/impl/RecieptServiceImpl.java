@@ -233,8 +233,8 @@ public class RecieptServiceImpl implements RecieptService {
         }
         try {
             RecieptTraxValidationFlag = TerminalUtil.ValidateRecieptTransaction(objETranxLogDto);
-            /*
-             if (!RecieptTraxValidationFlag) {
+            
+             if (RecieptTraxValidationFlag) {
              RecieptFault objRecieptFault = new RecieptFault();
              objRecieptFault.setMessage(StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE);
              objRecieptFault.setFaultInfo(StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE_INFO);
@@ -247,10 +247,12 @@ public class RecieptServiceImpl implements RecieptService {
 
              throw new RecieptFault_Exception(objRecieptFault.getMessage(), objRecieptFault);
              }
-             */
+             
 
             //Repeated host Count
-            objAvailableETerminalDataDto = objETerminalDataDtoMapper.isRepeatedMerchantTranxRefNo(merchantNo, merchantTranxRefNo, orderNo);
+            objAvailableETerminalDataDto = objETerminalDataDtoMapper.isRepeatedMerchantTranxRefNo(merchantNo, merchantTranxRefNo, orderNo, cardNo);
+        } catch (RecieptFault_Exception e) {
+            throw e;
         } catch (Exception ex) {
 
             insertFaiedTranxDetail(objETranxLogDto.getTranxlogid(), StringConstants.ResponseCode.TRANX_COMPLETED_ALREADY, StringConstants.ExceptionInfo.TRANX_COMPLETED_MESSAGE);

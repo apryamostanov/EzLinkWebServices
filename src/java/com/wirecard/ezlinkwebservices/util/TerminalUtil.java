@@ -91,8 +91,8 @@ public class TerminalUtil {
     public static synchronized boolean ValidateRecieptTransaction(ETranxLogDto objETranxLogDto){
         if(   
                     (
-                    (StringConstants.Common.TRANX_STATUS_DEBIT.equalsIgnoreCase(objETranxLogDto.getTranxStatus())||
-                    (StringConstants.Common.TRANX_STATUS_RECIEPT.equalsIgnoreCase(objETranxLogDto.getTranxStatus()))
+                    (StringConstants.Common.TRANX_STATUS_RECIEPT.equalsIgnoreCase(objETranxLogDto.getTranxStatus())||
+                    (StringConstants.Common.TRANX_STATUS_SUCCESS.equalsIgnoreCase(objETranxLogDto.getTranxStatus()))
                     )
                     &&
                     

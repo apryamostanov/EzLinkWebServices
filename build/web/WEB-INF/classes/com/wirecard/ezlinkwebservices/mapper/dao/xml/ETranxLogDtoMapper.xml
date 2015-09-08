@@ -194,7 +194,8 @@
         MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR} 
         and MERCHANT_REFNO= #{merchantRefno,jdbcType=VARCHAR}
         and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
-        and TRANX_STATUS=  #{tranxStatus,jdbcType=VARCHAR}
+<!--        and TRANX_STATUS=  #{tranxStatus,jdbcType=VARCHAR}-->
+        and TRANX_STATUS in('Q','D')
         and RESPONSE_CODE in('00','zz')
     </update>
     <update id="updateRecieptDataStatus"  parameterType="com.wirecard.ezlinkwebservices.dto.ETranxLogDto">

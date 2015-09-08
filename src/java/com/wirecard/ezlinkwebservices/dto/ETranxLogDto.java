@@ -185,4 +185,13 @@ public class ETranxLogDto {
     public void setTranxStatus(String tranxStatus) {
         this.tranxStatus = tranxStatus;
     }
+
+    @Override
+    public String toString() {
+        return "ETranxLogDto{" + "tranxlogid=" + tranxlogid + ", datetime=" + datetime + ", merchantTranxDate=" + merchantTranxDate + ", version=" + version + ", tranxcode=" + tranxcode + ", merchantNo=" + merchantNo + ", merchantRefno=" + merchantRefno + ", orderNo=" + orderNo + ", orderInfo=" + orderInfo + ", amount=" + amount + ", currency=" + currency + ", securehashType=" + securehashType + ", responseCode=" + responseCode + ", approvalCode=" + approvalCode + ", rrn=" + rrn + ", channel=" + channel + ", mcc=" + mcc + ", tranxStatus=" + tranxStatus + '}';
+    }
+
+  
+    
+    
 }

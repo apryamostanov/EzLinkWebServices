@@ -19,6 +19,7 @@ public interface StringConstants {
         public final String TRANX_STATUS_DEBIT = "D";
         public final String TRANX_CODE_DEBIT = "DEB";
         public final String TRANX_STATUS_RECIEPT = "R";
+        public final String TRANX_STATUS_SUCCESS = "S";
         public final String TRANX_STATUS_QR = "Q";
         public final String TRANX_STATUS = "C";
         public final String VERSION = "1.0";

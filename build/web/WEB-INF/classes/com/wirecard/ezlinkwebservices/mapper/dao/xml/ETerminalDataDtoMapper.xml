@@ -314,6 +314,7 @@
          MERCHANT_TRANX_REF_NO= #{merchantTranxRefNo,jdbcType=VARCHAR}
          and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
          and MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR}
+         and CAN= #{cardNo,jdbcType=VARCHAR}
          
     </select>
     
@@ -324,7 +325,7 @@
         MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR} 
          and MERCHANT_TRANX_REF_NO= #{merchantTranxRefNo,jdbcType=VARCHAR}
          and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
-         
+         and CAN= #{cardNo,jdbcType=VARCHAR}
     </select>
     
     
