@@ -47,7 +47,7 @@
     </where>
   </sql>
   <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.EMerchantDetailsDto" >
-    insert into EZLINK.EMERCHANT_DETAILS (MERCHANT_NO, RETURN_URL, IP_ADDRESS, 
+    insert into EZDBMAN.EMERCHANT_DETAILS (MERCHANT_NO, RETURN_URL, IP_ADDRESS, 
       IP_ADDRESS_VAL, BUSINESS_REFNO, CHANNEL, 
       USER_INFO, ACCESS_CODE, HASH_SECREAT_KEY, 
       HASH_SECREAT_KEY_VAL, ACCESS_CODE_SECREAT_KEY, 
@@ -61,7 +61,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.EMerchantDetailsDto" >
-    insert into EZLINK.EMERCHANT_DETAILS
+    insert into EZDBMAN.EMERCHANT_DETAILS
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="merchantNo != null" >
         MERCHANT_NO,
@@ -152,7 +152,7 @@
     </trim>
   </insert>
   <update id="updateByExampleSelective" parameterType="map" >
-    update EZLINK.EMERCHANT_DETAILS
+    update EZDBMAN.EMERCHANT_DETAILS
     <set >
       <if test="record.merchantNo != null" >
         MERCHANT_NO = #{record.merchantNo,jdbcType=VARCHAR},
@@ -202,7 +202,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update EZLINK.EMERCHANT_DETAILS
+    update EZDBMAN.EMERCHANT_DETAILS
     set MERCHANT_NO = #{record.merchantNo,jdbcType=VARCHAR},
       RETURN_URL = #{record.returnUrl,jdbcType=VARCHAR},
       IP_ADDRESS = #{record.ipAddress,jdbcType=VARCHAR},

@@ -18,8 +18,6 @@ public class EErrorLogDto {
 
     private String merchantNo;
 
-    private String merchantRefno;
-
     private String orderNo;
 
     private String orderInfo;
@@ -88,14 +86,6 @@ public class EErrorLogDto {
 
     public void setMerchantNo(String merchantNo) {
         this.merchantNo = merchantNo;
-    }
-
-    public String getMerchantRefno() {
-        return merchantRefno;
-    }
-
-    public void setMerchantRefno(String merchantRefno) {
-        this.merchantRefno = merchantRefno;
     }
 
     public String getOrderNo() {

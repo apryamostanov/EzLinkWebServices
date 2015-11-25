@@ -8,8 +8,6 @@ public class ETerminalDataDto {
 
     private String orderNo;
 
-    private String merchantTranxRefNo;
-    
     private String merchantNo;
 
     private double amount;
@@ -64,14 +62,6 @@ public class ETerminalDataDto {
 
     public void setOrderNo(String orderNo) {
         this.orderNo = orderNo;
-    }
-
-    public String getMerchantTranxRefNo() {
-        return merchantTranxRefNo;
-    }
-
-    public void setMerchantTranxRefNo(String merchantTranxRefNo) {
-        this.merchantTranxRefNo = merchantTranxRefNo;
     }
 
     public double getAmount() {
@@ -236,7 +226,7 @@ public class ETerminalDataDto {
 
     @Override
     public String toString() {
-        return "ETerminalDataDto{" + "sno=" + sno + ", orderNo=" + orderNo + ", merchantTranxRefNo=" + merchantTranxRefNo + ", merchantNo=" + merchantNo + ", amount=" + amount + ", can=" + can + ", terminalRndNo=" + terminalRndNo + ", cardRndNo=" + cardRndNo + ", debitCmd=" + debitCmd + ", terminalSessionKey=" + terminalSessionKey + ", recieptSessionKey=" + recieptSessionKey + ", terminalCounter=" + terminalCounter + ", hostCounter=" + hostCounter + ", recieptData=" + recieptData + ", updatedBy=" + updatedBy + ", updatedDate=" + updatedDate + ", hostRefNo=" + hostRefNo + ", purseData=" + purseData + ", tranxlogId=" + tranxlogId + ", debitSessionKey=" + debitSessionKey + ", ezLinkString=" + ezLinkString + ", decryptedRecieptData=" + decryptedRecieptData + '}';
+        return "ETerminalDataDto{" + "sno=" + sno + ", orderNo=" + orderNo  + ", merchantNo=" + merchantNo + ", amount=" + amount + ", can=" + can + ", terminalRndNo=" + terminalRndNo + ", cardRndNo=" + cardRndNo + ", debitCmd=" + debitCmd + ", terminalSessionKey=" + terminalSessionKey + ", recieptSessionKey=" + recieptSessionKey + ", terminalCounter=" + terminalCounter + ", hostCounter=" + hostCounter + ", recieptData=" + recieptData + ", updatedBy=" + updatedBy + ", updatedDate=" + updatedDate + ", hostRefNo=" + hostRefNo + ", purseData=" + purseData + ", tranxlogId=" + tranxlogId + ", debitSessionKey=" + debitSessionKey + ", ezLinkString=" + ezLinkString + ", decryptedRecieptData=" + decryptedRecieptData + '}';
     }
     
     

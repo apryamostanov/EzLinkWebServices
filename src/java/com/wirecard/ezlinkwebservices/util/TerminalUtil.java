@@ -105,7 +105,7 @@ public class TerminalUtil {
             
     }
     
-    public synchronized ETranxLogDto insertNonWDTransaction(String merchantNo,String merchantTranxRefNo,String orderNo,double amount){
+    public synchronized ETranxLogDto insertNonWDTransaction(String merchantNo,String orderNo,double amount){
         
         Date objDate =new Date();
         int returnValue=0;
@@ -117,7 +117,7 @@ public class TerminalUtil {
         objETranxLogDto.setVersion(StringConstants.Common.VERSION);
         objETranxLogDto.setTranxcode(StringConstants.Common.TRANX_CODE_DEBIT);
         objETranxLogDto.setMerchantNo(merchantNo);
-        objETranxLogDto.setMerchantRefno(merchantTranxRefNo);
+        //objETranxLogDto.setMerchantRefno(merchantTranxRefNo);
         objETranxLogDto.setOrderNo(orderNo);
         objETranxLogDto.setOrderInfo("NON WD");
         objETranxLogDto.setAmount(amount);

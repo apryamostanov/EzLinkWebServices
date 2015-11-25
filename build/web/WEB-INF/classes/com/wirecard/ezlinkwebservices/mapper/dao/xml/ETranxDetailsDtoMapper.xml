@@ -12,7 +12,7 @@
   <selectKey order="BEFORE" keyProperty="sno" resultType="String">
    select SEQ_ETRANX_DETAILS.nextval from dual
   </selectKey>
-    insert into EZLINK.ETRANX_DETAILS (SNO, TRANXLOG_ID, TRANXTYPE, 
+    insert into EZDBMAN.ETRANX_DETAILS (SNO, TRANXLOG_ID, TRANXTYPE, 
       DATETIME, RESPONSE_CODE)
     values (#{sno,jdbcType=VARCHAR}, #{tranxlogId,jdbcType=VARCHAR}, #{tranxtype,jdbcType=VARCHAR}, 
        #{datetime,jdbcType=TIMESTAMP}, #{responseCode,jdbcType=VARCHAR})
@@ -20,7 +20,7 @@
   <!--
    #{details,jdbcType=VARCHAR}
   <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxDetailsDto" >
-    insert into EZLINK.ETRANX_DETAILS
+    insert into EZDBMAN.ETRANX_DETAILS
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="sno != null" >
         SNO,

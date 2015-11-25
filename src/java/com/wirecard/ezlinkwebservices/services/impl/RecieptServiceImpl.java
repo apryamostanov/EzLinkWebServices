@@ -51,7 +51,7 @@ public class RecieptServiceImpl implements RecieptService {
 
         ezlink.info("Reciept Request received in " + RecieptServiceImpl.class.getName());
 
-        String merchantNo, merchantTranxRefNo, orderNo, cardNo, recieptData;
+        String merchantNo, orderNo, cardNo, recieptData;
         String recieptReqErrorCode, recieptReqErrorErrorDesc;
         String decryptedRecieptData;
 
@@ -69,7 +69,6 @@ public class RecieptServiceImpl implements RecieptService {
         try {
 
             merchantNo = parameters.getEZLINGWSREQBODY().getRecieptReq().getMERCHANTNO();
-            merchantTranxRefNo = parameters.getEZLINGWSREQBODY().getRecieptReq().getMERCHANTREFNO();
             orderNo = parameters.getEZLINGWSREQBODY().getRecieptReq().getORDERNO();
             cardNo = parameters.getEZLINGWSREQBODY().getRecieptReq().getCAN();
             amount = parameters.getEZLINGWSREQBODY().getRecieptReq().getAMOUNT().doubleValue();
@@ -84,7 +83,6 @@ public class RecieptServiceImpl implements RecieptService {
             ezlink.info("SEC LEVEL : " + parameters.getEZLINGWSHEADER().getSECURITYLEVEL());
             ezlink.info("BODY+++ getDebitCommand : " + new Date());
             ezlink.info("merchantNo : " + merchantNo);
-            ezlink.info("merchantTranxRefNo : " + merchantTranxRefNo);
             ezlink.info("orderNo : " + orderNo);
             ezlink.info("amount : " + amount);
             ezlink.info("cardNo : " + cardNo);
@@ -178,7 +176,7 @@ public class RecieptServiceImpl implements RecieptService {
         }
         try {
             //Check transaction available in ETranxLog 
-            objETranxLogDto = objETranxLogDtoMapper.validateTransactionLog(merchantNo, merchantTranxRefNo, orderNo, amount);
+            objETranxLogDto = objETranxLogDtoMapper.validateTransactionLog(merchantNo, orderNo, amount);
         } catch (Exception ex) {
             Logger.getLogger(DebitCommandServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
             ex.printStackTrace();
@@ -224,7 +222,7 @@ public class RecieptServiceImpl implements RecieptService {
             insertFaiedTranxDetail(objETranxLogDto.getTranxlogid(), recieptReqErrorCode, recieptReqErrorErrorDesc);
             
             objRecieptRes.setORDERNO(orderNo);
-            objRecieptRes.setMERCHANTREFNO(merchantTranxRefNo);
+            objRecieptRes.setMERCHANTREFNO(orderNo);
             objRecieptRes.setCAN(cardNo);
             objRecieptRes.setSTATUSCODE(StringConstants.Common.STATUS_SUCCESS);
             objRecieptRes.setSTATUSDESC(StringConstants.Common.STATUS_SUCCESS_INFO);
@@ -250,7 +248,7 @@ public class RecieptServiceImpl implements RecieptService {
              
 
             //Repeated host Count
-            objAvailableETerminalDataDto = objETerminalDataDtoMapper.isRepeatedMerchantTranxRefNo(merchantNo, merchantTranxRefNo, orderNo, cardNo);
+            objAvailableETerminalDataDto = objETerminalDataDtoMapper.isRepeatedMerchantTranxRefNo(merchantNo, orderNo, cardNo);
         } catch (RecieptFault_Exception e) {
             throw e;
         } catch (Exception ex) {
@@ -371,7 +369,7 @@ public class RecieptServiceImpl implements RecieptService {
         objETerminalDataDto.setMerchantNo(merchantNo);
         objETerminalDataDto.setCan(cardNo);
         objETerminalDataDto.setOrderNo(orderNo);
-        objETerminalDataDto.setMerchantTranxRefNo(merchantTranxRefNo);
+//        objETerminalDataDto.setMerchantTranxRefNo(merchantTranxRefNo);
         objETerminalDataDto.setHostCounter(hostRepeatedCounter);
         objETerminalDataDto.setAmount(amount);
         objETerminalDataDto.setRecieptSessionKey(objAvailableETerminalDataDto.getDebitSessionKey());
@@ -385,7 +383,7 @@ public class RecieptServiceImpl implements RecieptService {
             System.out.println(" Updation Result : " + result);
 
             objRecieptRes.setORDERNO(orderNo);
-            objRecieptRes.setMERCHANTREFNO(merchantTranxRefNo);
+            objRecieptRes.setMERCHANTREFNO(orderNo);
             objRecieptRes.setCAN(cardNo);
             objRecieptRes.setSTATUSCODE(StringConstants.Common.STATUS_SUCCESS);
             objRecieptRes.setSTATUSDESC(StringConstants.Common.STATUS_SUCCESS_INFO);

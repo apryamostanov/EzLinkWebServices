@@ -12,17 +12,17 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ETranxLogDtoMapper {
 	
-	ETranxLogDto isUniqueTransaction(@Param("merchantNo") String merchantNo,@Param("merchantTranxRefNo") String merchantTranxRefNo,@Param("orderNo") String orderNo) throws SQLException;
+	ETranxLogDto isUniqueTransaction(@Param("merchantNo") String merchantNo,@Param("orderNo") String orderNo) throws SQLException;
         
-        ETranxLogDto isRepeatedMerchantTranxRefNo(@Param("merchantNo") String merchantNo,@Param("merchantTranxRefNo") String merchantTranxRefNo,@Param("orderNo") String orderNo) throws SQLException;
+        ETranxLogDto isRepeatedMerchantTranxRefNo(@Param("merchantNo") String merchantNo,@Param("orderNo") String orderNo) throws SQLException;
         
-        ETranxLogDto validateTransactionLog(@Param("merchantNo") String merchantNo,@Param("merchantTranxRefNo") String merchantTranxRefNo,@Param("orderNo") String orderNo,@Param("amount") Double amount) throws SQLException;
+        ETranxLogDto validateTransactionLog(@Param("merchantNo") String merchantNo,@Param("orderNo") String orderNo,@Param("amount") Double amount) throws SQLException;
         
-       ETranxLogDto isTransactionAvailable(@Param("merchantNo") String merchantNo,@Param("merchantTranxRefNo") String merchantTranxRefNo,@Param("orderNo") String orderNo,@Param("amount") Double amount,@Param("tranxStatus") String tranxStatus,@Param("responseCode") String responseCode) throws SQLException;
+       ETranxLogDto isTransactionAvailable(@Param("merchantNo") String merchantNo,@Param("orderNo") String orderNo,@Param("amount") Double amount,@Param("tranxStatus") String tranxStatus,@Param("responseCode") String responseCode) throws SQLException;
 
 	 List<ETranxLogDto> getTranxByTranxLogId(@Param("objETerminalDataDtoList") List<ETerminalDataDto> objETerminalDataDtoList) throws SQLException;
          
-         ETranxLogDto getTranxDetails(@Param("merchantNo") String merchantNo,@Param("merchantTranxRefNo") String merchantTranxRefNo,@Param("orderNo") String orderNo,@Param("amount") Double amount) throws SQLException;;
+         ETranxLogDto getTranxDetails(@Param("merchantNo") String merchantNo,@Param("orderNo") String orderNo,@Param("amount") Double amount) throws SQLException;;
        
     int insert(ETranxLogDto record) throws SQLException;
 

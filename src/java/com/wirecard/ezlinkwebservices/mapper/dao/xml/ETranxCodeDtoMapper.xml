@@ -11,19 +11,19 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 'false' as QUERYID,
     <include refid="Base_Column_List" />
-    from EZLINK.ETRANXCODE
+    from EZDBMAN.ETRANXCODE
     where TRANXCODE = #{tranxcode,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from EZLINK.ETRANXCODE
+    delete from EZDBMAN.ETRANXCODE
     where TRANXCODE = #{tranxcode,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxCodeDto" >
-    insert into EZLINK.ETRANXCODE (TRANXCODE, CODE_DESC)
+    insert into EZDBMAN.ETRANXCODE (TRANXCODE, CODE_DESC)
     values (#{tranxcode,jdbcType=VARCHAR}, #{codeDesc,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxCodeDto" >
-    insert into EZLINK.ETRANXCODE
+    insert into EZDBMAN.ETRANXCODE
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="tranxcode != null" >
         TRANXCODE,
@@ -42,7 +42,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxCodeDto" >
-    update EZLINK.ETRANXCODE
+    update EZDBMAN.ETRANXCODE
     <set >
       <if test="codeDesc != null" >
         CODE_DESC = #{codeDesc,jdbcType=VARCHAR},
@@ -51,7 +51,7 @@
     where TRANXCODE = #{tranxcode,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxCodeDto" >
-    update EZLINK.ETRANXCODE
+    update EZDBMAN.ETRANXCODE
     set CODE_DESC = #{codeDesc,jdbcType=VARCHAR}
     where TRANXCODE = #{tranxcode,jdbcType=VARCHAR}
   </update>

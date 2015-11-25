@@ -12,7 +12,7 @@
     <result column="BIN" property="bin" jdbcType="VARCHAR" />
   </resultMap>
   <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.ViewEZBlacklistDto" >
-    insert into EZLINK.V_EZ_BLACKLIST (FILE_SEQ, FROM_CARD, TO_CARD, 
+    insert into EZDBMAN.V_EZ_BLACKLIST (FILE_SEQ, FROM_CARD, TO_CARD, 
       REASON_CODE, TYPE, BINVAL, 
       BDC, BIN)
     values (#{fileSeq,jdbcType=DECIMAL}, #{fromCard,jdbcType=VARCHAR}, #{toCard,jdbcType=VARCHAR}, 
@@ -20,7 +20,7 @@
       #{bdc,jdbcType=VARCHAR}, #{bin,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.ViewEZBlacklistDto" >
-    insert into EZLINK.V_EZ_BLACKLIST
+    insert into EZDBMAN.V_EZ_BLACKLIST
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="fileSeq != null" >
         FILE_SEQ,

@@ -48,7 +48,7 @@ public class TranxDetailsServiceImpl implements TranxDetailsServices {
             
             
            String merchantNo = parameters.getEZLINGWSTRANXDETAILSREQBODY().getTranxDetailsReq().getMERCHANTNO();
-           String merchantTranxRefNo = parameters.getEZLINGWSTRANXDETAILSREQBODY().getTranxDetailsReq().getMERCHANTREFNO();
+//           String merchantTranxRefNo = parameters.getEZLINGWSTRANXDETAILSREQBODY().getTranxDetailsReq().getMERCHANTREFNO();
             String orderNo = parameters.getEZLINGWSTRANXDETAILSREQBODY().getTranxDetailsReq().getORDERNO();
             double amount = parameters.getEZLINGWSTRANXDETAILSREQBODY().getTranxDetailsReq().getAMOUNT().doubleValue();
             
@@ -58,14 +58,13 @@ public class TranxDetailsServiceImpl implements TranxDetailsServices {
             ezlink.info("IP : " + parameters.getEZLINGWSTRANXDETAILSREQHEADER().getIPADDRESS());
             ezlink.info("SEC LEVEL : " + parameters.getEZLINGWSTRANXDETAILSREQHEADER().getSECURITYLEVEL());
             ezlink.info("MERCHANT NO : " +merchantNo );
-            ezlink.info("MERCHANT TRANX REF NO : " +merchantTranxRefNo);
             ezlink.info("ORDER NO : " +orderNo );
             ezlink.info("AMOUNT : " +amount);
             ezlink.info("\n-------TRANX DETAILS----REQUEST----------------------------------------------");
             
             
             SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
-            objETranxLogDto=objETranxLogDtoMapper.getTranxDetails(merchantNo, merchantTranxRefNo, orderNo, amount);
+            objETranxLogDto=objETranxLogDtoMapper.getTranxDetails(merchantNo, orderNo, amount);
         } catch (Exception ex) {
             ezlink.error(new Object(), ex);
             TranxDetailsFault objTranxDetailsFault = new TranxDetailsFault();
@@ -97,7 +96,8 @@ public class TranxDetailsServiceImpl implements TranxDetailsServices {
         }
         
         objTranxDetailsRes.setMERCHANTNO(objETranxLogDto.getMerchantNo());
-        objTranxDetailsRes.setMERCHANTREFNO(objETranxLogDto.getMerchantRefno());
+        objTranxDetailsRes.setMERCHANTREFNO(objETranxLogDto.getOrderNo());
+//        objTranxDetailsRes.setMERCHANTREFNO(objETranxLogDto.getMerchantRefno());
         objTranxDetailsRes.setORDERNO(objETranxLogDto.getOrderNo());
         objTranxDetailsRes.setAMOUNT(String.valueOf(objETranxLogDto.getAmount()));
         objTranxDetailsRes.setCURRENCYCODE(String.valueOf(objETranxLogDto.getCurrency()));

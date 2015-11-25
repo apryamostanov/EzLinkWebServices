@@ -8,7 +8,6 @@
     <result column="VERSION" property="version" jdbcType="VARCHAR" />
     <result column="TRANXCODE" property="tranxcode" jdbcType="VARCHAR" />
     <result column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
-    <result column="MERCHANT_REFNO" property="merchantRefno" jdbcType="VARCHAR" />
     <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
     <result column="ORDER_INFO" property="orderInfo" jdbcType="VARCHAR" />
     <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
@@ -25,23 +24,23 @@
   <selectKey order="BEFORE" keyProperty="errorlogid" resultType="String">
    select SEQ_ERRORLOGID.nextval from dual
   </selectKey>
-    insert into EZLINK.EERRORLOG (ERRORLOGID, DATETIME, MERCHANT_TRANX_DATE, 
+    insert into EZDBMAN.EERRORLOG (ERRORLOGID, DATETIME, MERCHANT_TRANX_DATE, 
       VERSION, TRANXCODE, MERCHANT_NO, 
-      MERCHANT_REFNO, ORDER_NO, ORDER_INFO, 
+      ORDER_NO, ORDER_INFO, 
       AMOUNT, CURRENCY, SECUREHASH_TYPE, 
       RESPONSE_CODE, APPROVAL_CODE, RRN, 
       CHANNEL, MCC, TRANX_STATUS
       )
     values (#{errorlogid,jdbcType=VARCHAR}, #{datetime,jdbcType=TIMESTAMP}, #{merchantTranxDate,jdbcType=TIMESTAMP}, 
       #{version,jdbcType=VARCHAR}, #{tranxcode,jdbcType=VARCHAR}, #{merchantNo,jdbcType=VARCHAR}, 
-      #{merchantRefno,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{orderInfo,jdbcType=VARCHAR}, 
+      #{orderNo,jdbcType=VARCHAR}, #{orderInfo,jdbcType=VARCHAR}, 
       #{amount,jdbcType=DECIMAL}, #{currency,jdbcType=DECIMAL}, #{securehashType,jdbcType=VARCHAR}, 
       #{responseCode,jdbcType=VARCHAR}, #{approvalCode,jdbcType=VARCHAR}, #{rrn,jdbcType=VARCHAR}, 
       #{channel,jdbcType=VARCHAR}, #{mcc,jdbcType=VARCHAR}, #{tranxStatus,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.EErrorLogDto" >
-    insert into EZLINK.EERRORLOG
+    insert into EZDBMAN.EERRORLOG
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="errorlogid != null" >
         ERRORLOGID,
@@ -60,9 +59,6 @@
       </if>
       <if test="merchantNo != null" >
         MERCHANT_NO,
-      </if>
-      <if test="merchantRefno != null" >
-        MERCHANT_REFNO,
       </if>
       <if test="orderNo != null" >
         ORDER_NO,
@@ -116,9 +112,6 @@
       </if>
       <if test="merchantNo != null" >
         #{merchantNo,jdbcType=VARCHAR},
-      </if>
-      <if test="merchantRefno != null" >
-        #{merchantRefno,jdbcType=VARCHAR},
       </if>
       <if test="orderNo != null" >
         #{orderNo,jdbcType=VARCHAR},

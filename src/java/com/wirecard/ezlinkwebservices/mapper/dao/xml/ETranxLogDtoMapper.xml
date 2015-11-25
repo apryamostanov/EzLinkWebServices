@@ -8,7 +8,6 @@
         <result column="VERSION" property="version" jdbcType="VARCHAR" />
         <result column="TRANXCODE" property="tranxcode" jdbcType="VARCHAR" />
         <result column="MERCHANT_NO" property="merchantNo" jdbcType="VARCHAR" />
-        <result column="MERCHANT_REFNO" property="merchantRefno" jdbcType="VARCHAR" />
         <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
         <result column="ORDER_INFO" property="orderInfo" jdbcType="VARCHAR" />
         <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
@@ -20,28 +19,34 @@
         <result column="CHANNEL" property="channel" jdbcType="VARCHAR" />
         <result column="MCC" property="mcc" jdbcType="VARCHAR" />
         <result column="TRANX_STATUS" property="tranxStatus" jdbcType="VARCHAR" />
+        <result column="PROCESS_STATUS" property="processStatus" jdbcType="VARCHAR" />
+        <result column="PROCESS_DATETIME" property="processDatetime" jdbcType="TIMESTAMP" />
+        <result column="PROCESS_RESPONSE" property="processResponse" jdbcType="VARCHAR" />
     </resultMap>
     <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxLogDto" >
         <selectKey order="BEFORE" keyProperty="tranxlogid" resultType="String">
             select SEQ_TRANXLOGID.nextval from dual
         </selectKey>
-        insert into EZLINK.ETRANXLOG (TRANXLOGID, DATETIME, MERCHANT_TRANX_DATE, 
+        insert into EZDBMAN.ETRANXLOG (TRANXLOGID, DATETIME, MERCHANT_TRANX_DATE, 
         VERSION, TRANXCODE, MERCHANT_NO, 
         MERCHANT_REFNO, ORDER_NO, ORDER_INFO, 
         AMOUNT, CURRENCY, SECUREHASH_TYPE, 
         RESPONSE_CODE, APPROVAL_CODE, RRN, 
-        CHANNEL, MCC, TRANX_STATUS
+        CHANNEL, MCC, TRANX_STATUS,
+        PROCESS_STATUS,PROCESS_DATETIME, PROCESS_RESPONSE
         )
         values (#{tranxlogid,jdbcType=VARCHAR}, #{datetime,jdbcType=TIMESTAMP}, #{merchantTranxDate,jdbcType=TIMESTAMP}, 
         #{version,jdbcType=VARCHAR}, #{tranxcode,jdbcType=VARCHAR}, #{merchantNo,jdbcType=VARCHAR}, 
         #{merchantRefno,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{orderInfo,jdbcType=VARCHAR}, 
         #{amount,jdbcType=DECIMAL}, #{currency,jdbcType=DECIMAL}, #{securehashType,jdbcType=VARCHAR}, 
         #{responseCode,jdbcType=VARCHAR}, #{approvalCode,jdbcType=VARCHAR}, #{rrn,jdbcType=VARCHAR}, 
-        #{channel,jdbcType=VARCHAR}, #{mcc,jdbcType=VARCHAR}, #{tranxStatus,jdbcType=VARCHAR}
+        #{channel,jdbcType=VARCHAR}, #{mcc,jdbcType=VARCHAR}, #{tranxStatus,jdbcType=VARCHAR},
+        #{processStatus,jdbcType=VARCHAR}, #{processDatetime,jdbcType=TIMESTAMP},
+        #{processResponse,jdbcType=VARCHAR}
         )
     </insert>
     <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.ETranxLogDto" >
-        insert into EZLINK.ETRANXLOG
+        insert into EZDBMAN.ETRANXLOG
         <trim prefix="(" suffix=")" suffixOverrides="," >
             <if test="tranxlogid != null" >
                 TRANXLOGID,
@@ -96,6 +101,15 @@
             </if>
             <if test="tranxStatus != null" >
                 TRANX_STATUS,
+            </if>
+            <if test="processStatus != null" >
+                PROCESS_STATUS,
+            </if>
+            <if test="processDatetime != null" >
+                PROCESS_DATETIME,
+            </if>
+            <if test="processResponse != null" >
+                PROCESS_RESPONSE,
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -153,6 +167,18 @@
             <if test="tranxStatus != null" >
                 #{tranxStatus,jdbcType=VARCHAR},
             </if>
+            <if test="tranxStatus != null" >
+                #{tranxStatus,jdbcType=VARCHAR},
+              </if>
+              <if test="processStatus != null" >
+                #{processStatus,jdbcType=VARCHAR},
+              </if>
+              <if test="processDatetime != null" >
+                #{processDatetime,jdbcType=TIMESTAMP},
+              </if>
+              <if test="processResponse != null" >
+                #{processResponse,jdbcType=VARCHAR},
+              </if>
         </trim>
     </insert>
   
@@ -162,7 +188,7 @@
         FROM ETRANXLOG
         where 
         MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
-        and MERCHANT_REFNO= #{merchantTranxRefNo,jdbcType=VARCHAR}
+<!--        and MERCHANT_REFNO= #{merchantTranxRefNo,jdbcType=VARCHAR}-->
         and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
         and RESPONSE_CODE = '00'
     </select>
@@ -171,7 +197,7 @@
         FROM ETRANXLOG
         where 
         MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR}
-        and MERCHANT_REFNO= #{merchantTranxRefNo,jdbcType=VARCHAR}
+<!--        and MERCHANT_REFNO= #{merchantTranxRefNo,jdbcType=VARCHAR}-->
         and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
         and AMOUNT = #{amount,jdbcType=DECIMAL}
         and RESPONSE_CODE='00'
@@ -181,7 +207,7 @@
         FROM ETRANXLOG
         where
         MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR} 
-        and MERCHANT_REFNO= #{merchantTranxRefNo,jdbcType=VARCHAR}
+<!--        and MERCHANT_REFNO= #{merchantTranxRefNo,jdbcType=VARCHAR}-->
         and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
         and RESPONSE_CODE='00'
     </select>
@@ -192,7 +218,7 @@
         DATETIME= #{datetime,jdbcType=TIMESTAMP}
         where 
         MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR} 
-        and MERCHANT_REFNO= #{merchantRefno,jdbcType=VARCHAR}
+<!--        and MERCHANT_REFNO= #{merchantRefno,jdbcType=VARCHAR}-->
         and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
 <!--        and TRANX_STATUS=  #{tranxStatus,jdbcType=VARCHAR}-->
         and TRANX_STATUS in('Q','D')
@@ -205,7 +231,7 @@
         DATETIME= #{datetime,jdbcType=TIMESTAMP}
         where 
         MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR} 
-        and MERCHANT_REFNO= #{merchantRefno,jdbcType=VARCHAR}
+<!--        and MERCHANT_REFNO= #{merchantRefno,jdbcType=VARCHAR}-->
         and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
         and RESPONSE_CODE='00'
     </update>
@@ -216,7 +242,7 @@
         DATETIME= #{datetime,jdbcType=TIMESTAMP}
         where 
         MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR} 
-        and MERCHANT_REFNO= #{merchantRefno,jdbcType=VARCHAR}
+<!--        and MERCHANT_REFNO= #{merchantRefno,jdbcType=VARCHAR}-->
         and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
         
         and RESPONSE_CODE='00'
@@ -225,7 +251,7 @@
         
         SELECT * from ETRANXLOG where
         MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR} and
-        MERCHANT_REFNO= #{merchantTranxRefNo,jdbcType=VARCHAR} and
+<!--        MERCHANT_REFNO= #{merchantTranxRefNo,jdbcType=VARCHAR} and-->
         ORDER_NO= #{orderNo,jdbcType=VARCHAR} and
         AMOUNT= #{amount,jdbcType=DECIMAL} and
         TRANX_STATUS IN('D','Q') and
@@ -249,7 +275,7 @@
         
         SELECT * from ETRANXLOG where
         MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR} and
-        MERCHANT_REFNO= #{merchantTranxRefNo,jdbcType=VARCHAR} and
+<!--        MERCHANT_REFNO= #{merchantTranxRefNo,jdbcType=VARCHAR} and-->
         ORDER_NO= #{orderNo,jdbcType=VARCHAR} and
         AMOUNT= #{amount,jdbcType=DECIMAL} 
         

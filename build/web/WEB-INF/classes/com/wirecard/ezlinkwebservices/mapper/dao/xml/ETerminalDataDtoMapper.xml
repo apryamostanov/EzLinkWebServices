@@ -4,7 +4,6 @@
   <resultMap id="BaseResultMap" type="com.wirecard.ezlinkwebservices.dto.ETerminalDataDto" >
     <id column="SNO" property="sno" jdbcType="VARCHAR" />
     <result column="ORDER_NO" property="orderNo" jdbcType="VARCHAR" />
-    <result column="MERCHANT_TRANX_REF_NO" property="merchantTranxRefNo" jdbcType="VARCHAR" />
     <result column="AMOUNT" property="amount" jdbcType="DECIMAL" />
     <result column="CAN" property="can" jdbcType="VARCHAR" />
     <result column="TERMINAL_RND_NO" property="terminalRndNo" jdbcType="VARCHAR" />
@@ -27,7 +26,7 @@
     <result column="DECRYPT_RECEIPT_STATUS" property="decryptReceiptStatus" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    SNO, ORDER_NO, MERCHANT_TRANX_REF_NO, AMOUNT, CAN, TERMINAL_RND_NO, CARD_RND_NO, 
+    SNO, ORDER_NO, AMOUNT, CAN, TERMINAL_RND_NO, CARD_RND_NO, 
     DEBIT_CMD, TERMINAL_SESSION_KEY, RECIEPT_SESSION_KEY, TERMINAL_COUNTER, HOST_COUNTER, 
     RECIEPT_DATA, UPDATED_BY, UPDATED_DATE, MERCHANT_NO, HOST_REF_NO, PURSE_DATA, TRANXLOGID,
     DEBIT_SESSION_KEY, EZLINK_STRING, DECRYPTED_RECIEPT_DATA, DECRYPT_RECEIPT_STATUS
@@ -35,25 +34,25 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 'false' as QUERYID,
     <include refid="Base_Column_List" />
-    from EZLINK.ETERMINAL_DATA
+    from EZDBMAN.ETERMINAL_DATA
     where SNO = #{sno,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from EZLINK.ETERMINAL_DATA
+    delete from EZDBMAN.ETERMINAL_DATA
     where SNO = #{sno,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.ETerminalDataDto" >
        <selectKey order="BEFORE" keyProperty="sno" resultType="String">
    select SEQ_ETERMINAL_DATA.nextval from dual
   </selectKey>
-    insert into EZLINK.ETERMINAL_DATA (SNO, ORDER_NO, MERCHANT_TRANX_REF_NO, 
+    insert into EZDBMAN.ETERMINAL_DATA (SNO, ORDER_NO, 
       AMOUNT, CAN, TERMINAL_RND_NO, 
       CARD_RND_NO, DEBIT_CMD, TERMINAL_SESSION_KEY, 
       RECIEPT_SESSION_KEY, TERMINAL_COUNTER, HOST_COUNTER, 
       RECIEPT_DATA, UPDATED_BY, UPDATED_DATE, MERCHANT_NO, HOST_REF_NO, PURSE_DATA, TRANXLOGID, 
       DEBIT_SESSION_KEY, EZLINK_STRING, DECRYPTED_RECIEPT_DATA, DECRYPT_RECEIPT_STATUS
       )
-    values (#{sno,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, #{merchantTranxRefNo,jdbcType=VARCHAR}, 
+    values (#{sno,jdbcType=VARCHAR}, #{orderNo,jdbcType=VARCHAR}, 
       #{amount,jdbcType=DECIMAL}, #{can,jdbcType=VARCHAR}, #{terminalRndNo,jdbcType=VARCHAR}, 
       #{cardRndNo,jdbcType=VARCHAR}, #{debitCmd,jdbcType=VARCHAR}, #{terminalSessionKey,jdbcType=VARCHAR}, 
       #{recieptSessionKey,jdbcType=VARCHAR}, #{terminalCounter,jdbcType=DECIMAL}, #{hostCounter,jdbcType=DECIMAL}, 
@@ -63,16 +62,13 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.ETerminalDataDto" >
-    insert into EZLINK.ETERMINAL_DATA
+    insert into EZDBMAN.ETERMINAL_DATA
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="sno != null" >
         SNO,
       </if>
       <if test="orderNo != null" >
         ORDER_NO,
-      </if>
-      <if test="merchantTranxRefNo != null" >
-        MERCHANT_TRANX_REF_NO,
       </if>
       <if test="amount != null" >
         AMOUNT,
@@ -142,9 +138,6 @@
       <if test="orderNo != null" >
         #{orderNo,jdbcType=VARCHAR},
       </if>
-      <if test="merchantTranxRefNo != null" >
-        #{merchantTranxRefNo,jdbcType=VARCHAR},
-      </if>
       <if test="amount != null" >
         #{amount,jdbcType=DECIMAL},
       </if>
@@ -209,13 +202,10 @@
     </trim>
   </insert>
   <update id="updateETerminalDataBySNo" parameterType="com.wirecard.ezlinkwebservices.dto.ETerminalDataDto" >
-    update EZLINK.ETERMINAL_DATA
+    update EZDBMAN.ETERMINAL_DATA
     <set >
       <if test="orderNo != null" >
         ORDER_NO = #{orderNo,jdbcType=VARCHAR},
-      </if>
-      <if test="merchantTranxRefNo != null" >
-        MERCHANT_TRANX_REF_NO = #{merchantTranxRefNo,jdbcType=VARCHAR},
       </if>
       <if test="amount != null" >
         AMOUNT = #{amount,jdbcType=DECIMAL},
@@ -281,9 +271,8 @@
     where SNO = #{sno,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wirecard.ezlinkwebservices.dto.ETerminalDataDto" >
-    update EZLINK.ETERMINAL_DATA
+    update EZDBMAN.ETERMINAL_DATA
     set ORDER_NO = #{orderNo,jdbcType=VARCHAR},
-      MERCHANT_TRANX_REF_NO = #{merchantTranxRefNo,jdbcType=VARCHAR},
       AMOUNT = #{amount,jdbcType=DECIMAL},
       CAN = #{can,jdbcType=VARCHAR},
       TERMINAL_RND_NO = #{terminalRndNo,jdbcType=VARCHAR},
@@ -311,8 +300,7 @@
         SELECT *
         FROM ETERMINAL_DATA
          where 
-         MERCHANT_TRANX_REF_NO= #{merchantTranxRefNo,jdbcType=VARCHAR}
-         and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
+         ORDER_NO= #{orderNo,jdbcType=VARCHAR}
          and MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR}
          and CAN= #{cardNo,jdbcType=VARCHAR}
          
@@ -323,7 +311,6 @@
         FROM ETERMINAL_DATA
          where
         MERCHANT_NO= #{merchantNo,jdbcType=VARCHAR} 
-         and MERCHANT_TRANX_REF_NO= #{merchantTranxRefNo,jdbcType=VARCHAR}
          and ORDER_NO= #{orderNo,jdbcType=VARCHAR}
          and CAN= #{cardNo,jdbcType=VARCHAR}
     </select>

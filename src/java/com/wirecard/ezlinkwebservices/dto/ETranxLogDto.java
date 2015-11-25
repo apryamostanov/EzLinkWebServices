@@ -18,8 +18,6 @@ public class ETranxLogDto {
 
     private String merchantNo;
 
-    private String merchantRefno;
-
     private String orderNo;
 
     private String orderInfo;
@@ -41,7 +39,13 @@ public class ETranxLogDto {
     private String mcc;
 
     private String tranxStatus;
+    
+    private String processStatus;
 
+    private Date processDatetime;
+
+    private String processResponse;
+    
     public String getTranxlogid() {
         return tranxlogid;
     }
@@ -88,14 +92,6 @@ public class ETranxLogDto {
 
     public void setMerchantNo(String merchantNo) {
         this.merchantNo = merchantNo;
-    }
-
-    public String getMerchantRefno() {
-        return merchantRefno;
-    }
-
-    public void setMerchantRefno(String merchantRefno) {
-        this.merchantRefno = merchantRefno;
     }
 
     public String getOrderNo() {
@@ -188,7 +184,7 @@ public class ETranxLogDto {
 
     @Override
     public String toString() {
-        return "ETranxLogDto{" + "tranxlogid=" + tranxlogid + ", datetime=" + datetime + ", merchantTranxDate=" + merchantTranxDate + ", version=" + version + ", tranxcode=" + tranxcode + ", merchantNo=" + merchantNo + ", merchantRefno=" + merchantRefno + ", orderNo=" + orderNo + ", orderInfo=" + orderInfo + ", amount=" + amount + ", currency=" + currency + ", securehashType=" + securehashType + ", responseCode=" + responseCode + ", approvalCode=" + approvalCode + ", rrn=" + rrn + ", channel=" + channel + ", mcc=" + mcc + ", tranxStatus=" + tranxStatus + '}';
+        return "ETranxLogDto{" + "tranxlogid=" + tranxlogid + ", datetime=" + datetime + ", merchantTranxDate=" + merchantTranxDate + ", version=" + version + ", tranxcode=" + tranxcode + ", merchantNo=" + merchantNo + ", orderNo=" + orderNo + ", orderInfo=" + orderInfo + ", amount=" + amount + ", currency=" + currency + ", securehashType=" + securehashType + ", responseCode=" + responseCode + ", approvalCode=" + approvalCode + ", rrn=" + rrn + ", channel=" + channel + ", mcc=" + mcc + ", tranxStatus=" + tranxStatus + '}';
     }
 
   

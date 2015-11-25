@@ -60,7 +60,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
 
         ezlink.info("DC Request received in " + DebitCommandServiceImpl.class.getName());
 
-        String merchantNo, merchantTranxRefNo, orderNo, cardNo, termRndNo, CardRndNo, purseData;
+        String merchantNo, orderNo, cardNo, termRndNo, CardRndNo, purseData;
         String xorAmount;
         double amount;
         int result;
@@ -78,7 +78,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         //MerchantDtoMapper objMerchantDtoMapper=new MerchantDtoMapper(); 
         try {
             merchantNo = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getMERCHANTNO();
-            merchantTranxRefNo = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getMERCHANTREFNO();
+            //merchantTranxRefNo = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getMERCHANTREFNO();
             orderNo = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getORDERNO();
             amount = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getAMOUNT().doubleValue();
             cardNo = parameters.getEZLINGWSREQBODY().getDebitCommandReq().getCAN();
@@ -94,7 +94,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             ezlink.info("SEC LEVEL : " + parameters.getEZLINGWSHEADER().getSECURITYLEVEL());
             ezlink.info("BODY+++ getDebitCommand : " + new Date());
             ezlink.info("merchantNo : " + merchantNo);
-            ezlink.info("merchantTranxRefNo : " + merchantTranxRefNo);
+            //ezlink.info("merchantTranxRefNo : " + merchantTranxRefNo);
             ezlink.info("orderNo : " + orderNo);
             ezlink.info("amount : " + amount);
             ezlink.info("cardNo : " + cardNo);
@@ -183,7 +183,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         try {
             //Check transaction available in ETranxLog 
 
-            objETranxLogDto = objETranxLogDtoMapper.validateTransactionLog(merchantNo, merchantTranxRefNo, orderNo, amount);
+            objETranxLogDto = objETranxLogDtoMapper.validateTransactionLog(merchantNo, orderNo, amount);
 
         } catch (Exception ex) {
 
@@ -273,7 +273,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             } else {
                 //NOT WD but record not available in tranxlog table in our DB
                 objTerminalUtil = new TerminalUtil();
-                objETranxLogDto = objTerminalUtil.insertNonWDTransaction(merchantNo, merchantTranxRefNo, orderNo, amount);
+                objETranxLogDto = objTerminalUtil.insertNonWDTransaction(merchantNo, orderNo, amount);
                 if (null == objETranxLogDto) {
                     ezlink.info("\n-----NON WC--------TRANXLOG INSERTION FAILED------------");
                     DebitCommandFault objDebitCommandFault = new DebitCommandFault();
@@ -386,7 +386,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
 
         try {
             //Repeated host Count
-            objAvailableETerminalDataDto = objETerminalDataDtoMapper.isRepeatedMerchantTranxRefNo(merchantNo, merchantTranxRefNo, orderNo, cardNo);
+            objAvailableETerminalDataDto = objETerminalDataDtoMapper.isRepeatedMerchantTranxRefNo(merchantNo, orderNo, cardNo);
 
         } catch (Exception ex) {
             Logger.getLogger(DebitCommandServiceImpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -491,7 +491,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             }
             
             try {
-                    objETranxLogDto = objETranxLogDtoMapper.validateTransactionLog(merchantNo, merchantTranxRefNo, orderNo, amount);
+                    objETranxLogDto = objETranxLogDtoMapper.validateTransactionLog(merchantNo, orderNo, amount);
                     debitTraxValidationFlag = TerminalUtil.ValidateDebitTransaction(objETranxLogDto);
                     if (!debitTraxValidationFlag) {
                         DebitCommandFault objDebitCommandFault = new DebitCommandFault();
@@ -557,7 +557,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
             objETerminalDataDto.setMerchantNo(merchantNo);
             objETerminalDataDto.setCan(cardNo);
             objETerminalDataDto.setOrderNo(orderNo);
-            objETerminalDataDto.setMerchantTranxRefNo(merchantTranxRefNo);
+//            objETerminalDataDto.setMerchantTranxRefNo(merchantTranxRefNo);
             objETerminalDataDto.setHostCounter(hostRepeatedCounter);
             objETerminalDataDto.setAmount(amount);
             objETerminalDataDto.setUpdatedBy(StringConstants.Common.DBT_CMD_USER);
@@ -574,20 +574,18 @@ public class DebitCommandServiceImpl implements DebitCommandService {
 
             System.out.println("++++" + objETerminalDataDto.toString());
             ezlink.info("++++" + objETerminalDataDto.toString());
-            ETerminalDataDtolist = objETerminalDataDtoMapper.isRecordAvailable(merchantNo, merchantTranxRefNo, orderNo, cardNo);
-            ezlink.info("\n+++++++++++++ ETerminalDataDtolist( " + ETerminalDataDtolist.isEmpty() +" / " + merchantTranxRefNo + ", " + orderNo + " )+++++++++++");
+            ETerminalDataDtolist = objETerminalDataDtoMapper.isRecordAvailable(merchantNo, orderNo, cardNo);
+            ezlink.info("\n+++++++++++++ ETerminalDataDtolist( " + ETerminalDataDtolist.isEmpty() +" / "  + orderNo + " )+++++++++++");
             System.out.println("SIZE : " + ETerminalDataDtolist.size());
             ezlink.info("SIZE ETerminalDataDtolist: " + ETerminalDataDtolist.size());
             ezlink.info("\n---------------------------- Receipt_Data of Terminal---------------: " + objETerminalDataDto.getRecieptData());
             if (ETerminalDataDtolist!=null && !ETerminalDataDtolist.isEmpty()) {
                 objETerminalDataDto.setSno(ETerminalDataDtolist.get(0).getSno());
-                ezlink.info("updateETerminalDataBySNo with merchantTranxRefNo: " +merchantTranxRefNo);
                 result = objETerminalDataDtoMapper.updateETerminalDataBySNo(objETerminalDataDto);
                 System.out.println(" Updation Result : " + result);
                 ezlink.info(" Updation Result : " + result);
             } else {
                 objETerminalDataDto.setRecieptData(null);
-                ezlink.info("insertETerminalData with merchantTranxRefNo: " +merchantTranxRefNo);
                 result = objETerminalDataDtoMapper.insert(objETerminalDataDto);
                 System.out.println(" Insertion Result : " + result);
                 ezlink.info(" Insertion Result : " + result);
@@ -748,7 +746,7 @@ public class DebitCommandServiceImpl implements DebitCommandService {
         }
 
         objDebitCommandRes.setORDERNO(objETerminalDataDto.getOrderNo());
-        objDebitCommandRes.setMERCHANTREFNO(objETerminalDataDto.getMerchantTranxRefNo());
+        objDebitCommandRes.setMERCHANTREFNO("");
         objDebitCommandRes.setCAN(objETerminalDataDto.getCan());
         objDebitCommandRes.setDEBITCOMMAND(objETerminalDataDto.getDebitCmd());
 

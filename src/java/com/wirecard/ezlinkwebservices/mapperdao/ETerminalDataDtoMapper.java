@@ -23,10 +23,10 @@ public interface ETerminalDataDtoMapper {
     
     int updateETerminalDataBySNo(ETerminalDataDto objETerminalDataDto) throws SQLException;
     
-            ETerminalDataDto isRepeatedMerchantTranxRefNo(@Param("merchantNo") String merchantNo,@Param("merchantTranxRefNo") String merchantTranxRefNo,@Param("orderNo") String orderNo, @Param("cardNo") String cardNo) throws SQLException;
+            ETerminalDataDto isRepeatedMerchantTranxRefNo(@Param("merchantNo") String merchantNo,@Param("orderNo") String orderNo, @Param("cardNo") String cardNo) throws SQLException;
 
     
-    List<ETerminalDataDto> isRecordAvailable(@Param("merchantNo") String merchantNo,@Param("merchantTranxRefNo") String merchantTranxRefNo,@Param("orderNo") String orderNo,@Param("cardNo") String cardNo) throws SQLException;
+    List<ETerminalDataDto> isRecordAvailable(@Param("merchantNo") String merchantNo,@Param("orderNo") String orderNo,@Param("cardNo") String cardNo) throws SQLException;
     
         List<ETerminalDataDto> getTranxLogIdByCan(@Param("can") String merchantNo) throws SQLException;
 

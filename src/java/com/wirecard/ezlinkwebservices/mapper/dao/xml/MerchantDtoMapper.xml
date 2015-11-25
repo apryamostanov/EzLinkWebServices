@@ -87,15 +87,15 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 'false' as QUERYID,
     <include refid="Base_Column_List" />
-    from EZLINK.MERCHANT
+    from EZDBMAN.MERCHANT
     where MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from EZLINK.MERCHANT
+    delete from EZDBMAN.MERCHANT
     where MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.wirecard.ezlinkwebservices.dto.MerchantDto" >
-    insert into EZLINK.MERCHANT (MERCHANT_NO, MERCHANT_NAME, MERCHANT_DESC, 
+    insert into EZDBMAN.MERCHANT (MERCHANT_NO, MERCHANT_NAME, MERCHANT_DESC, 
       PARENT_MERCHANT, BUSS_ADDRESS_1, BUSS_ADDRESS_2, 
       BUSS_COUNTRY, BUSS_POSTAL_CODE, BUSS_WEB_SITE, 
       CONTACT_NAME, CONTACT_PHONE, CONTACT_FAX, 
@@ -143,7 +143,7 @@
       #{ruvCreditDays,jdbcType=DECIMAL}, #{ruvCredit,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.wirecard.ezlinkwebservices.dto.MerchantDto" >
-    insert into EZLINK.MERCHANT
+    insert into EZDBMAN.MERCHANT
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="merchantNo != null" >
         MERCHANT_NO,
@@ -546,7 +546,7 @@
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.wirecard.ezlinkwebservices.dto.MerchantDto" >
-    update EZLINK.MERCHANT
+    update EZDBMAN.MERCHANT
     <set >
       <if test="merchantName != null" >
         MERCHANT_NAME = #{merchantName,jdbcType=VARCHAR},
@@ -747,7 +747,7 @@
     where MERCHANT_NO = #{merchantNo,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.wirecard.ezlinkwebservices.dto.MerchantDto" >
-    update EZLINK.MERCHANT
+    update EZDBMAN.MERCHANT
     set MERCHANT_NAME = #{merchantName,jdbcType=VARCHAR},
       MERCHANT_DESC = #{merchantDesc,jdbcType=VARCHAR},
       PARENT_MERCHANT = #{parentMerchant,jdbcType=VARCHAR},

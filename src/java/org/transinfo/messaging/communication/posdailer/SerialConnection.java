@@ -5,6 +5,7 @@ import gnu.io.*;
 import java.io.*;
 import java.awt.TextArea;
 import java.awt.event.*;
+import java.util.Enumeration;
 import java.util.TooManyListenersException;
 
 import org.jpos.iso.ISOField;
@@ -68,8 +69,28 @@ public class SerialConnection implements SerialPortEventListener,
             ezlink.info("openConnection Request received in " + SerialConnection.class.getName());
             ezlink.info("PortName= :  "+parameters.getPortName());
 		System.out.println("PortName="+parameters.getPortName());
-	     portId =
+	           System.out.println("===================TEST PORT COM====================================");
+            Enumeration ports = CommPortIdentifier.getPortIdentifiers();
+            while (ports.hasMoreElements()) {
+                CommPortIdentifier port = (CommPortIdentifier) ports.nextElement();
+                String type;
+                switch (port.getPortType()) {
+                    case CommPortIdentifier.PORT_PARALLEL:
+                        type = "Parallel";
+                        break;
+                    case CommPortIdentifier.PORT_SERIAL:
+                        type = "Serial";
+                        break;
+                    default: /// Shouldn't happen
+                        type = "Unknown";
+                        break;
+                }
+                System.out.println(port.getName() + ": " + type);
+            }
+                
+                portId =
 		 CommPortIdentifier.getPortIdentifier(parameters.getPortName());
+             
 	} catch (NoSuchPortException e) {
             ezlink.error(new Object(), e);
 	    throw new SerialConnectionException(e.getMessage());
